@@ -51,26 +51,44 @@ export class DatabaseStorage implements IStorage {
   // Audit-related methods
   async createAudit(auditData: any): Promise<Audit> {
     try {
-      // Insert the audit data into the database
+      // Process the data for database insertion
+      const processedData = { ...auditData };
+      
+      // Ensure recommendations is properly converted to JSON
+      if (processedData.recommendations) {
+        processedData.recommendations = typeof processedData.recommendations === 'string' 
+          ? processedData.recommendations 
+          : JSON.stringify(processedData.recommendations);
+      }
+      
+      // Ensure workflowRecommendations is properly converted to JSON
+      if (processedData.workflowRecommendations) {
+        processedData.workflowRecommendations = typeof processedData.workflowRecommendations === 'string'
+          ? processedData.workflowRecommendations
+          : JSON.stringify(processedData.workflowRecommendations);
+      }
+      
+      // Insert the processed audit data into the database
       const [newAudit] = await db.insert(audits)
-        .values({
-          ...auditData,
-          // Convert JSON objects to strings for database storage
-          recommendations: JSON.stringify(auditData.recommendations),
-          workflowRecommendations: auditData.workflowRecommendations 
-            ? JSON.stringify(auditData.workflowRecommendations) 
-            : null,
-        })
+        .values(processedData)
         .returning();
       
-      // Parse JSON strings back to objects
-      return {
-        ...newAudit,
-        recommendations: JSON.parse(newAudit.recommendations as string),
-        workflowRecommendations: newAudit.workflowRecommendations 
-          ? JSON.parse(newAudit.workflowRecommendations as string) 
-          : undefined,
-      };
+      // Process data for return
+      const result = { ...newAudit };
+      
+      // Convert recommendations back to object if stored as string
+      if (typeof result.recommendations === 'string') {
+        result.recommendations = JSON.parse(result.recommendations);
+      }
+      
+      // Convert workflowRecommendations back to object if stored as string
+      if (typeof result.workflowRecommendations === 'string') {
+        result.workflowRecommendations = JSON.parse(result.workflowRecommendations);
+      } else if (result.workflowRecommendations === null) {
+        result.workflowRecommendations = undefined;
+      }
+      
+      return result as Audit;
     } catch (error) {
       console.error("Error creating audit in database:", error);
       throw error;
@@ -85,14 +103,22 @@ export class DatabaseStorage implements IStorage {
       
       if (!audit) return undefined;
       
-      // Parse JSON strings back to objects
-      return {
-        ...audit,
-        recommendations: JSON.parse(audit.recommendations as string),
-        workflowRecommendations: audit.workflowRecommendations 
-          ? JSON.parse(audit.workflowRecommendations as string) 
-          : undefined,
-      };
+      // Process data for return
+      const result = { ...audit };
+      
+      // Convert recommendations back to object if stored as string
+      if (typeof result.recommendations === 'string') {
+        result.recommendations = JSON.parse(result.recommendations);
+      }
+      
+      // Convert workflowRecommendations back to object if stored as string
+      if (typeof result.workflowRecommendations === 'string') {
+        result.workflowRecommendations = JSON.parse(result.workflowRecommendations);
+      } else if (result.workflowRecommendations === null) {
+        result.workflowRecommendations = undefined;
+      }
+      
+      return result as Audit;
     } catch (error) {
       console.error("Error getting audit from database:", error);
       return undefined;
@@ -103,14 +129,34 @@ export class DatabaseStorage implements IStorage {
     try {
       const allAudits = await db.select().from(audits);
       
-      // Parse JSON strings back to objects for each audit
-      return allAudits.map(audit => ({
-        ...audit,
-        recommendations: JSON.parse(audit.recommendations as string),
-        workflowRecommendations: audit.workflowRecommendations 
-          ? JSON.parse(audit.workflowRecommendations as string) 
-          : undefined,
-      }));
+      // Process each audit for return
+      return allAudits.map(audit => {
+        const result = { ...audit };
+        
+        // Convert recommendations back to object if stored as string
+        if (typeof result.recommendations === 'string') {
+          try {
+            result.recommendations = JSON.parse(result.recommendations);
+          } catch (e) {
+            console.error("Error parsing recommendations JSON:", e);
+            result.recommendations = [];
+          }
+        }
+        
+        // Convert workflowRecommendations back to object if stored as string
+        if (typeof result.workflowRecommendations === 'string') {
+          try {
+            result.workflowRecommendations = JSON.parse(result.workflowRecommendations);
+          } catch (e) {
+            console.error("Error parsing workflowRecommendations JSON:", e);
+            result.workflowRecommendations = undefined;
+          }
+        } else if (result.workflowRecommendations === null) {
+          result.workflowRecommendations = undefined;
+        }
+        
+        return result as Audit;
+      });
     } catch (error) {
       console.error("Error getting all audits from database:", error);
       return [];
