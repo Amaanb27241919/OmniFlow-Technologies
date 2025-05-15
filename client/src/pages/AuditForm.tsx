@@ -25,6 +25,7 @@ export default function AuditForm() {
   const [formData, setFormData] = useState<AuditFormData>({
     businessName: "",
     industry: "",
+    subIndustry: "",
     businessAge: "",
     employees: "",
     monthlyRevenue: "",

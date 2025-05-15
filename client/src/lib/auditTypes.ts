@@ -23,6 +23,7 @@ export interface AuditTemplate {
 export interface AuditFormData {
   businessName: string;
   industry: string;
+  subIndustry: string;
   businessAge: string;
   employees: string;
   monthlyRevenue: string;

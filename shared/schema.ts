@@ -15,6 +15,7 @@ export const audits = pgTable("audits", {
   id: serial("id").primaryKey(),
   businessName: text("business_name").notNull(),
   industry: text("industry").notNull(),
+  subIndustry: text("sub_industry").default(""),
   businessAge: text("business_age").notNull(),
   employees: text("employees").notNull(),
   monthlyRevenue: text("monthly_revenue").notNull(),
