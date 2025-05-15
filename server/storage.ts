@@ -1,5 +1,7 @@
-import { Audit, type InsertAudit } from "@shared/schema";
-import { Recommendation } from "@/lib/auditTypes";
+import { Audit, type InsertAudit, audits, User, InsertUser, users } from "@shared/schema";
+import { Recommendation, WorkflowModule } from "@/lib/auditTypes";
+import { db } from "./db";
+import { eq } from "drizzle-orm";
 
 // Interface for storage operations
 export interface IStorage {
@@ -13,61 +15,93 @@ export interface IStorage {
   getAllAudits(): Promise<Audit[]>;
 }
 
-// In-memory storage implementation
-export class MemStorage implements IStorage {
-  private users: Map<number, User>;
-  private audits: Map<number, Audit>;
-  private userId: number;
-  private auditId: number;
-
-  constructor() {
-    this.users = new Map();
-    this.audits = new Map();
-    this.userId = 1;
-    this.auditId = 1;
-  }
-
+// Database storage implementation
+export class DatabaseStorage implements IStorage {
   // User-related methods
   async getUser(id: number): Promise<User | undefined> {
-    return this.users.get(id);
+    // This is a placeholder until we have a users table
+    return undefined;
   }
 
   async getUserByUsername(username: string): Promise<User | undefined> {
-    return Array.from(this.users.values()).find(
-      (user) => user.username === username,
-    );
+    // This is a placeholder until we have a users table
+    return undefined;
   }
 
   async createUser(insertUser: InsertUser): Promise<User> {
-    const id = this.userId++;
-    const user: User = { ...insertUser, id };
-    this.users.set(id, user);
-    return user;
+    // This is a placeholder until we have a users table
+    throw new Error("User creation not implemented");
   }
 
   // Audit-related methods
   async createAudit(auditData: any): Promise<Audit> {
-    const id = this.auditId++;
-    const createdAt = new Date().toISOString();
-    
-    // Format the audit with the generated ID and timestamp
-    const audit: Audit = { 
-      ...auditData, 
-      id,
-      createdAt
-    };
-    
-    this.audits.set(id, audit);
-    return audit;
+    try {
+      // Insert the audit data into the database
+      const [newAudit] = await db.insert(audits)
+        .values({
+          ...auditData,
+          // Convert JSON objects to strings for database storage
+          recommendations: JSON.stringify(auditData.recommendations),
+          workflowRecommendations: auditData.workflowRecommendations 
+            ? JSON.stringify(auditData.workflowRecommendations) 
+            : null,
+        })
+        .returning();
+      
+      // Parse JSON strings back to objects
+      return {
+        ...newAudit,
+        recommendations: JSON.parse(newAudit.recommendations as string),
+        workflowRecommendations: newAudit.workflowRecommendations 
+          ? JSON.parse(newAudit.workflowRecommendations as string) 
+          : undefined,
+      };
+    } catch (error) {
+      console.error("Error creating audit in database:", error);
+      throw error;
+    }
   }
 
   async getAudit(id: number): Promise<Audit | undefined> {
-    return this.audits.get(id);
+    try {
+      const [audit] = await db.select()
+        .from(audits)
+        .where(eq(audits.id, id));
+      
+      if (!audit) return undefined;
+      
+      // Parse JSON strings back to objects
+      return {
+        ...audit,
+        recommendations: JSON.parse(audit.recommendations as string),
+        workflowRecommendations: audit.workflowRecommendations 
+          ? JSON.parse(audit.workflowRecommendations as string) 
+          : undefined,
+      };
+    } catch (error) {
+      console.error("Error getting audit from database:", error);
+      return undefined;
+    }
   }
 
   async getAllAudits(): Promise<Audit[]> {
-    return Array.from(this.audits.values());
+    try {
+      const allAudits = await db.select().from(audits);
+      
+      // Parse JSON strings back to objects for each audit
+      return allAudits.map(audit => ({
+        ...audit,
+        recommendations: JSON.parse(audit.recommendations as string),
+        workflowRecommendations: audit.workflowRecommendations 
+          ? JSON.parse(audit.workflowRecommendations as string) 
+          : undefined,
+      }));
+    } catch (error) {
+      console.error("Error getting all audits from database:", error);
+      return [];
+    }
   }
 }
 
-export const storage = new MemStorage();
+// Use the database storage implementation
+export const storage = new DatabaseStorage();

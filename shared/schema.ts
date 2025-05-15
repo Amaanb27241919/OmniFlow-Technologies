@@ -1,6 +1,14 @@
-import { pgTable, text, serial, integer, boolean, timestamp, json } from "drizzle-orm/pg-core";
+import { pgTable, text, serial, integer, boolean, timestamp, json, varchar } from "drizzle-orm/pg-core";
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
+
+// User entity
+export const users = pgTable("users", {
+  id: serial("id").primaryKey(),
+  username: varchar("username", { length: 100 }).notNull().unique(),
+  email: varchar("email", { length: 255 }),
+  createdAt: timestamp("created_at").defaultNow(),
+});
 
 // Audit entity to store business audits
 export const audits = pgTable("audits", {
@@ -24,6 +32,7 @@ export const audits = pgTable("audits", {
   opportunities: text("opportunities").array(),
   recommendations: json("recommendations"),
   aiRecommendation: text("ai_recommendation"),
+  workflowRecommendations: json("workflow_recommendations"),
   createdAt: timestamp("created_at").defaultNow(),
 });
 
@@ -34,8 +43,18 @@ export const insertAuditSchema = createInsertSchema(audits).omit({
   opportunities: true,
   recommendations: true,
   aiRecommendation: true,
+  workflowRecommendations: true,
   createdAt: true,
 });
+
+// Create user insert schema
+export const insertUserSchema = createInsertSchema(users).omit({ 
+  id: true,
+  createdAt: true
+});
+
+export type InsertUser = z.infer<typeof insertUserSchema>;
+export type User = typeof users.$inferSelect;
 
 export type InsertAudit = z.infer<typeof insertAuditSchema>;
 export type Audit = typeof audits.$inferSelect;
@@ -46,4 +65,14 @@ export const recommendationSchema = z.object({
   description: z.string(),
 });
 
+// Schema for workflow module structure
+export const workflowModuleSchema = z.object({
+  name: z.string(),
+  description: z.string(),
+  integrationPoints: z.array(z.string()),
+  benefits: z.array(z.string()),
+  icon: z.string(),
+});
+
 export type Recommendation = z.infer<typeof recommendationSchema>;
+export type WorkflowModule = z.infer<typeof workflowModuleSchema>;
