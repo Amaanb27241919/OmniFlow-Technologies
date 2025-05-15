@@ -8,7 +8,7 @@ import { apiRequest } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
 import { AuditFormData } from "@/lib/auditTypes";
 import { useIndustries, useTemplates } from "@/hooks/useTemplates";
-import DynamicAuditForm from "@/components/DynamicAuditForm";
+import SimpleAuditForm from "@/components/SimpleAuditForm";
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -188,9 +188,9 @@ export default function AuditForm() {
               {isTemplatesLoading ? (
                 <div className="flex justify-center p-4">Loading templates...</div>
               ) : (
-                <DynamicAuditForm 
+                <SimpleAuditForm 
                   onSubmit={handleTemplateFormSubmit} 
-                  loading={mutation.isPending}
+                  isLoading={mutation.isPending}
                 />
               )}
             </CardContent>
