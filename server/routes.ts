@@ -6,6 +6,7 @@ import { insertAuditSchema } from "@shared/schema";
 import { generateAuditResults } from "./lib/auditLogic";
 import { notion, findDatabaseByTitle, addAuditToNotion } from "./lib/notion";
 import { templateManager } from "./lib/templates/templateManager";
+import { generateInsightTooltip, preGenerateTooltips } from "./lib/tooltipService";
 
 export async function registerRoutes(app: Express): Promise<Server> {
   // Create a new business audit
@@ -150,6 +151,48 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error) {
       console.error("Error fetching industries:", error);
       res.status(500).json({ message: "Failed to fetch industries" });
+    }
+  });
+
+  // AI-powered insight tooltips
+  app.get("/api/tooltips/:field", async (req, res) => {
+    try {
+      const { field } = req.params;
+      const { industry } = req.query;
+      
+      // Generate the tooltip for the requested field
+      const tooltip = await generateInsightTooltip(
+        field, 
+        industry as string | undefined
+      );
+      
+      res.json(tooltip);
+    } catch (error) {
+      console.error("Error generating tooltip:", error);
+      res.status(500).json({ 
+        message: "Failed to generate tooltip",
+        error: (error as Error).message
+      });
+    }
+  });
+  
+  // Pre-generate tooltips for multiple fields
+  app.get("/api/tooltips", async (req, res) => {
+    try {
+      const { industry } = req.query;
+      
+      // Pre-generate tooltips for common fields
+      const tooltips = await preGenerateTooltips(
+        industry as string | undefined
+      );
+      
+      res.json(tooltips);
+    } catch (error) {
+      console.error("Error generating tooltips:", error);
+      res.status(500).json({ 
+        message: "Failed to generate tooltips",
+        error: (error as Error).message
+      });
     }
   });
 

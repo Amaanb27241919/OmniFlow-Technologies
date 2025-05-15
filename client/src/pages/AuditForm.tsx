@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useLocation } from "wouter";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { apiRequest } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
 import { AuditFormData } from "@/lib/auditTypes";
@@ -8,6 +8,7 @@ import { useTemplates } from "@/hooks/useTemplates";
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import InsightTooltip from "@/components/ui/tooltip-insight";
 
 export default function AuditForm() {
   const [, navigate] = useLocation();
