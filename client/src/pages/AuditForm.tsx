@@ -9,6 +9,7 @@ import { useTemplates } from "@/hooks/useTemplates";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import InsightTooltip from "@/components/ui/tooltip-insight";
+import { Combobox } from "@/components/ui/combobox";
 
 export default function AuditForm() {
   const [, navigate] = useLocation();
@@ -268,21 +269,16 @@ export default function AuditForm() {
                       </InsightTooltip>
                     </span>
                   </div>
-                  <select
+                  <Combobox
                     id="industry"
                     name="industry"
                     value={formData.industry}
                     onChange={handleChange}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                    options={industryOptions}
+                    placeholder="Select an industry"
+                    className="w-full"
                     required
-                  >
-                    <option value="" disabled>Select an industry</option>
-                    {industryOptions.map(option => (
-                      <option key={option.value} value={option.value}>
-                        {option.label}
-                      </option>
-                    ))}
-                  </select>
+                  />
                 </div>
               </div>
               
@@ -300,22 +296,16 @@ export default function AuditForm() {
                       </InsightTooltip>
                     </span>
                   </div>
-                  <select
+                  <Combobox
                     id="subIndustry"
                     name="subIndustry"
                     value={formData.subIndustry}
                     onChange={handleChange}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-                  >
-                    <option value="">Select a sub-industry</option>
-                    {formData.industry && subIndustryOptions[formData.industry] && 
-                      subIndustryOptions[formData.industry].map((option, index) => (
-                        <option key={index} value={option}>
-                          {option}
-                        </option>
-                      ))
-                    }
-                  </select>
+                    options={formData.industry && subIndustryOptions[formData.industry] ? 
+                            subIndustryOptions[formData.industry] : []}
+                    placeholder="Select a sub-industry"
+                    className="w-full"
+                  />
                 </div>
               )}
 
@@ -324,21 +314,22 @@ export default function AuditForm() {
                   <label htmlFor="businessAge" className="block text-sm font-medium text-gray-700 mb-1">
                     How long have you been in business?
                   </label>
-                  <select
+                  <Combobox
                     id="businessAge"
                     name="businessAge"
                     value={formData.businessAge}
                     onChange={handleChange}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                    options={[
+                      "Less than 1 year",
+                      "1-3 years",
+                      "3-5 years",
+                      "5-10 years",
+                      "More than 10 years"
+                    ]}
+                    placeholder="Select business age"
+                    className="w-full"
                     required
-                  >
-                    <option value="" disabled>Select business age</option>
-                    <option value="Less than 1 year">Less than 1 year</option>
-                    <option value="1-3 years">1-3 years</option>
-                    <option value="3-5 years">3-5 years</option>
-                    <option value="5-10 years">5-10 years</option>
-                    <option value="More than 10 years">More than 10 years</option>
-                  </select>
+                  />
                 </div>
                 
                 <div>
