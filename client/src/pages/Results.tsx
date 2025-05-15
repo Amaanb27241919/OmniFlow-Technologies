@@ -295,6 +295,36 @@ export default function Results() {
         </Card>
       )}
 
+      {/* Notion Integration Status */}
+      <Card className="form-card mb-8">
+        <CardContent className="p-6 md:p-8">
+          <div className="flex items-center gap-2 mb-2">
+            <Cloud size={20} className={notionStatus?.enabled ? "text-green-500" : "text-gray-400"} />
+            <h3 className="text-lg font-semibold text-gray-900">Notion Integration</h3>
+            <Badge variant={notionStatus?.enabled ? "secondary" : "outline"} className={notionStatus?.enabled ? "bg-green-100 text-green-800 border-green-200" : ""}>
+              {notionStatus?.enabled ? "Active" : "Not Configured"}
+            </Badge>
+          </div>
+          
+          <p className="text-gray-600 text-sm">
+            {notionStatus?.enabled 
+              ? "Your business audit data is automatically synced to your Notion workspace for easy tracking and collaboration."
+              : "Configure Notion integration to automatically sync audit data to your Notion workspace for better tracking and team collaboration."}
+          </p>
+
+          {!notionStatus?.enabled && (
+            <div className="mt-4 p-3 bg-gray-50 rounded-md border border-gray-200 text-xs text-gray-600">
+              <p className="font-medium mb-1">To enable Notion integration:</p>
+              <ol className="list-decimal pl-5 space-y-1">
+                <li>Create a Notion integration at <span className="text-blue-600">notion.so/my-integrations</span></li>
+                <li>Add <code className="bg-gray-100 px-1 py-0.5 rounded">NOTION_INTEGRATION_SECRET</code> from your integration</li>
+                <li>Add <code className="bg-gray-100 px-1 py-0.5 rounded">NOTION_PAGE_URL</code> where audit data should be stored</li>
+              </ol>
+            </div>
+          )}
+        </CardContent>
+      </Card>
+
       {/* Next Steps */}
       <Card className="form-card mb-8">
         <CardContent className="p-6 md:p-8">
