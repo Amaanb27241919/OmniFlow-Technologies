@@ -19,18 +19,33 @@ export interface IStorage {
 export class DatabaseStorage implements IStorage {
   // User-related methods
   async getUser(id: number): Promise<User | undefined> {
-    // This is a placeholder until we have a users table
-    return undefined;
+    try {
+      const [user] = await db.select().from(users).where(eq(users.id, id));
+      return user;
+    } catch (error) {
+      console.error("Error getting user:", error);
+      return undefined;
+    }
   }
 
   async getUserByUsername(username: string): Promise<User | undefined> {
-    // This is a placeholder until we have a users table
-    return undefined;
+    try {
+      const [user] = await db.select().from(users).where(eq(users.username, username));
+      return user;
+    } catch (error) {
+      console.error("Error getting user by username:", error);
+      return undefined;
+    }
   }
 
   async createUser(insertUser: InsertUser): Promise<User> {
-    // This is a placeholder until we have a users table
-    throw new Error("User creation not implemented");
+    try {
+      const [user] = await db.insert(users).values(insertUser).returning();
+      return user;
+    } catch (error) {
+      console.error("Error creating user:", error);
+      throw error;
+    }
   }
 
   // Audit-related methods
