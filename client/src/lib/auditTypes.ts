@@ -1,3 +1,25 @@
+export interface AuditQuestion {
+  id: string;
+  question: string;
+  type: 'text' | 'textarea' | 'select' | 'multiselect' | 'checkbox' | 'number';
+  options?: string[];
+  placeholder?: string;
+  required?: boolean;
+  helpText?: string;
+  category?: string;
+}
+
+export interface AuditTemplate {
+  id: string;
+  name: string;
+  industry: string;
+  description: string;
+  icon: string;
+  questions: AuditQuestion[];
+  createdAt: string;
+  updatedAt: string;
+}
+
 export interface AuditFormData {
   businessName: string;
   industry: string;
@@ -14,6 +36,7 @@ export interface AuditFormData {
   businessGoals: string[];
   biggestChallenges: string[];
   additionalInfo: string;
+  [key: string]: any; // Using any to allow for dynamic fields from templates
 }
 
 export interface Recommendation {
