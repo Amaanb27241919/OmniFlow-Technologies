@@ -120,6 +120,102 @@ export default function AuditForm() {
     { value: "construction", label: "Construction" },
     { value: "other", label: "Other" }
   ];
+  
+  // Sub-industry options based on selected industry
+  const subIndustryOptions: Record<string, string[]> = {
+    retail: [
+      'Fashion & Apparel', 
+      'Electronics', 
+      'Home Goods', 
+      'Grocery', 
+      'Specialty Retail',
+      'Online Marketplace',
+      'Direct-to-Consumer Brand'
+    ],
+    professional_services: [
+      'Legal Services', 
+      'Accounting', 
+      'Consulting', 
+      'Marketing Agency',
+      'Design Services',
+      'Business Coaching'
+    ],
+    healthcare: [
+      'Medical Practice', 
+      'Dentistry', 
+      'Wellness & Fitness', 
+      'Mental Health',
+      'Telemedicine',
+      'Medical Device',
+      'Health Tech'
+    ],
+    manufacturing: [
+      'Food & Beverage', 
+      'Electronics', 
+      'Automotive', 
+      'Furniture',
+      'Pharmaceuticals',
+      'Custom Fabrication',
+      'Industrial Equipment'
+    ],
+    technology: [
+      'Software Development', 
+      'IT Services', 
+      'Web Development', 
+      'Mobile Apps',
+      'SaaS',
+      'Cybersecurity',
+      'AI & Machine Learning',
+      'Cloud Services'
+    ],
+    finance: [
+      'Banking', 
+      'Insurance', 
+      'Financial Planning', 
+      'Tax Services',
+      'Investment Management',
+      'Cryptocurrency',
+      'Payment Processing'
+    ],
+    education: [
+      'K-12 School', 
+      'Higher Education', 
+      'Professional Training', 
+      'Online Education',
+      'Language Learning',
+      'Educational Technology',
+      'Tutoring Services'
+    ],
+    hospitality: [
+      'Restaurant', 
+      'Hotel', 
+      'Travel Agency', 
+      'Event Planning',
+      'Food Service',
+      'Short-term Rental',
+      'Tour Operator'
+    ],
+    construction: [
+      'Residential Building', 
+      'Commercial Construction', 
+      'Remodeling', 
+      'Specialty Contractor',
+      'Architecture',
+      'Interior Design',
+      'Green Building',
+      'Engineering Services'
+    ],
+    other: [
+      'Arts & Entertainment',
+      'Agriculture',
+      'Transportation & Logistics',
+      'Energy',
+      'Environmental Services',
+      'Real Estate',
+      'Non-profit',
+      'Other Services'
+    ]
+  };
 
   return (
     <div className="container-custom">
@@ -188,8 +284,33 @@ export default function AuditForm() {
                   </select>
                 </div>
               </div>
+              
+              {formData.industry && (
+                <div className="mt-4">
+                  <div className="flex items-center">
+                    <label htmlFor="subIndustry" className="block text-sm font-medium text-gray-700 mb-1">
+                      Sub-Industry
+                    </label>
+                    <span className="ml-1">
+                      <InsightTooltip field="subIndustry" industry={formData.industry}>
+                        <div className="p-2 bg-gray-50 border-t border-gray-100">
+                          <p className="text-xs text-gray-500 italic">Tip: Specifying your sub-industry helps tailor recommendations to your specific business context.</p>
+                        </div>
+                      </InsightTooltip>
+                    </span>
+                  </div>
+                  <input
+                    id="subIndustry"
+                    name="subIndustry"
+                    value={formData.subIndustry}
+                    onChange={handleChange}
+                    placeholder="Enter your specific sub-industry"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                  />
+                </div>
+              )}
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
                 <div>
                   <label htmlFor="businessAge" className="block text-sm font-medium text-gray-700 mb-1">
                     How long have you been in business?

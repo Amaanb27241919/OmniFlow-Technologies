@@ -116,6 +116,11 @@ export default function Results() {
             <div className="metric-card">
               <div className="text-sm font-medium text-gray-500 mb-1">Industry</div>
               <div className="text-lg font-semibold">{data?.industry || 'Not provided'}</div>
+              {data?.subIndustry && (
+                <div className="text-sm text-gray-500 mt-1">
+                  Sub-industry: {data.subIndustry}
+                </div>
+              )}
             </div>
             
             <div className="metric-card">
