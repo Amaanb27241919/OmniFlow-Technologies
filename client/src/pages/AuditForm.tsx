@@ -15,6 +15,13 @@ export default function AuditForm() {
   const { toast } = useToast();
   const { data: templates, isLoading: isTemplatesLoading } = useTemplates();
   
+  // Pre-load common tooltips when the form loads to reduce API calls and improve UX
+  const { data: preloadedTooltips } = useQuery({
+    queryKey: ['/api/tooltips'],
+    staleTime: 1000 * 60 * 30, // Cache for 30 minutes
+    refetchOnWindowFocus: false,
+  });
+  
   const [formData, setFormData] = useState<AuditFormData>({
     businessName: "",
     industry: "",
@@ -128,9 +135,18 @@ export default function AuditForm() {
             <div className="space-y-4">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                  <label htmlFor="businessName" className="block text-sm font-medium text-gray-700 mb-1">
-                    Business Name
-                  </label>
+                  <div className="flex items-center">
+                    <label htmlFor="businessName" className="block text-sm font-medium text-gray-700 mb-1">
+                      Business Name
+                    </label>
+                    <span className="ml-1">
+                      <InsightTooltip field="businessName" industry={formData.industry}>
+                        <div className="p-2 bg-gray-50 border-t border-gray-100">
+                          <p className="text-xs text-gray-500 italic">Tip: A strong business name is memorable and reflects your brand values.</p>
+                        </div>
+                      </InsightTooltip>
+                    </span>
+                  </div>
                   <input
                     id="businessName"
                     name="businessName"
@@ -142,9 +158,18 @@ export default function AuditForm() {
                 </div>
                 
                 <div>
-                  <label htmlFor="industry" className="block text-sm font-medium text-gray-700 mb-1">
-                    Industry
-                  </label>
+                  <div className="flex items-center">
+                    <label htmlFor="industry" className="block text-sm font-medium text-gray-700 mb-1">
+                      Industry
+                    </label>
+                    <span className="ml-1">
+                      <InsightTooltip field="industry" industry={formData.industry}>
+                        <div className="p-2 bg-gray-50 border-t border-gray-100">
+                          <p className="text-xs text-gray-500 italic">Tip: Understanding industry benchmarks helps position your business competitively.</p>
+                        </div>
+                      </InsightTooltip>
+                    </span>
+                  </div>
                   <select
                     id="industry"
                     name="industry"
@@ -209,9 +234,18 @@ export default function AuditForm() {
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                  <label htmlFor="monthlyRevenue" className="block text-sm font-medium text-gray-700 mb-1">
-                    Monthly Revenue
-                  </label>
+                  <div className="flex items-center">
+                    <label htmlFor="monthlyRevenue" className="block text-sm font-medium text-gray-700 mb-1">
+                      Monthly Revenue
+                    </label>
+                    <span className="ml-1">
+                      <InsightTooltip field="monthlyRevenue" industry={formData.industry}>
+                        <div className="p-2 bg-gray-50 border-t border-gray-100">
+                          <p className="text-xs text-gray-500 italic">Tip: Monthly revenue patterns reveal business seasonality and growth opportunities.</p>
+                        </div>
+                      </InsightTooltip>
+                    </span>
+                  </div>
                   <select
                     id="monthlyRevenue"
                     name="monthlyRevenue"
@@ -230,9 +264,18 @@ export default function AuditForm() {
                 </div>
                 
                 <div>
-                  <label htmlFor="profitMargin" className="block text-sm font-medium text-gray-700 mb-1">
-                    Current Profit Margin
-                  </label>
+                  <div className="flex items-center">
+                    <label htmlFor="profitMargin" className="block text-sm font-medium text-gray-700 mb-1">
+                      Current Profit Margin
+                    </label>
+                    <span className="ml-1">
+                      <InsightTooltip field="profitMargin" industry={formData.industry}>
+                        <div className="p-2 bg-gray-50 border-t border-gray-100">
+                          <p className="text-xs text-gray-500 italic">Tip: Profit margins indicate business efficiency and pricing strategy effectiveness.</p>
+                        </div>
+                      </InsightTooltip>
+                    </span>
+                  </div>
                   <select
                     id="profitMargin"
                     name="profitMargin"
@@ -338,9 +381,18 @@ export default function AuditForm() {
               </div>
 
               <div className="space-y-3">
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  What are your primary business goals? (Select all that apply)
-                </label>
+                <div className="flex items-center">
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    What are your primary business goals? (Select all that apply)
+                  </label>
+                  <span className="ml-1">
+                    <InsightTooltip field="businessGoals" industry={formData.industry}>
+                      <div className="p-2 bg-gray-50 border-t border-gray-100">
+                        <p className="text-xs text-gray-500 italic">Tip: Prioritizing business goals helps focus resources on activities with the highest impact.</p>
+                      </div>
+                    </InsightTooltip>
+                  </span>
+                </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
                   {["Increase Revenue", "Reduce Costs", "Improve Customer Satisfaction", 
                     "Expand to New Markets", "Streamline Operations", "Increase Profit Margins",
@@ -364,9 +416,18 @@ export default function AuditForm() {
               </div>
 
               <div className="space-y-3">
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  What are your biggest business challenges? (Select all that apply)
-                </label>
+                <div className="flex items-center">
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    What are your biggest business challenges? (Select all that apply)
+                  </label>
+                  <span className="ml-1">
+                    <InsightTooltip field="biggestChallenges" industry={formData.industry}>
+                      <div className="p-2 bg-gray-50 border-t border-gray-100">
+                        <p className="text-xs text-gray-500 italic">Tip: Identifying your biggest challenges is the first step toward developing strategic solutions.</p>
+                      </div>
+                    </InsightTooltip>
+                  </span>
+                </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
                   {["Finding New Customers", "Managing Cash Flow", "Hiring/Retaining Talent", 
                     "Managing Time", "Staying Competitive", "Using Technology Effectively",
