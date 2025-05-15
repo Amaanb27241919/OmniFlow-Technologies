@@ -5,6 +5,7 @@ import { z } from "zod";
 import { insertAuditSchema } from "@shared/schema";
 import { generateAuditResults } from "./lib/auditLogic";
 import { notion, findDatabaseByTitle, addAuditToNotion } from "./lib/notion";
+import { templateManager } from "./lib/templates/templateManager";
 
 export async function registerRoutes(app: Express): Promise<Server> {
   // Create a new business audit
@@ -97,6 +98,59 @@ export async function registerRoutes(app: Express): Promise<Server> {
         ? "Notion integration is active and ready to sync audit data" 
         : "Notion integration is not enabled. Add NOTION_INTEGRATION_SECRET and NOTION_PAGE_URL to enable it."
     });
+  });
+  
+  // Templates API endpoints
+  
+  // Get all available templates
+  app.get("/api/templates", (req, res) => {
+    try {
+      const templates = templateManager.getAllTemplates();
+      res.json(templates);
+    } catch (error) {
+      console.error("Error fetching templates:", error);
+      res.status(500).json({ message: "Failed to fetch templates" });
+    }
+  });
+  
+  // Get a template by ID
+  app.get("/api/templates/:id", (req, res) => {
+    try {
+      const id = req.params.id;
+      const template = templateManager.getTemplateById(id);
+      
+      if (!template) {
+        return res.status(404).json({ message: "Template not found" });
+      }
+      
+      res.json(template);
+    } catch (error) {
+      console.error("Error fetching template:", error);
+      res.status(500).json({ message: "Failed to fetch template" });
+    }
+  });
+  
+  // Get a template for a specific industry
+  app.get("/api/templates/industry/:industry", (req, res) => {
+    try {
+      const industry = req.params.industry;
+      const template = templateManager.getTemplateByIndustry(industry);
+      res.json(template);
+    } catch (error) {
+      console.error("Error fetching industry template:", error);
+      res.status(500).json({ message: "Failed to fetch industry template" });
+    }
+  });
+  
+  // Get a list of available industries
+  app.get("/api/industries", (req, res) => {
+    try {
+      const industries = templateManager.getAvailableIndustries();
+      res.json(industries);
+    } catch (error) {
+      console.error("Error fetching industries:", error);
+      res.status(500).json({ message: "Failed to fetch industries" });
+    }
   });
 
   const httpServer = createServer(app);

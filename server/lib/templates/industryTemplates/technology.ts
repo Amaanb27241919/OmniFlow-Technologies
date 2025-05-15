@@ -5,195 +5,203 @@ import generalTemplate from './general';
  * Technology business audit template with industry-specific questions
  */
 const technologyTemplate: AuditTemplate = {
-  id: 'technology-business-audit',
+  ...generalTemplate,
+  id: 'technology-audit',
   name: 'Technology Business Audit',
   industry: 'technology',
-  description: 'A specialized business audit template for technology companies',
-  icon: 'cpu',
-  createdAt: new Date().toISOString(),
-  updatedAt: new Date().toISOString(),
-  
-  // Start with the general questions as a base
+  description: 'A comprehensive business audit for technology companies including software development, SaaS, IT services, and hardware businesses',
+  icon: 'laptop-code',
   questions: [
     ...generalTemplate.questions,
-    
-    // Add technology-specific questions
     {
-      id: 'tech-business-type',
-      question: 'What type of technology business do you operate?',
+      id: 'techCategory',
+      question: 'What category best describes your technology business?',
       type: 'select',
       options: [
         'SaaS/Cloud Services',
         'Custom Software Development',
-        'IT Services/Consulting',
-        'Hardware/Manufacturing',
         'Mobile App Development',
-        'E-commerce Technology',
-        'AI/Machine Learning',
+        'IT Services/Support',
+        'Hardware/IoT',
+        'Data Analytics/AI',
         'Cybersecurity',
-        'Blockchain/Web3',
+        'EdTech',
+        'HealthTech',
+        'FinTech',
+        'E-commerce Technology',
         'Other'
       ],
       required: true,
-      category: 'general',
+      category: 'general'
     },
     {
-      id: 'revenue-model',
+      id: 'revenueModel',
       question: 'What is your primary revenue model?',
       type: 'select',
       options: [
         'Subscription (SaaS)',
         'One-time licenses',
-        'Service contracts',
-        'Project-based',
-        'Freemium',
-        'Usage-based',
-        'Commission/Marketplace',
-        'Hardware sales',
+        'Consulting/Service fees',
+        'Transaction fees',
         'Advertising',
+        'Freemium + Premium',
+        'Usage-based/Pay-as-you-go',
+        'Hardware sales',
+        'Marketplace/Commission',
         'Other'
       ],
       required: true,
-      category: 'finance',
+      category: 'finance'
     },
     {
-      id: 'development-methodology',
-      question: 'What development methodology do you primarily use?',
+      id: 'recurringRevenue',
+      question: 'What percentage of your revenue is recurring (vs. one-time)?',
       type: 'select',
       options: [
-        'Agile/Scrum',
-        'Kanban',
-        'DevOps',
-        'Waterfall',
-        'Hybrid approach',
-        'No formal methodology',
-        'Other'
+        'Less than 10%',
+        '10-25%',
+        '26-50%',
+        '51-75%',
+        '76-90%',
+        'More than 90%',
+        'I don\'t track this'
       ],
-      category: 'operations',
+      required: true,
+      category: 'finance'
     },
     {
-      id: 'tech-stack',
-      question: 'What are the main technologies in your tech stack?',
+      id: 'churnRate',
+      question: 'What is your customer/subscriber churn rate (annual)?',
+      type: 'select',
+      options: [
+        'Less than 5%',
+        '5-10%',
+        '11-15%',
+        '16-25%',
+        'More than 25%',
+        'I don\'t track this',
+        'Not applicable'
+      ],
+      required: true,
+      category: 'sales'
+    },
+    {
+      id: 'salesCycle',
+      question: 'How long is your typical sales cycle?',
+      type: 'select',
+      options: [
+        'Less than 1 week',
+        '1-4 weeks',
+        '1-3 months',
+        '3-6 months',
+        'More than 6 months',
+        'Self-service (no sales team involved)'
+      ],
+      required: true,
+      category: 'sales'
+    },
+    {
+      id: 'techStack',
+      question: 'Which technologies form the core of your tech stack? (Select all that apply)',
       type: 'multiselect',
       options: [
         'JavaScript/TypeScript',
         'Python',
         'Java',
-        'C#/.NET',
-        'Ruby',
+        '.NET/C#',
         'PHP',
+        'Ruby',
         'Go',
-        'Rust',
-        'Mobile (iOS/Android)',
-        'Cloud (AWS/Azure/GCP)',
-        'Containers/Kubernetes',
-        'Blockchain',
-        'AI/ML frameworks'
-      ],
-      category: 'operations',
-    },
-    {
-      id: 'project-management-tool',
-      question: 'What project/product management tools do you use?',
-      type: 'multiselect',
-      options: [
-        'Jira',
-        'GitHub/GitLab Issues',
-        'Asana',
-        'Trello',
-        'Monday.com',
-        'ClickUp',
-        'Linear',
-        'Notion',
-        'Azure DevOps',
-        'Other'
-      ],
-      category: 'operations',
-    },
-    {
-      id: 'cloud-platforms',
-      question: 'Which cloud platforms do you use?',
-      type: 'multiselect',
-      options: [
+        'Swift/iOS',
+        'Kotlin/Android',
+        'React/React Native',
+        'Angular',
+        'Vue.js',
+        'Node.js',
         'AWS',
-        'Microsoft Azure',
-        'Google Cloud Platform',
-        'DigitalOcean',
-        'Heroku',
-        'Netlify/Vercel',
-        'IBM Cloud',
-        'Oracle Cloud',
-        'None/Self-hosted',
+        'Google Cloud',
+        'Azure',
+        'SQL databases',
+        'NoSQL databases',
+        'Blockchain',
+        'AI/Machine Learning',
         'Other'
       ],
-      category: 'operations',
+      required: true,
+      category: 'operations'
     },
     {
-      id: 'customer-success',
-      question: 'How do you manage customer success and retention?',
+      id: 'developmentProcess',
+      question: 'What development methodology do you primarily use?',
       type: 'select',
       options: [
-        'Dedicated success team',
-        'Regular check-ins',
-        'Usage analytics',
-        'Product-led approach',
-        'No formal process',
-        'Other'
+        'Agile/Scrum',
+        'Kanban',
+        'Waterfall',
+        'DevOps',
+        'Lean',
+        'Extreme Programming (XP)',
+        'Hybrid approach',
+        'No formal methodology'
       ],
-      category: 'sales',
+      required: true,
+      category: 'operations'
     },
     {
-      id: 'product-roadmap',
-      question: 'How do you manage your product roadmap?',
+      id: 'customerSegments',
+      question: 'Who are your primary customers?',
       type: 'select',
       options: [
-        'Formal process with regular reviews',
-        'Based on customer feedback',
-        'Market-driven',
-        'Investor/board driven',
-        'Informal/ad-hoc',
+        'B2B - Enterprise',
+        'B2B - Mid-market',
+        'B2B - Small business',
+        'B2C - Consumers',
+        'B2G - Government',
+        'Mixed B2B and B2C',
         'Other'
       ],
-      category: 'operations',
+      required: true,
+      category: 'sales'
     },
     {
-      id: 'tech-challenges',
-      question: 'What are your biggest technology business challenges?',
+      id: 'productRelease',
+      question: 'How frequently do you release new features or updates?',
+      type: 'select',
+      options: [
+        'Multiple times per day (continuous deployment)',
+        'Weekly',
+        'Monthly',
+        'Quarterly',
+        'Less than quarterly',
+        'No regular schedule'
+      ],
+      required: true,
+      category: 'operations'
+    },
+    {
+      id: 'techChallenges',
+      question: 'What are your biggest technical challenges? (Select all that apply)',
       type: 'multiselect',
       options: [
-        'Talent acquisition/retention',
-        'Feature prioritization',
-        'Technical debt',
         'Scaling infrastructure',
+        'Technical debt',
         'Security/compliance',
-        'Customer acquisition',
-        'Funding/investment',
-        'Market competition',
-        'Product-market fit',
-        'User adoption'
+        'Integration with other systems',
+        'Quality assurance/testing',
+        'Development velocity',
+        'Legacy system modernization',
+        'Cloud migration',
+        'Data management',
+        'Performance optimization',
+        'Mobile adaptation',
+        'Keeping up with new technologies'
       ],
       required: true,
-      category: 'operations',
-    },
-    {
-      id: 'tech-automation-needs',
-      question: 'Which areas of your tech business need the most automation?',
-      type: 'multiselect',
-      options: [
-        'Development workflows (CI/CD)',
-        'Testing/QA',
-        'Customer onboarding',
-        'Support processes',
-        'Sales/lead generation',
-        'Internal communication',
-        'Documentation',
-        'Monitoring/alerting',
-        'Analytics/reporting'
-      ],
-      required: true,
-      category: 'operations',
+      category: 'operations'
     }
-  ]
+  ],
+  createdAt: new Date().toISOString(),
+  updatedAt: new Date().toISOString()
 };
 
 export default technologyTemplate;

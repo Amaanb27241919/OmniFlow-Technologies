@@ -1,26 +1,18 @@
 import { AuditTemplate } from '../templateTypes';
 
-/**
- * General business audit template with questions applicable to all industries
- */
 const generalTemplate: AuditTemplate = {
   id: 'general-business-audit',
   name: 'General Business Audit',
   industry: 'general',
-  description: 'A comprehensive business audit template with general questions suitable for any industry',
+  description: 'A general business audit for any type of business',
   icon: 'building',
-  createdAt: new Date().toISOString(),
-  updatedAt: new Date().toISOString(),
-  
   questions: [
-    // Basic Business Information
     {
-      id: 'business-name',
+      id: 'businessName',
       question: 'What is your business name?',
       type: 'text',
-      placeholder: 'Enter your business name',
       required: true,
-      category: 'general',
+      category: 'general'
     },
     {
       id: 'industry',
@@ -39,10 +31,10 @@ const generalTemplate: AuditTemplate = {
         'Other'
       ],
       required: true,
-      category: 'general',
+      category: 'general'
     },
     {
-      id: 'business-age',
+      id: 'businessAge',
       question: 'How long has your business been operating?',
       type: 'select',
       options: [
@@ -50,189 +42,216 @@ const generalTemplate: AuditTemplate = {
         '1-3 years',
         '3-5 years',
         '5-10 years',
-        '10+ years'
+        'More than 10 years'
       ],
       required: true,
-      category: 'general',
+      category: 'general'
     },
     {
       id: 'employees',
-      question: 'How many employees do you have?',
+      question: 'How many employees does your business have?',
       type: 'select',
       options: [
-        '1-5',
-        '6-15',
-        '16-50',
-        '51-200',
-        '200+'
+        'Just me',
+        '2-5',
+        '6-10',
+        '11-25',
+        '26-50',
+        '51-100',
+        '101-500',
+        'More than 500'
       ],
       required: true,
-      category: 'general',
+      category: 'general'
     },
-    
-    // Financial Information
     {
-      id: 'monthly-revenue',
+      id: 'monthlyRevenue',
       question: 'What is your average monthly revenue?',
       type: 'select',
       options: [
-        'Less than $10,000',
-        '$10,000 - $50,000',
-        '$50,000 - $100,000',
-        '$100,000 - $500,000',
-        '$500,000+'
+        'Less than $5,000',
+        '$5,000 - $10,000',
+        '$10,001 - $25,000',
+        '$25,001 - $50,000',
+        '$50,001 - $100,000',
+        '$100,001 - $250,000',
+        '$250,001 - $500,000',
+        'More than $500,000'
       ],
       required: true,
-      category: 'finance',
+      category: 'finance'
     },
     {
-      id: 'profit-margin',
-      question: 'What is your current profit margin?',
+      id: 'profitMargin',
+      question: 'What is your approximate profit margin?',
       type: 'select',
       options: [
-        'Less than 10%',
-        '10% - 20%',
-        '20% - 30%',
-        '30% - 40%',
-        '40%+'
+        'Negative (losing money)',
+        '0-5%',
+        '6-10%',
+        '11-15%',
+        '16-20%',
+        '21-30%',
+        'More than 30%',
+        'I don\'t know'
       ],
       required: true,
-      category: 'finance',
+      category: 'finance'
     },
     {
-      id: 'revenue-increased',
+      id: 'revenueIncreased',
       question: 'Has your revenue increased in the past year?',
       type: 'select',
       options: [
-        'Yes',
-        'No',
-        'Stayed the same'
+        'Yes, significantly (more than 20%)',
+        'Yes, moderately (10-20%)',
+        'Yes, slightly (less than 10%)',
+        'Stayed about the same',
+        'No, it decreased',
+        'Business is less than a year old'
       ],
       required: true,
-      category: 'finance',
+      category: 'finance'
     },
     {
-      id: 'primary-expense',
-      question: 'What is your primary business expense?',
+      id: 'primaryExpense',
+      question: 'What is your biggest business expense category?',
       type: 'select',
       options: [
-        'Staffing/Labor',
-        'Inventory/Materials',
-        'Marketing/Advertising',
+        'Payroll/Staff',
         'Rent/Facilities',
-        'Technology/Equipment',
+        'Inventory/Cost of Goods',
+        'Marketing/Advertising',
+        'Equipment/Technology',
+        'Shipping/Logistics',
+        'Professional Services',
         'Other'
       ],
       required: true,
-      category: 'finance',
+      category: 'finance'
     },
-    
-    // Operations & Automation
     {
-      id: 'uses-automation',
-      question: 'Do you currently use any automation tools in your business?',
+      id: 'usesAutomation',
+      question: 'Does your business currently use any automation tools?',
       type: 'select',
       options: [
-        'Yes',
-        'No',
-        'Not sure'
+        'Yes, extensively',
+        'Yes, for some processes',
+        'Minimal automation',
+        'No, but interested',
+        'No, not interested'
       ],
       required: true,
-      category: 'operations',
+      category: 'operations'
     },
     {
-      id: 'automation-tools',
-      question: 'Which automation tools do you currently use?',
+      id: 'automationTools',
+      question: 'Which areas of your business use software automation? (Select all that apply)',
       type: 'multiselect',
       options: [
-        'CRM software',
-        'Email marketing automation',
-        'Social media scheduling',
-        'Accounting software',
-        'Inventory management',
+        'Customer service/support',
+        'Marketing/email',
+        'Sales/CRM',
+        'Accounting/finance',
         'Project management',
-        'Customer service/helpdesk',
+        'Inventory/supply chain',
+        'HR/employee management',
+        'Scheduling/appointments',
+        'Social media',
+        'Website/e-commerce',
+        'Production/manufacturing',
         'None'
       ],
-      category: 'operations',
+      required: true,
+      category: 'operations'
     },
-    
-    // Marketing & Sales
     {
-      id: 'lead-source',
-      question: 'What is your primary source of new customer leads?',
+      id: 'leadSource',
+      question: 'What is your primary source of new customers/clients?',
       type: 'select',
       options: [
         'Referrals',
         'Social media',
-        'Google/search',
-        'Paid advertising',
-        'Events/tradeshows',
-        'Content marketing',
-        'Cold outreach',
+        'Online advertising',
+        'Content marketing/SEO',
+        'Traditional advertising',
+        'Events/trade shows',
+        'Cold outreach/prospecting',
+        'Partnerships',
         'Other'
       ],
       required: true,
-      category: 'marketing',
+      category: 'sales'
     },
     {
-      id: 'tracks-cac',
+      id: 'tracksCAC',
       question: 'Do you track your customer acquisition cost (CAC)?',
       type: 'select',
       options: [
-        'Yes',
-        'No',
-        'Not sure what that is'
+        'Yes, consistently',
+        'Sometimes/partially',
+        'No, but I should',
+        'No, I don\'t think it\'s necessary'
       ],
       required: true,
-      category: 'marketing',
+      category: 'sales'
     },
-    
-    // Goals & Challenges
     {
-      id: 'business-goals',
-      question: 'What are your primary business goals for the next year?',
+      id: 'businessGoals',
+      question: 'What are your primary business goals for the next year? (Select all that apply)',
       type: 'multiselect',
       options: [
         'Increase revenue',
-        'Reduce costs',
-        'Improve efficiency',
+        'Improve profitability',
         'Expand to new markets',
         'Launch new products/services',
-        'Hire more staff',
-        'Increase profit margins',
+        'Build brand awareness',
         'Improve customer retention',
-        'Other'
+        'Streamline operations',
+        'Reduce costs',
+        'Hire more employees',
+        'Implement new technology',
+        'Secure funding/investment',
+        'Prepare for sale/exit'
       ],
       required: true,
-      category: 'general',
+      category: 'general'
     },
     {
-      id: 'biggest-challenges',
-      question: 'What are your biggest business challenges right now?',
+      id: 'biggestChallenges',
+      question: 'What are your biggest business challenges right now? (Select all that apply)',
       type: 'multiselect',
       options: [
         'Finding new customers',
         'Cash flow management',
-        'Operational inefficiencies',
-        'Staff recruitment/retention',
-        'Competition',
-        'Marketing effectiveness',
-        'Technology limitations',
         'Time management',
+        'Hiring qualified staff',
+        'Managing staff',
+        'Marketing effectively',
+        'Keeping up with competition',
+        'Operational inefficiencies',
+        'Technology limitations',
+        'Supply chain issues',
+        'Adapting to market changes',
+        'Scaling the business',
+        'Compliance/regulations',
+        'Customer service quality',
+        'Product/service quality',
         'Other'
       ],
       required: true,
-      category: 'general',
+      category: 'general'
     },
     {
-      id: 'additional-info',
-      question: 'Is there anything else you would like to share about your business needs?',
+      id: 'additionalInfo',
+      question: 'Is there anything else you\'d like to share about your business or specific challenges?',
       type: 'text',
-      placeholder: 'Enter any additional information here',
-      category: 'general',
+      required: false,
+      category: 'general'
     }
-  ]
+  ],
+  createdAt: new Date().toISOString(),
+  updatedAt: new Date().toISOString()
 };
 
 export default generalTemplate;

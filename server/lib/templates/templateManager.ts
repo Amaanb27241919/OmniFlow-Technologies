@@ -1,12 +1,10 @@
 import { AuditTemplate, Industry } from './templateTypes';
-import generalTemplate from './industryTemplates/general';
-import retailTemplate from './industryTemplates/retail';
-import professionalServicesTemplate from './industryTemplates/professionalServices';
-import technologyTemplate from './industryTemplates/technology';
-
-// Import placeholders for the remaining templates
-// These would be replaced with actual templates when created
-const placeholderTemplates: Record<string, AuditTemplate> = {};
+import { 
+  generalTemplate,
+  retailTemplate,
+  professionalServicesTemplate,
+  technologyTemplate
+} from './industryTemplates';
 
 /**
  * Template manager class for handling industry-specific templates
@@ -66,7 +64,11 @@ export class TemplateManager {
    * @returns List of all templates
    */
   public getAllTemplates(): AuditTemplate[] {
-    return Array.from(this.templates.values());
+    const templates: AuditTemplate[] = [];
+    this.templates.forEach(template => {
+      templates.push(template);
+    });
+    return templates;
   }
 
   /**
@@ -87,12 +89,15 @@ export class TemplateManager {
    * @returns Template with the specified ID or undefined if not found
    */
   public getTemplateById(id: string): AuditTemplate | undefined {
-    for (const template of this.templates.values()) {
+    let foundTemplate: AuditTemplate | undefined = undefined;
+    
+    this.templates.forEach(template => {
       if (template.id === id) {
-        return template;
+        foundTemplate = template;
       }
-    }
-    return undefined;
+    });
+    
+    return foundTemplate;
   }
 
   /**
@@ -100,15 +105,21 @@ export class TemplateManager {
    * @returns List of available industry names
    */
   public getAvailableIndustries(): string[] {
-    return Array.from(this.templates.keys())
-      .filter(key => key !== 'general')
-      .map(industry => {
+    const industries: string[] = [];
+    
+    this.templates.forEach((template, key) => {
+      if (key !== 'general') {
         // Convert snake_case to Title Case
-        return industry
+        const industryName = key
           .split('_')
           .map(word => word.charAt(0).toUpperCase() + word.slice(1))
           .join(' ');
-      });
+          
+        industries.push(industryName);
+      }
+    });
+    
+    return industries;
   }
 }
 
