@@ -178,10 +178,13 @@ export default function AuditForm() {
         <TabsContent value="template">
           <Card className="mb-6">
             <CardContent className="pt-6">
-              <p className="mb-4">
-                Our industry-specific templates provide tailored questions for your business type.
-                Get more relevant insights and recommendations!
-              </p>
+              <div className="mb-4">
+                <h3 className="text-lg font-medium mb-2">Industry-Specific Audit</h3>
+                <p className="text-gray-600">
+                  Our industry-specific templates provide tailored questions for your business type.
+                  Get more relevant insights and recommendations!
+                </p>
+              </div>
               {isTemplatesLoading ? (
                 <div className="flex justify-center p-4">Loading templates...</div>
               ) : (
