@@ -28,6 +28,10 @@ export const audits = pgTable("audits", {
   businessGoals: text("business_goals").array(),
   biggestChallenges: text("biggest_challenges").array(),
   additionalInfo: text("additional_info"),
+  // New metadata fields for tracking form submission type
+  formType: text("form_type").default("standard"),
+  templateId: text("template_id"),
+  // Results fields
   strengths: text("strengths").array(),
   opportunities: text("opportunities").array(),
   recommendations: json("recommendations"),

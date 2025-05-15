@@ -36,6 +36,9 @@ export interface AuditFormData {
   businessGoals: string[];
   biggestChallenges: string[];
   additionalInfo: string;
+  // Metadata for tracking form submission type
+  formType?: "standard" | "industry";  // Track what type of form was used
+  templateId?: string;                 // Track which template was used (if any)
   [key: string]: any; // Using any to allow for dynamic fields from templates
 }
 
