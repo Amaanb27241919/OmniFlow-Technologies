@@ -10,11 +10,47 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import InsightTooltip from "@/components/ui/tooltip-insight";
 import { Combobox } from "@/components/ui/combobox";
+import FormProgress from "@/components/FormProgress";
+import AuditReview from "@/components/AuditReview";
 
 export default function AuditForm() {
   const [, navigate] = useLocation();
   const { toast } = useToast();
   const { data: templates, isLoading: isTemplatesLoading } = useTemplates();
+  
+  // Track form steps
+  const [currentStep, setCurrentStep] = useState(1);
+  const totalSteps = 5; // 4 content steps + 1 review step
+  
+  // Step titles and information
+  const stepTitles = [
+    "Business Information",
+    "Business Metrics",
+    "Operations & Growth",
+    "Business Strategy",
+    "Review Your Submission"
+  ];
+  
+  // Validation logic for each step before moving to next
+  const validateStep = (step: number): boolean => {
+    switch (step) {
+      case 1: // Business Information
+        return !!formData.businessName && !!formData.industry;
+      case 2: // Business Metrics
+        return !!formData.businessAge && !!formData.employees && 
+               !!formData.monthlyRevenue && !!formData.profitMargin;
+      case 3: // Operations & Growth
+        return !!formData.revenueIncreased && !!formData.primaryExpense && 
+               !!formData.usesAutomation;
+      case 4: // Business Strategy
+        return !!formData.leadSource && formData.businessGoals.length > 0 && 
+               formData.biggestChallenges.length > 0;
+      case 5: // Review step - no validation needed
+        return true;
+      default:
+        return true;
+    }
+  };
   
   // Pre-load common tooltips when the form loads to reduce API calls and improve UX
   const { data: preloadedTooltips } = useQuery({
@@ -105,9 +141,35 @@ export default function AuditForm() {
     }
   };
 
+  // Step navigation functions with validation
+  const goToNextStep = () => {
+    if (currentStep < totalSteps && validateStep(currentStep)) {
+      setCurrentStep(prev => prev + 1);
+      window.scrollTo(0, 0); // Scroll to top when moving to next step
+    } else if (!validateStep(currentStep)) {
+      toast({
+        title: "Please complete all required fields",
+        description: "Fill in all the required information before proceeding.",
+        variant: "destructive",
+      });
+    }
+  };
+
+  const goToPreviousStep = () => {
+    if (currentStep > 1) {
+      setCurrentStep(prev => prev - 1);
+      window.scrollTo(0, 0); // Scroll to top when moving to previous step
+    }
+  };
+
+  // Final submission handler
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    mutation.mutate(formData);
+    if (currentStep < totalSteps) {
+      goToNextStep();
+    } else {
+      mutation.mutate(formData);
+    }
   };
 
   const industryOptions = [
