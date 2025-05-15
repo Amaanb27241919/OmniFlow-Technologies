@@ -1,11 +1,12 @@
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { useLocation, Link } from "wouter";
-import { AuditResults } from "@/lib/auditTypes";
+import { AuditResults, WorkflowModule } from "@/lib/auditTypes";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { Skeleton } from "@/components/ui/skeleton";
+import { Badge } from "@/components/ui/badge";
 import { 
   CheckCircle, 
   Zap, 
@@ -13,6 +14,12 @@ import {
   Download, 
   RefreshCw, 
   ChevronRight,
+  GitBranch,
+  Layers,
+  BrainCircuit,
+  UserCheck,
+  Bot,
+  ArrowRight
 } from "lucide-react";
 
 export default function Results() {
@@ -204,6 +211,77 @@ export default function Results() {
         </Button>
       </div>
 
+      {/* OmniFlow Automation Recommendations */}
+      {data?.workflowRecommendations && data.workflowRecommendations.length > 0 && (
+        <Card className="form-card mb-8">
+          <CardContent className="p-6 md:p-8">
+            <h3 className="text-lg font-semibold text-gray-900 mb-4">
+              Workflow Automation Recommendations
+            </h3>
+            <p className="text-gray-600 mb-6">
+              Based on your business profile, these OmniFlow modules could help automate your workflows and improve efficiency:
+            </p>
+
+            <div className="space-y-6">
+              {data.workflowRecommendations.map((module, index) => {
+                // Determine which icon to display
+                let ModuleIcon;
+                switch(module.icon) {
+                  case 'robot': ModuleIcon = Bot; break;
+                  case 'user-check': ModuleIcon = UserCheck; break;
+                  case 'brain': ModuleIcon = BrainCircuit; break;
+                  case 'layers': ModuleIcon = Layers; break;
+                  case 'git-branch': ModuleIcon = GitBranch; break;
+                  default: ModuleIcon = Zap;
+                }
+                
+                return (
+                  <div key={index} className="border border-gray-200 rounded-lg p-4 bg-white">
+                    <div className="flex items-start">
+                      <div className="bg-blue-100 p-3 rounded-lg mr-4 flex-shrink-0">
+                        <ModuleIcon className="h-6 w-6 text-primary" />
+                      </div>
+                      <div className="flex-1">
+                        <div className="flex items-center mb-2">
+                          <h4 className="font-medium text-gray-900 mr-2">{module.name}</h4>
+                          <Badge variant="outline" className="bg-blue-50 text-xs">OmniFlow Module</Badge>
+                        </div>
+                        <p className="text-gray-600 text-sm mb-3">{module.description}</p>
+                        
+                        <div className="mt-3">
+                          <h5 className="text-xs font-medium text-gray-500 mb-1">KEY INTEGRATION POINTS:</h5>
+                          <div className="flex flex-wrap gap-1 mb-3">
+                            {module.integrationPoints.map((point, i) => (
+                              <Badge key={i} variant="secondary" className="text-xs font-normal bg-gray-100 text-gray-700">
+                                {point}
+                              </Badge>
+                            ))}
+                          </div>
+                        </div>
+
+                        <div>
+                          <h5 className="text-xs font-medium text-gray-500 mb-1">BENEFITS:</h5>
+                          <ul className="space-y-1 pl-5 list-disc text-sm text-gray-600">
+                            {module.benefits.map((benefit, i) => (
+                              <li key={i}>{benefit}</li>
+                            ))}
+                          </ul>
+                        </div>
+                        
+                        <Button size="sm" className="mt-4" variant="outline">
+                          <span>Learn More</span>
+                          <ArrowRight className="ml-2 h-4 w-4" />
+                        </Button>
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </CardContent>
+        </Card>
+      )}
+
       {/* Next Steps */}
       <Card className="form-card mb-8">
         <CardContent className="p-6 md:p-8">
@@ -232,8 +310,8 @@ export default function Results() {
               <div className="flex items-start">
                 <div className="bg-secondary text-white rounded-full w-6 h-6 flex items-center justify-center mr-3 mt-0.5 flex-shrink-0">3</div>
                 <div>
-                  <h4 className="font-medium text-gray-900">Schedule a Follow-up Audit</h4>
-                  <p className="text-gray-600 text-sm">Re-run this audit in 3-6 months to track your progress and get updated recommendations.</p>
+                  <h4 className="font-medium text-gray-900">Explore OmniFlow Integration</h4>
+                  <p className="text-gray-600 text-sm">Consider which workflow automation tools could help you implement these recommendations more efficiently.</p>
                 </div>
               </div>
             </div>

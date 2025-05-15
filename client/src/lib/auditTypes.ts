@@ -21,11 +21,20 @@ export interface Recommendation {
   description: string;
 }
 
+export interface WorkflowModule {
+  name: string;
+  description: string;
+  integrationPoints: string[];
+  benefits: string[];
+  icon: string;
+}
+
 export interface AuditResults extends AuditFormData {
   id: number;
   strengths: string[];
   opportunities: string[];
   recommendations: Recommendation[];
   aiRecommendation: string;
+  workflowRecommendations?: WorkflowModule[];
   createdAt: string;
 }

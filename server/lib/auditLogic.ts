@@ -1,6 +1,7 @@
 import { InsertAudit } from "@shared/schema";
 import { generateAIRecommendation } from "./openai";
 import { Recommendation } from "@/lib/auditTypes";
+import { generateWorkflowRecommendations } from "./workflowRecommendations";
 
 /**
  * Generates complete business audit results from the form data
@@ -18,13 +19,17 @@ export async function generateAuditResults(formData: InsertAudit): Promise<any> 
   // Generate AI recommendation using OpenAI integration
   const aiRecommendation = await generateAIRecommendation(formData);
   
+  // Generate OmniFlow workflow recommendations
+  const workflowRecommendations = generateWorkflowRecommendations(formData);
+  
   // Return the complete audit results
   return {
     ...formData,
     strengths,
     opportunities,
     recommendations,
-    aiRecommendation
+    aiRecommendation,
+    workflowRecommendations
   };
 }
 
