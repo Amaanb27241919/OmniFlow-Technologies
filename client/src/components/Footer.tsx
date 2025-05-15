@@ -7,16 +7,16 @@ export default function Footer() {
         <div className="md:flex md:items-center md:justify-between">
           <div className="flex justify-center md:justify-start space-x-6">
             <Link href="#">
-              <a className="text-gray-500 hover:text-gray-700">About</a>
+              <span className="text-gray-500 hover:text-gray-700 cursor-pointer">About</span>
             </Link>
             <Link href="#">
-              <a className="text-gray-500 hover:text-gray-700">Privacy</a>
+              <span className="text-gray-500 hover:text-gray-700 cursor-pointer">Privacy</span>
             </Link>
             <Link href="#">
-              <a className="text-gray-500 hover:text-gray-700">Terms</a>
+              <span className="text-gray-500 hover:text-gray-700 cursor-pointer">Terms</span>
             </Link>
             <Link href="#">
-              <a className="text-gray-500 hover:text-gray-700">Contact</a>
+              <span className="text-gray-500 hover:text-gray-700 cursor-pointer">Contact</span>
             </Link>
           </div>
           <div className="mt-8 md:mt-0">
