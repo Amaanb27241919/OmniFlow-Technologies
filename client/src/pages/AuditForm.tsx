@@ -336,21 +336,22 @@ export default function AuditForm() {
                   <label htmlFor="employees" className="block text-sm font-medium text-gray-700 mb-1">
                     Number of Employees
                   </label>
-                  <select
+                  <Combobox
                     id="employees"
                     name="employees"
                     value={formData.employees}
                     onChange={handleChange}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                    options={[
+                      "1-5",
+                      "6-15",
+                      "16-50",
+                      "51-200",
+                      "201+"
+                    ]}
+                    placeholder="Select employee count"
+                    className="w-full"
                     required
-                  >
-                    <option value="" disabled>Select employee count</option>
-                    <option value="1-5">1-5</option>
-                    <option value="6-15">6-15</option>
-                    <option value="16-50">16-50</option>
-                    <option value="51-200">51-200</option>
-                    <option value="201+">201+</option>
-                  </select>
+                  />
                 </div>
               </div>
 
@@ -368,21 +369,22 @@ export default function AuditForm() {
                       </InsightTooltip>
                     </span>
                   </div>
-                  <select
+                  <Combobox
                     id="monthlyRevenue"
                     name="monthlyRevenue"
                     value={formData.monthlyRevenue}
                     onChange={handleChange}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                    options={[
+                      "Less than $10,000",
+                      "$10,000 - $50,000",
+                      "$50,000 - $100,000",
+                      "$100,000 - $500,000",
+                      "More than $500,000"
+                    ]}
+                    placeholder="Select monthly revenue"
+                    className="w-full"
                     required
-                  >
-                    <option value="" disabled>Select monthly revenue</option>
-                    <option value="Less than $10,000">Less than $10,000</option>
-                    <option value="$10,000 - $50,000">$10,000 - $50,000</option>
-                    <option value="$50,000 - $100,000">$50,000 - $100,000</option>
-                    <option value="$100,000 - $500,000">$100,000 - $500,000</option>
-                    <option value="More than $500,000">More than $500,000</option>
-                  </select>
+                  />
                 </div>
                 
                 <div>
@@ -398,21 +400,22 @@ export default function AuditForm() {
                       </InsightTooltip>
                     </span>
                   </div>
-                  <select
+                  <Combobox
                     id="profitMargin"
                     name="profitMargin"
                     value={formData.profitMargin}
                     onChange={handleChange}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                    options={[
+                      "Less than 10%",
+                      "10-20%",
+                      "21-30%",
+                      "31-40%",
+                      "More than 40%"
+                    ]}
+                    placeholder="Select profit margin"
+                    className="w-full"
                     required
-                  >
-                    <option value="" disabled>Select profit margin</option>
-                    <option value="Less than 10%">Less than 10%</option>
-                    <option value="10-20%">10-20%</option>
-                    <option value="21-30%">21-30%</option>
-                    <option value="31-40%">31-40%</option>
-                    <option value="More than 40%">More than 40%</option>
-                  </select>
+                  />
                 </div>
               </div>
 
