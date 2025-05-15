@@ -19,13 +19,26 @@ import {
   BrainCircuit,
   UserCheck,
   Bot,
-  ArrowRight
+  ArrowRight,
+  Cloud,
+  AlertCircle
 } from "lucide-react";
+
+// Type definition for Notion status response
+interface NotionStatus {
+  enabled: boolean;
+  message: string;
+}
 
 export default function Results() {
   const [location] = useLocation();
   const id = location.split('/').pop() || '';
   const [isRefreshingAi, setIsRefreshingAi] = useState(false);
+
+  // Fetch Notion integration status
+  const { data: notionStatus } = useQuery<NotionStatus>({
+    queryKey: ['/api/notion/status'],
+  });
 
   const { data, isLoading, isError, error } = useQuery<AuditResults>({
     queryKey: [`/api/audits/${id}`],

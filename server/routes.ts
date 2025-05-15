@@ -4,6 +4,7 @@ import { storage } from "./storage";
 import { z } from "zod";
 import { insertAuditSchema } from "@shared/schema";
 import { generateAuditResults } from "./lib/auditLogic";
+import { notion, findDatabaseByTitle, addAuditToNotion } from "./lib/notion";
 
 export async function registerRoutes(app: Express): Promise<Server> {
   // Create a new business audit
@@ -17,6 +18,32 @@ export async function registerRoutes(app: Express): Promise<Server> {
       
       // Store the audit in the database
       const audit = await storage.createAudit(auditResults);
+      
+      // If Notion integration is enabled, sync the audit data to Notion
+      if (notion) {
+        try {
+          // Find the existing database or create one if needed
+          const database = await findDatabaseByTitle("Business Audit Intakes");
+          if (database) {
+            // Add the audit data to Notion (asynchronously - don't await)
+            // This way, Notion sync doesn't block the API response
+            addAuditToNotion(audit, database.id)
+              .then(success => {
+                if (success) {
+                  console.log(`Audit #${audit.id} for ${audit.businessName} synced to Notion successfully`);
+                } else {
+                  console.warn(`Failed to sync audit #${audit.id} to Notion`);
+                }
+              })
+              .catch(err => {
+                console.error("Error syncing audit to Notion:", err);
+              });
+          }
+        } catch (notionError) {
+          // Log the error but don't fail the request
+          console.error("Error with Notion integration:", notionError);
+        }
+      }
       
       res.status(201).json(audit);
     } catch (error) {
@@ -58,6 +85,18 @@ export async function registerRoutes(app: Express): Promise<Server> {
       console.error("Error fetching audits:", error);
       res.status(500).json({ message: "Failed to fetch audits" });
     }
+  });
+  
+  // Get Notion integration status
+  app.get("/api/notion/status", (req, res) => {
+    const notionEnabled = !!notion;
+    
+    res.json({
+      enabled: notionEnabled,
+      message: notionEnabled 
+        ? "Notion integration is active and ready to sync audit data" 
+        : "Notion integration is not enabled. Add NOTION_INTEGRATION_SECRET and NOTION_PAGE_URL to enable it."
+    });
   });
 
   const httpServer = createServer(app);
