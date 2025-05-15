@@ -20,7 +20,7 @@ const omniFlowModules: Record<string, WorkflowModule> = {
       "Ensure consistent communication",
       "Scale outreach without additional staff"
     ],
-    icon: "robot"
+    icon: "bot"
   },
   omniAgent: {
     name: "OmniAgent",
@@ -54,7 +54,7 @@ const omniFlowModules: Record<string, WorkflowModule> = {
       "Optimize resource allocation",
       "Reduce operational costs"
     ],
-    icon: "brain"
+    icon: "brain-circuit"
   },
   omniForge: {
     name: "OmniForge",

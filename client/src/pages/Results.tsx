@@ -227,9 +227,9 @@ export default function Results() {
                 // Determine which icon to display
                 let ModuleIcon;
                 switch(module.icon) {
-                  case 'robot': ModuleIcon = Bot; break;
+                  case 'bot': ModuleIcon = Bot; break;
                   case 'user-check': ModuleIcon = UserCheck; break;
-                  case 'brain': ModuleIcon = BrainCircuit; break;
+                  case 'brain-circuit': ModuleIcon = BrainCircuit; break;
                   case 'layers': ModuleIcon = Layers; break;
                   case 'git-branch': ModuleIcon = GitBranch; break;
                   default: ModuleIcon = Zap;
