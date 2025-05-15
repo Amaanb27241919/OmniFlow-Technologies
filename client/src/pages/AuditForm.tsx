@@ -424,41 +424,43 @@ export default function AuditForm() {
                   <label htmlFor="revenueIncreased" className="block text-sm font-medium text-gray-700 mb-1">
                     Has your revenue increased in the last year?
                   </label>
-                  <select
+                  <Combobox
                     id="revenueIncreased"
                     name="revenueIncreased"
                     value={formData.revenueIncreased}
                     onChange={handleChange}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                    options={[
+                      "Yes",
+                      "No",
+                      "Stayed the same"
+                    ]}
+                    placeholder="Select an option"
+                    className="w-full"
                     required
-                  >
-                    <option value="" disabled>Select an option</option>
-                    <option value="Yes">Yes</option>
-                    <option value="No">No</option>
-                    <option value="Same">Stayed the same</option>
-                  </select>
+                  />
                 </div>
                 
                 <div>
                   <label htmlFor="primaryExpense" className="block text-sm font-medium text-gray-700 mb-1">
                     What is your primary expense?
                   </label>
-                  <select
+                  <Combobox
                     id="primaryExpense"
                     name="primaryExpense"
                     value={formData.primaryExpense}
                     onChange={handleChange}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                    options={[
+                      "Labor",
+                      "Inventory",
+                      "Marketing",
+                      "Rent/Facilities",
+                      "Technology",
+                      "Other"
+                    ]}
+                    placeholder="Select primary expense"
+                    className="w-full"
                     required
-                  >
-                    <option value="" disabled>Select primary expense</option>
-                    <option value="Labor">Labor</option>
-                    <option value="Inventory">Inventory</option>
-                    <option value="Marketing">Marketing</option>
-                    <option value="Rent">Rent/Facilities</option>
-                    <option value="Technology">Technology</option>
-                    <option value="Other">Other</option>
-                  </select>
+                  />
                 </div>
               </div>
 
@@ -467,41 +469,43 @@ export default function AuditForm() {
                   <label htmlFor="usesAutomation" className="block text-sm font-medium text-gray-700 mb-1">
                     Do you use automation tools for your business?
                   </label>
-                  <select
+                  <Combobox
                     id="usesAutomation"
                     name="usesAutomation"
                     value={formData.usesAutomation}
                     onChange={handleChange}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                    options={[
+                      "Yes",
+                      "No",
+                      "Not sure"
+                    ]}
+                    placeholder="Select an option"
+                    className="w-full"
                     required
-                  >
-                    <option value="" disabled>Select an option</option>
-                    <option value="Yes">Yes</option>
-                    <option value="No">No</option>
-                    <option value="Not sure">Not sure</option>
-                  </select>
+                  />
                 </div>
                 
                 <div>
                   <label htmlFor="leadSource" className="block text-sm font-medium text-gray-700 mb-1">
                     What is your primary source of leads/customers?
                   </label>
-                  <select
+                  <Combobox
                     id="leadSource"
                     name="leadSource"
                     value={formData.leadSource}
                     onChange={handleChange}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                    options={[
+                      "Referrals",
+                      "Social Media",
+                      "Paid Advertising",
+                      "Search Engine/SEO",
+                      "Events/Tradeshows",
+                      "Other"
+                    ]}
+                    placeholder="Select lead source"
+                    className="w-full"
                     required
-                  >
-                    <option value="" disabled>Select lead source</option>
-                    <option value="Referrals">Referrals</option>
-                    <option value="Social Media">Social Media</option>
-                    <option value="Paid Ads">Paid Advertising</option>
-                    <option value="SEO">Search Engine/SEO</option>
-                    <option value="Events">Events/Tradeshows</option>
-                    <option value="Other">Other</option>
-                  </select>
+                  />
                 </div>
               </div>
 
