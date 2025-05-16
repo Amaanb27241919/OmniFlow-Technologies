@@ -82,6 +82,24 @@ export default function AuditForm() {
   // Handle form submission
   const mutation = useMutation({
     mutationFn: async (data: AuditFormData) => {
+      // Ensure array fields are properly handled
+      // Make sure automationTools is an array
+      if (!Array.isArray(data.automationTools)) {
+        data.automationTools = data.automationTools ? [data.automationTools] : [];
+      }
+      
+      // Make sure businessGoals is an array
+      if (!Array.isArray(data.businessGoals)) {
+        data.businessGoals = data.businessGoals ? [data.businessGoals] : [];
+      }
+      
+      // Make sure biggestChallenges is an array
+      if (!Array.isArray(data.biggestChallenges)) {
+        data.biggestChallenges = data.biggestChallenges ? [data.biggestChallenges] : [];
+      }
+      
+      console.log("Submitting form data:", data);
+      
       return await apiRequest("/api/audits", {
         method: "POST",
         body: JSON.stringify(data),
@@ -91,6 +109,7 @@ export default function AuditForm() {
       navigate(`/results/${data.id}`);
     },
     onError: (error) => {
+      console.error("Submission error:", error);
       toast({
         title: "Error",
         description: "There was a problem submitting your audit. Please try again.",
