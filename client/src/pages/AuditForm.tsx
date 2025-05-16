@@ -55,10 +55,10 @@ export default function AuditForm() {
   // Pre-load common tooltips when the form loads to reduce API calls and improve UX
   const { data: preloadedTooltips } = useQuery({
     queryKey: ['/api/tooltips'],
-    staleTime: 1000 * 60 * 30, // Cache for 30 minutes
-    refetchOnWindowFocus: false,
+    enabled: true, // Always fetch when component mounts
   });
-  
+
+  // Default form state
   const [formData, setFormData] = useState<AuditFormData>({
     businessName: "",
     industry: "",
@@ -76,66 +76,51 @@ export default function AuditForm() {
     businessGoals: [],
     biggestChallenges: [],
     additionalInfo: "",
-    // Track form metadata
-    formType: "standard", // Add a field to track what type of form was used (standard or industry-specific)
-    templateId: "" // Track which template was used if industry-specific
+    formType: "standard"
   });
 
+  // Handle form submission
   const mutation = useMutation({
     mutationFn: async (data: AuditFormData) => {
-      const response = await apiRequest("POST", "/api/audits", data);
-      return response.json();
+      return await apiRequest("/api/audits", {
+        method: "POST",
+        body: JSON.stringify(data),
+      });
     },
     onSuccess: (data) => {
-      toast({
-        title: "Audit completed!",
-        description: "Your business audit has been processed successfully.",
-      });
       navigate(`/results/${data.id}`);
     },
     onError: (error) => {
       toast({
-        title: "Error submitting audit",
-        description: error.message,
+        title: "Error",
+        description: "There was a problem submitting your audit. Please try again.",
         variant: "destructive",
       });
     },
   });
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.target;
-    
-    if (name === "industry" && value) {
-      // Update templateId when industry changes and reset subIndustry
-      const matchingTemplate = templates?.find(t => t.industry === value);
-      setFormData(prev => ({
-        ...prev,
-        [name]: value,
-        subIndustry: "", // Reset sub-industry when industry changes
-        templateId: matchingTemplate?.id || "",
-        formType: "industry"
-      }));
-    } else {
-      setFormData(prev => ({ ...prev, [name]: value }));
-    }
+  // Handle input changes
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement> | { name: string; value: string }) => {
+    const { name, value } = 'target' in e ? e.target : e;
+    setFormData(prev => ({ ...prev, [name]: value }));
   };
 
+  // Handle checkbox changes
   const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value, checked } = e.target;
     
-    if (name === 'automationTools' || name === 'businessGoals' || name === 'biggestChallenges') {
-      setFormData(prev => {
-        const currentArray = [...(prev[name] as string[])];
-        
-        if (checked) {
-          return { ...prev, [name]: [...currentArray, value] };
-        } else {
-          return { 
-            ...prev, 
-            [name]: currentArray.filter(item => item !== value) 
-          };
-        }
-      });
+    if (name === "businessGoals" || name === "biggestChallenges" || name === "automationTools") {
+      if (checked) {
+        setFormData(prev => ({
+          ...prev,
+          [name]: [...prev[name], value]
+        }));
+      } else {
+        setFormData(prev => ({
+          ...prev,
+          [name]: prev[name].filter((item: string) => item !== value)
+        }));
+      }
     } else {
       setFormData(prev => ({ ...prev, [name]: checked }));
     }
@@ -668,69 +653,72 @@ export default function AuditForm() {
     professional_services: [
       'Legal Services', 
       'Accounting', 
+      'Marketing & PR', 
       'Consulting', 
-      'Marketing Agency',
+      'IT Services',
       'Design Services',
-      'Business Coaching'
+      'Business Strategy'
     ],
     healthcare: [
       'Medical Practice', 
-      'Dentistry', 
-      'Wellness & Fitness', 
-      'Mental Health',
-      'Telemedicine',
-      'Medical Device',
-      'Health Tech'
+      'Mental Health', 
+      'Fitness & Wellness', 
+      'Home Healthcare', 
+      'Telehealth',
+      'Medical Supplies',
+      'Healthcare Technology'
     ],
     manufacturing: [
       'Food & Beverage', 
+      'Textiles', 
       'Electronics', 
-      'Automotive', 
-      'Furniture',
-      'Pharmaceuticals',
-      'Custom Fabrication',
-      'Industrial Equipment'
+      'Machinery', 
+      'Custom Manufacturing',
+      'Consumer Goods',
+      'Industrial Products'
     ],
     technology: [
       'Software Development', 
-      'IT Services', 
       'Web Development', 
-      'Mobile Apps',
-      'SaaS',
-      'Cybersecurity',
-      'AI & Machine Learning',
-      'Cloud Services'
+      'App Development', 
+      'Cybersecurity', 
+      'Cloud Services',
+      'Data Analytics',
+      'AI Solutions'
     ],
     finance: [
-      'Banking', 
+      'Financial Advising', 
+      'Bookkeeping', 
+      'Tax Services', 
       'Insurance', 
-      'Financial Planning', 
-      'Tax Services',
-      'Investment Management',
-      'Cryptocurrency',
-      'Payment Processing'
+      'Lending',
+      'Investing',
+      'Financial Technology'
     ],
     education: [
-      'K-12 School', 
-      'Higher Education', 
-      'Professional Training', 
-      'Online Education',
-      'Language Learning',
-      'Educational Technology',
-      'Tutoring Services'
+      'Tutoring', 
+      'Online Courses', 
+      'Continuing Education', 
+      'Test Preparation', 
+      'Early Childhood',
+      'K-12 Education',
+      'Educational Technology'
     ],
     hospitality: [
       'Restaurant', 
-      'Hotel', 
-      'Travel Agency', 
+      'Cafe', 
+      'Bar', 
+      'Hotel/Lodging', 
       'Event Planning',
-      'Food Service',
-      'Short-term Rental',
-      'Tour Operator'
+      'Travel Services',
+      'Tourism'
     ],
     construction: [
-      'Residential Building', 
-      'Commercial Construction', 
+      'General Contracting', 
+      'Electrical', 
+      'Plumbing', 
+      'Residential', 
+      'Commercial',
       'Remodeling', 
       'Specialty Contractor',
       'Architecture',
@@ -753,381 +741,47 @@ export default function AuditForm() {
   return (
     <div className="container-custom">
       <div className="mb-6">
-        <h1 className="text-2xl font-bold mb-2">Business Audit Tool</h1>
-        <p className="text-gray-600">
-          Complete this form to receive a personalized business analysis with AI-powered recommendations.
+        <h2 className="text-2xl font-bold text-gray-900">Business Audit Form</h2>
+        <p className="text-gray-500 mt-1">
+          Fill out this form to receive a comprehensive audit of your business
         </p>
       </div>
+
+      {/* Progress indicator */}
+      <FormProgress 
+        currentStep={currentStep} 
+        totalSteps={totalSteps} 
+        stepTitles={stepTitles} 
+      />
 
       <Card>
         <CardContent className="pt-6">
           <form onSubmit={handleSubmit} className="space-y-6">
-            <div className="space-y-4">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                  <div className="flex items-center">
-                    <label htmlFor="businessName" className="block text-sm font-medium text-gray-700 mb-1">
-                      Business Name
-                    </label>
-                    <span className="ml-1">
-                      <InsightTooltip field="businessName" industry={formData.industry}>
-                        <div className="p-2 bg-gray-50 border-t border-gray-100">
-                          <p className="text-xs text-gray-500 italic">Tip: A strong business name is memorable and reflects your brand values.</p>
-                        </div>
-                      </InsightTooltip>
-                    </span>
-                  </div>
-                  <input
-                    id="businessName"
-                    name="businessName"
-                    value={formData.businessName}
-                    onChange={handleChange}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-                    required
-                  />
-                </div>
-                
-                <div>
-                  <div className="flex items-center">
-                    <label htmlFor="industry" className="block text-sm font-medium text-gray-700 mb-1">
-                      Industry
-                    </label>
-                    <span className="ml-1">
-                      <InsightTooltip field="industry" industry={formData.industry}>
-                        <div className="p-2 bg-gray-50 border-t border-gray-100">
-                          <p className="text-xs text-gray-500 italic">Tip: Understanding industry benchmarks helps position your business competitively.</p>
-                        </div>
-                      </InsightTooltip>
-                    </span>
-                  </div>
-                  <Combobox
-                    id="industry"
-                    name="industry"
-                    value={formData.industry}
-                    onChange={handleChange}
-                    options={industryOptions}
-                    placeholder="Select an industry"
-                    className="w-full"
-                    required
-                  />
-                </div>
-              </div>
-              
-              {formData.industry && (
-                <div className="mt-4">
-                  <div className="flex items-center">
-                    <label htmlFor="subIndustry" className="block text-sm font-medium text-gray-700 mb-1">
-                      Sub-Industry
-                    </label>
-                    <span className="ml-1">
-                      <InsightTooltip field="subIndustry" industry={formData.industry}>
-                        <div className="p-2 bg-gray-50 border-t border-gray-100">
-                          <p className="text-xs text-gray-500 italic">Tip: Specifying your sub-industry helps tailor recommendations to your specific business context.</p>
-                        </div>
-                      </InsightTooltip>
-                    </span>
-                  </div>
-                  <Combobox
-                    id="subIndustry"
-                    name="subIndustry"
-                    value={formData.subIndustry}
-                    onChange={handleChange}
-                    options={formData.industry && subIndustryOptions[formData.industry] ? 
-                            subIndustryOptions[formData.industry] : []}
-                    placeholder="Select a sub-industry"
-                    className="w-full"
-                  />
-                </div>
+            {/* Dynamically rendered form content based on current step */}
+            {renderStepContent()}
+
+            {/* Navigation buttons */}
+            <div className="pt-6 flex justify-between">
+              {currentStep > 1 ? (
+                <Button
+                  type="button"
+                  variant="outline"
+                  onClick={goToPreviousStep}
+                >
+                  Previous
+                </Button>
+              ) : (
+                <div></div> // Empty div to maintain layout with flexbox
               )}
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
-                <div>
-                  <label htmlFor="businessAge" className="block text-sm font-medium text-gray-700 mb-1">
-                    How long have you been in business?
-                  </label>
-                  <Combobox
-                    id="businessAge"
-                    name="businessAge"
-                    value={formData.businessAge}
-                    onChange={handleChange}
-                    options={[
-                      "Less than 1 year",
-                      "1-3 years",
-                      "3-5 years",
-                      "5-10 years",
-                      "More than 10 years"
-                    ]}
-                    placeholder="Select business age"
-                    className="w-full"
-                    required
-                  />
-                </div>
-                
-                <div>
-                  <label htmlFor="employees" className="block text-sm font-medium text-gray-700 mb-1">
-                    Number of Employees
-                  </label>
-                  <Combobox
-                    id="employees"
-                    name="employees"
-                    value={formData.employees}
-                    onChange={handleChange}
-                    options={[
-                      "1-5",
-                      "6-15",
-                      "16-50",
-                      "51-200",
-                      "201+"
-                    ]}
-                    placeholder="Select employee count"
-                    className="w-full"
-                    required
-                  />
-                </div>
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                  <div className="flex items-center">
-                    <label htmlFor="monthlyRevenue" className="block text-sm font-medium text-gray-700 mb-1">
-                      Monthly Revenue
-                    </label>
-                    <span className="ml-1">
-                      <InsightTooltip field="monthlyRevenue" industry={formData.industry}>
-                        <div className="p-2 bg-gray-50 border-t border-gray-100">
-                          <p className="text-xs text-gray-500 italic">Tip: Monthly revenue patterns reveal business seasonality and growth opportunities.</p>
-                        </div>
-                      </InsightTooltip>
-                    </span>
-                  </div>
-                  <Combobox
-                    id="monthlyRevenue"
-                    name="monthlyRevenue"
-                    value={formData.monthlyRevenue}
-                    onChange={handleChange}
-                    options={[
-                      "Less than $10,000",
-                      "$10,000 - $50,000",
-                      "$50,000 - $100,000",
-                      "$100,000 - $500,000",
-                      "More than $500,000"
-                    ]}
-                    placeholder="Select monthly revenue"
-                    className="w-full"
-                    required
-                  />
-                </div>
-                
-                <div>
-                  <div className="flex items-center">
-                    <label htmlFor="profitMargin" className="block text-sm font-medium text-gray-700 mb-1">
-                      Current Profit Margin
-                    </label>
-                    <span className="ml-1">
-                      <InsightTooltip field="profitMargin" industry={formData.industry}>
-                        <div className="p-2 bg-gray-50 border-t border-gray-100">
-                          <p className="text-xs text-gray-500 italic">Tip: Profit margins indicate business efficiency and pricing strategy effectiveness.</p>
-                        </div>
-                      </InsightTooltip>
-                    </span>
-                  </div>
-                  <Combobox
-                    id="profitMargin"
-                    name="profitMargin"
-                    value={formData.profitMargin}
-                    onChange={handleChange}
-                    options={[
-                      "Less than 10%",
-                      "10-20%",
-                      "21-30%",
-                      "31-40%",
-                      "More than 40%"
-                    ]}
-                    placeholder="Select profit margin"
-                    className="w-full"
-                    required
-                  />
-                </div>
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                  <label htmlFor="revenueIncreased" className="block text-sm font-medium text-gray-700 mb-1">
-                    Has your revenue increased in the last year?
-                  </label>
-                  <Combobox
-                    id="revenueIncreased"
-                    name="revenueIncreased"
-                    value={formData.revenueIncreased}
-                    onChange={handleChange}
-                    options={[
-                      "Yes",
-                      "No",
-                      "Stayed the same"
-                    ]}
-                    placeholder="Select an option"
-                    className="w-full"
-                    required
-                  />
-                </div>
-                
-                <div>
-                  <label htmlFor="primaryExpense" className="block text-sm font-medium text-gray-700 mb-1">
-                    What is your primary expense?
-                  </label>
-                  <Combobox
-                    id="primaryExpense"
-                    name="primaryExpense"
-                    value={formData.primaryExpense}
-                    onChange={handleChange}
-                    options={[
-                      "Labor",
-                      "Inventory",
-                      "Marketing",
-                      "Rent/Facilities",
-                      "Technology",
-                      "Other"
-                    ]}
-                    placeholder="Select primary expense"
-                    className="w-full"
-                    required
-                  />
-                </div>
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                  <label htmlFor="usesAutomation" className="block text-sm font-medium text-gray-700 mb-1">
-                    Do you use automation tools for your business?
-                  </label>
-                  <Combobox
-                    id="usesAutomation"
-                    name="usesAutomation"
-                    value={formData.usesAutomation}
-                    onChange={handleChange}
-                    options={[
-                      "Yes",
-                      "No",
-                      "Not sure"
-                    ]}
-                    placeholder="Select an option"
-                    className="w-full"
-                    required
-                  />
-                </div>
-                
-                <div>
-                  <label htmlFor="leadSource" className="block text-sm font-medium text-gray-700 mb-1">
-                    What is your primary source of leads/customers?
-                  </label>
-                  <Combobox
-                    id="leadSource"
-                    name="leadSource"
-                    value={formData.leadSource}
-                    onChange={handleChange}
-                    options={[
-                      "Referrals",
-                      "Social Media",
-                      "Paid Advertising",
-                      "Search Engine/SEO",
-                      "Events/Tradeshows",
-                      "Other"
-                    ]}
-                    placeholder="Select lead source"
-                    className="w-full"
-                    required
-                  />
-                </div>
-              </div>
-
-              <div className="space-y-3">
-                <div className="flex items-center">
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    What are your primary business goals? (Select all that apply)
-                  </label>
-                  <span className="ml-1">
-                    <InsightTooltip field="businessGoals" industry={formData.industry}>
-                      <div className="p-2 bg-gray-50 border-t border-gray-100">
-                        <p className="text-xs text-gray-500 italic">Tip: Prioritizing business goals helps focus resources on activities with the highest impact.</p>
-                      </div>
-                    </InsightTooltip>
-                  </span>
-                </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
-                  {["Increase Revenue", "Reduce Costs", "Improve Customer Satisfaction", 
-                    "Expand to New Markets", "Streamline Operations", "Increase Profit Margins",
-                    "Grow Customer Base"].map(goal => (
-                    <div key={goal} className="flex items-center">
-                      <input
-                        id={`goal-${goal}`}
-                        name="businessGoals"
-                        type="checkbox"
-                        value={goal}
-                        checked={formData.businessGoals.includes(goal)}
-                        onChange={handleCheckboxChange}
-                        className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
-                      />
-                      <label htmlFor={`goal-${goal}`} className="ml-2 text-sm text-gray-700">
-                        {goal}
-                      </label>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              <div className="space-y-3">
-                <div className="flex items-center">
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    What are your biggest business challenges? (Select all that apply)
-                  </label>
-                  <span className="ml-1">
-                    <InsightTooltip field="biggestChallenges" industry={formData.industry}>
-                      <div className="p-2 bg-gray-50 border-t border-gray-100">
-                        <p className="text-xs text-gray-500 italic">Tip: Identifying your biggest challenges is the first step toward developing strategic solutions.</p>
-                      </div>
-                    </InsightTooltip>
-                  </span>
-                </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
-                  {["Finding New Customers", "Managing Cash Flow", "Hiring/Retaining Talent", 
-                    "Managing Time", "Staying Competitive", "Using Technology Effectively",
-                    "Marketing Effectively", "Scaling Operations"].map(challenge => (
-                    <div key={challenge} className="flex items-center">
-                      <input
-                        id={`challenge-${challenge}`}
-                        name="biggestChallenges"
-                        type="checkbox"
-                        value={challenge}
-                        checked={formData.biggestChallenges.includes(challenge)}
-                        onChange={handleCheckboxChange}
-                        className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
-                      />
-                      <label htmlFor={`challenge-${challenge}`} className="ml-2 text-sm text-gray-700">
-                        {challenge}
-                      </label>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              <div>
-                <label htmlFor="additionalInfo" className="block text-sm font-medium text-gray-700 mb-1">
-                  Tell us about your specific business challenges or goals
-                </label>
-                <textarea
-                  id="additionalInfo"
-                  name="additionalInfo"
-                  value={formData.additionalInfo}
-                  onChange={handleChange}
-                  rows={4}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-                />
-              </div>
-            </div>
-            
-            <div className="mt-6">
-              <Button type="submit" disabled={mutation.isPending} className="w-full">
-                {mutation.isPending ? "Submitting..." : "Submit for Analysis"}
+              <Button
+                type={currentStep === totalSteps ? "submit" : "button"}
+                onClick={currentStep === totalSteps ? undefined : goToNextStep}
+                disabled={mutation.isPending}
+              >
+                {currentStep === totalSteps 
+                  ? (mutation.isPending ? "Submitting..." : "Submit Audit") 
+                  : "Next"}
               </Button>
             </div>
           </form>
