@@ -22,8 +22,7 @@ export function InsightTooltip({ field, industry, children }: InsightTooltipProp
       if (industry) {
         url.searchParams.append('industry', industry);
       }
-      const response = await apiRequest("GET", url.toString());
-      return response.json();
+      return await apiRequest(url.toString(), { method: "GET" });
     },
     enabled: open, // Only fetch when tooltip is opened
     staleTime: 1000 * 60 * 10, // Cache for 10 minutes

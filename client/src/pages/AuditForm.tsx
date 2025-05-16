@@ -82,27 +82,31 @@ export default function AuditForm() {
   // Handle form submission
   const mutation = useMutation({
     mutationFn: async (data: AuditFormData) => {
+      // Create a new object to avoid modifying the original data
+      const submissionData = { ...data };
+      
       // Ensure array fields are properly handled
       // Make sure automationTools is an array
-      if (!Array.isArray(data.automationTools)) {
-        data.automationTools = data.automationTools ? [data.automationTools] : [];
+      if (!Array.isArray(submissionData.automationTools)) {
+        submissionData.automationTools = submissionData.automationTools ? [submissionData.automationTools] : [];
       }
       
       // Make sure businessGoals is an array
-      if (!Array.isArray(data.businessGoals)) {
-        data.businessGoals = data.businessGoals ? [data.businessGoals] : [];
+      if (!Array.isArray(submissionData.businessGoals)) {
+        submissionData.businessGoals = submissionData.businessGoals ? [submissionData.businessGoals] : [];
       }
       
       // Make sure biggestChallenges is an array
-      if (!Array.isArray(data.biggestChallenges)) {
-        data.biggestChallenges = data.biggestChallenges ? [data.biggestChallenges] : [];
+      if (!Array.isArray(submissionData.biggestChallenges)) {
+        submissionData.biggestChallenges = submissionData.biggestChallenges ? [submissionData.biggestChallenges] : [];
       }
       
-      console.log("Submitting form data:", data);
+      console.log("Submitting form data:", submissionData);
       
+      // Use the updated apiRequest function
       return await apiRequest("/api/audits", {
         method: "POST",
-        body: JSON.stringify(data),
+        body: JSON.stringify(submissionData)
       });
     },
     onSuccess: (data) => {
