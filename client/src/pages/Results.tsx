@@ -234,7 +234,7 @@ export default function Results() {
         <Card className="form-card mb-8">
           <CardContent className="p-6 md:p-8">
             <h3 className="text-lg font-semibold text-gray-900 mb-4">
-              Workflow Automation Recommendations
+              Smart Workflow Recommendations
             </h3>
             <p className="text-gray-600 mb-6">
               Based on your business profile, these OmniFlow modules could help automate your workflows and improve efficiency:
@@ -253,22 +253,57 @@ export default function Results() {
                   default: ModuleIcon = Zap;
                 }
                 
+                // Generate some mock implementation data for the demo
+                // In a real implementation, this would come from the backend
+                const businessArea = module.businessArea || 'general';
+                const timeToImplement = module.estimatedTimeToImplement || '3-6 weeks';
+                const costSavings = module.estimatedCostSavings || '$2,000-$5,000 per month';
+                const roi = module.estimatedRoi || '200% within 12 months';
+                
                 return (
                   <div key={index} className="border border-gray-200 rounded-lg p-4 bg-white">
-                    <div className="flex items-start">
-                      <div className="bg-blue-100 p-3 rounded-lg mr-4 flex-shrink-0">
-                        <ModuleIcon className="h-6 w-6 text-primary" />
-                      </div>
-                      <div className="flex-1">
-                        <div className="flex items-center mb-2">
-                          <h4 className="font-medium text-gray-900 mr-2">{module.name}</h4>
-                          <Badge variant="outline" className="bg-blue-50 text-xs">OmniFlow Module</Badge>
+                    <div className="flex flex-col">
+                      {/* Module Header */}
+                      <div className="flex items-start mb-4">
+                        <div className="bg-blue-100 p-3 rounded-lg mr-4 flex-shrink-0">
+                          <ModuleIcon className="h-6 w-6 text-primary" />
                         </div>
-                        <p className="text-gray-600 text-sm mb-3">{module.description}</p>
-                        
-                        <div className="mt-3">
-                          <h5 className="text-xs font-medium text-gray-500 mb-1">KEY INTEGRATION POINTS:</h5>
-                          <div className="flex flex-wrap gap-1 mb-3">
+                        <div className="flex-1">
+                          <div className="flex items-center mb-2">
+                            <h4 className="font-medium text-gray-900 mr-2">{module.name}</h4>
+                            <Badge variant="outline" className="bg-blue-50 text-xs">OmniFlow Module</Badge>
+                          </div>
+                          <p className="text-gray-600 text-sm">{module.description}</p>
+                        </div>
+                      </div>
+                      
+                      {/* Business Value */}
+                      <div className="grid grid-cols-1 md:grid-cols-4 gap-3 mb-4 bg-gray-50 p-3 rounded-md">
+                        <div>
+                          <div className="text-xs font-medium text-gray-500">BUSINESS AREA</div>
+                          <div className="text-sm font-medium text-gray-800 mt-1 capitalize">
+                            {businessArea.replace('_', ' ')}
+                          </div>
+                        </div>
+                        <div>
+                          <div className="text-xs font-medium text-gray-500">IMPLEMENTATION TIME</div>
+                          <div className="text-sm font-medium text-gray-800 mt-1">{timeToImplement}</div>
+                        </div>
+                        <div>
+                          <div className="text-xs font-medium text-gray-500">COST SAVINGS</div>
+                          <div className="text-sm font-medium text-gray-800 mt-1">{costSavings}</div>
+                        </div>
+                        <div>
+                          <div className="text-xs font-medium text-gray-500">ROI</div>
+                          <div className="text-sm font-medium text-gray-800 mt-1">{roi}</div>
+                        </div>
+                      </div>
+                      
+                      {/* Integration Points & Benefits */}
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                        <div>
+                          <h5 className="text-xs font-medium text-gray-500 mb-2">INTEGRATION POINTS</h5>
+                          <div className="flex flex-wrap gap-1">
                             {module.integrationPoints.map((point, i) => (
                               <Badge key={i} variant="secondary" className="text-xs font-normal bg-gray-100 text-gray-700">
                                 {point}
@@ -276,18 +311,160 @@ export default function Results() {
                             ))}
                           </div>
                         </div>
-
+                        
                         <div>
-                          <h5 className="text-xs font-medium text-gray-500 mb-1">BENEFITS:</h5>
+                          <h5 className="text-xs font-medium text-gray-500 mb-2">KEY BENEFITS</h5>
                           <ul className="space-y-1 pl-5 list-disc text-sm text-gray-600">
                             {module.benefits.map((benefit, i) => (
                               <li key={i}>{benefit}</li>
                             ))}
                           </ul>
                         </div>
+                      </div>
+                      
+                      {/* Implementation Steps */}
+                      <div className="mt-2">
+                        <div className="flex items-center justify-between mb-3">
+                          <h5 className="text-sm font-medium text-gray-700">Implementation Steps</h5>
+                          <Badge variant="outline" className="text-xs font-normal text-gray-600">Step-by-step Guide</Badge>
+                        </div>
                         
-                        <Button size="sm" className="mt-4" variant="outline">
-                          <span>Learn More</span>
+                        <div className="space-y-3">
+                          {/* Step 1 */}
+                          <div className="border border-gray-200 rounded-md overflow-hidden">
+                            <div className="bg-blue-50 px-3 py-2 border-b border-gray-200">
+                              <div className="flex items-center">
+                                <div className="bg-blue-100 rounded-full w-5 h-5 flex items-center justify-center mr-2">
+                                  <span className="text-xs font-semibold text-blue-800">1</span>
+                                </div>
+                                <h6 className="text-sm font-medium text-gray-800">
+                                  {module.name === "OmniBot" ? "Define Your Customer Journey" : 
+                                   module.name === "OmniAgent" ? "Build Your Knowledge Base" :
+                                   module.name === "OmniAI" ? "Data Assessment and Preparation" :
+                                   module.name === "OmniForge" ? "Process Mapping and Analysis" :
+                                   module.name === "OmniConnect" ? "System Audit and Integration Planning" :
+                                   "Define Your Implementation Goals"
+                                  }
+                                </h6>
+                                <Badge className="ml-auto bg-blue-100 text-blue-800 border-blue-200 text-xs">High Priority</Badge>
+                              </div>
+                            </div>
+                            <div className="px-3 py-2">
+                              <p className="text-sm text-gray-700 mb-2">
+                                {module.name === "OmniBot" ? "Map out your ideal customer journey from initial contact to conversion" : 
+                                 module.name === "OmniAgent" ? "Compile frequently asked questions and common customer issues" :
+                                 module.name === "OmniAI" ? "Evaluate your current data and prepare it for analysis" :
+                                 module.name === "OmniForge" ? "Document and analyze current manual processes" :
+                                 module.name === "OmniConnect" ? "Evaluate your current systems and plan integration strategy" :
+                                 "Define clear goals and success metrics for implementation"
+                                }
+                              </p>
+                              <div className="text-xs font-medium text-gray-500 mt-2">ESTIMATED TIME:</div>
+                              <div className="text-sm text-gray-700 mt-1">
+                                {module.name === "OmniBot" ? "5-8 hours" : 
+                                 module.name === "OmniAgent" ? "12-16 hours" :
+                                 module.name === "OmniAI" ? "16-24 hours" :
+                                 module.name === "OmniForge" ? "13-20 hours" :
+                                 module.name === "OmniConnect" ? "13-18 hours" :
+                                 "8-12 hours"
+                                }
+                              </div>
+                            </div>
+                          </div>
+                          
+                          {/* Step 2 */}
+                          <div className="border border-gray-200 rounded-md overflow-hidden">
+                            <div className="bg-blue-50 px-3 py-2 border-b border-gray-200">
+                              <div className="flex items-center">
+                                <div className="bg-blue-100 rounded-full w-5 h-5 flex items-center justify-center mr-2">
+                                  <span className="text-xs font-semibold text-blue-800">2</span>
+                                </div>
+                                <h6 className="text-sm font-medium text-gray-800">
+                                  {module.name === "OmniBot" ? "Set Up Automated Email Sequences" : 
+                                   module.name === "OmniAgent" ? "Train Your Virtual Assistant" :
+                                   module.name === "OmniAI" ? "Model Development and Training" :
+                                   module.name === "OmniForge" ? "Workflow Design and Configuration" :
+                                   module.name === "OmniConnect" ? "Data Mapping and Transformation" :
+                                   "Configure and Customize"
+                                  }
+                                </h6>
+                                <Badge className="ml-auto bg-blue-100 text-blue-800 border-blue-200 text-xs">High Priority</Badge>
+                              </div>
+                            </div>
+                            <div className="px-3 py-2">
+                              <p className="text-sm text-gray-700 mb-2">
+                                {module.name === "OmniBot" ? "Create targeted email sequences for different customer segments" : 
+                                 module.name === "OmniAgent" ? "Configure the AI assistant with your business-specific information" :
+                                 module.name === "OmniAI" ? "Create predictive models based on your business objectives" :
+                                 module.name === "OmniForge" ? "Build automated workflows in the OmniForge platform" :
+                                 module.name === "OmniConnect" ? "Map data fields between systems and create transformation rules" :
+                                 "Customize the solution to match your specific business needs"
+                                }
+                              </p>
+                              <div className="text-xs font-medium text-gray-500 mt-2">ESTIMATED TIME:</div>
+                              <div className="text-sm text-gray-700 mt-1">
+                                {module.name === "OmniBot" ? "9-13 hours" : 
+                                 module.name === "OmniAgent" ? "8-12 hours" :
+                                 module.name === "OmniAI" ? "13-22 hours" :
+                                 module.name === "OmniForge" ? "18-28 hours" :
+                                 module.name === "OmniConnect" ? "18-34 hours" :
+                                 "14-20 hours"
+                                }
+                              </div>
+                            </div>
+                          </div>
+                          
+                          {/* Step 3 */}
+                          <div className="border border-gray-200 rounded-md overflow-hidden">
+                            <div className="bg-blue-50 px-3 py-2 border-b border-gray-200">
+                              <div className="flex items-center">
+                                <div className="bg-blue-100 rounded-full w-5 h-5 flex items-center justify-center mr-2">
+                                  <span className="text-xs font-semibold text-blue-800">3</span>
+                                </div>
+                                <h6 className="text-sm font-medium text-gray-800">
+                                  {module.name === "OmniBot" ? "Integrate with Your CRM" : 
+                                   module.name === "OmniAgent" ? "Deploy Customer-Facing Channels" :
+                                   module.name === "OmniAI" ? "Insight Dashboard Creation" :
+                                   module.name === "OmniForge" ? "Testing and Deployment" :
+                                   module.name === "OmniConnect" ? "Connection Setup and Testing" :
+                                   "Testing and Launch"
+                                  }
+                                </h6>
+                                <Badge className="ml-auto bg-gray-100 text-gray-800 border-gray-200 text-xs">Medium Priority</Badge>
+                              </div>
+                            </div>
+                            <div className="px-3 py-2">
+                              <p className="text-sm text-gray-700 mb-2">
+                                {module.name === "OmniBot" ? "Connect OmniBot with your existing customer database" : 
+                                 module.name === "OmniAgent" ? "Implement the virtual assistant across customer communication channels" :
+                                 module.name === "OmniAI" ? "Build actionable dashboards for business decision-makers" :
+                                 module.name === "OmniForge" ? "Test and roll out automated workflows to your team" :
+                                 module.name === "OmniConnect" ? "Establish connections between systems and validate data flow" :
+                                 "Test thoroughly and launch the solution to your team"
+                                }
+                              </p>
+                              <div className="text-xs font-medium text-gray-500 mt-2">ESTIMATED TIME:</div>
+                              <div className="text-sm text-gray-700 mt-1">
+                                {module.name === "OmniBot" ? "5-9 hours" : 
+                                 module.name === "OmniAgent" ? "8-12 hours" :
+                                 module.name === "OmniAI" ? "13-18 hours" :
+                                 module.name === "OmniForge" ? "18-28 hours" :
+                                 module.name === "OmniConnect" ? "17-32 hours" :
+                                 "16-24 hours"
+                                }
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      
+                      <div className="flex justify-between mt-4">
+                        <Button size="sm" variant="outline">
+                          <span>Download Implementation Guide</span>
+                          <Download className="ml-2 h-4 w-4" />
+                        </Button>
+                        <Button size="sm" className="bg-primary text-white hover:bg-primary/90">
+                          <span>Request Demo</span>
                           <ArrowRight className="ml-2 h-4 w-4" />
                         </Button>
                       </div>

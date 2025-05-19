@@ -492,14 +492,36 @@ export function generateWorkflowRecommendations(formData: InsertAudit): Workflow
   if (formData.biggestChallenges?.includes('CustomerAcquisition') || 
       formData.leadSource === 'Referrals' || 
       (formData.tracksCAC === 'no' && formData.businessGoals?.includes('IncreaseRevenue'))) {
-    recommendations.push(omniFlowModules.omniBot);
+    const module = {...omniFlowModules.omniBot};
+    
+    // Customize business area based on specific business context
+    if (formData.industry === 'retail' || formData.industry === 'ecommerce') {
+      module.businessArea = 'sales';
+      module.estimatedRoi = '300% within 5 months';
+    } else if (formData.industry === 'professional_services') {
+      module.businessArea = 'marketing';
+      module.estimatedCostSavings = '$2,500-$4,500 per month';
+    }
+    
+    recommendations.push(module);
   }
   
   // Customer support and operational efficiency
   if (formData.biggestChallenges?.includes('TimeManagement') || 
       formData.employees === '1' || 
       formData.employees === '2-5') {
-    recommendations.push(omniFlowModules.omniAgent);
+    const module = {...omniFlowModules.omniAgent};
+    
+    // Customize based on team size
+    if (formData.employees === '1') {
+      module.estimatedTimeToImplement = '2-4 weeks';
+      module.estimatedCostSavings = '$1,000-$2,500 per month';
+    } else if (formData.employees === '10-25' || formData.employees === '> 25') {
+      module.estimatedTimeToImplement = '5-8 weeks';
+      module.estimatedCostSavings = '$4,000-$8,000 per month';
+    }
+    
+    recommendations.push(module);
   }
   
   // Business intelligence and predictive analytics
@@ -507,20 +529,45 @@ export function generateWorkflowRecommendations(formData: InsertAudit): Workflow
       formData.biggestChallenges?.includes('Competition') || 
       (formData.tracksCAC === 'yes' && 
        ['$10,000 - $25,000', '$25,000 - $50,000', '$50,000 - $100,000', '> $100,000'].includes(formData.monthlyRevenue))) {
-    recommendations.push(omniFlowModules.omniAI);
+    const module = {...omniFlowModules.omniAI};
+    
+    // Customize based on business size and revenue
+    if (formData.monthlyRevenue === '> $100,000') {
+      module.estimatedCostSavings = '$8,000-$25,000 per quarter';
+      module.estimatedRoi = '350% within 18 months';
+    }
+    
+    recommendations.push(module);
   }
   
   // Process automation for administrative tasks
   if (formData.usesAutomation === 'no' || 
       formData.primaryExpense === 'Staff/Labor' || 
       formData.biggestChallenges?.includes('TimeManagement')) {
-    recommendations.push(omniFlowModules.omniForge);
+    const module = {...omniFlowModules.omniForge};
+    
+    // Customize based on current automation level
+    if (formData.usesAutomation === 'no') {
+      module.estimatedTimeToImplement = '3-6 weeks';
+      module.estimatedRoi = '400% within 12 months';
+    }
+    
+    recommendations.push(module);
   }
   
   // Integration between systems
   if (formData.automationTools && formData.automationTools.length >= 2 ||
       formData.biggestChallenges?.includes('Technology')) {
-    recommendations.push(omniFlowModules.omniConnect);
+    const module = {...omniFlowModules.omniConnect};
+    
+    // Customize based on number of existing tools
+    if (formData.automationTools && formData.automationTools.length >= 4) {
+      module.estimatedTimeToImplement = '6-12 weeks';
+      module.estimatedCostSavings = '$6,000-$12,000 per month';
+      module.estimatedRoi = '320% within 12 months';
+    }
+    
+    recommendations.push(module);
   }
   
   // If no specific recommendations, suggest the most applicable general solutions
