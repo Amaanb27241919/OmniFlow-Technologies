@@ -70,6 +70,23 @@ export const recommendationSchema = z.object({
   description: z.string(),
 });
 
+// Schema for workflow step action structure
+export const workflowStepActionSchema = z.object({
+  description: z.string(),
+  timeEstimate: z.string(),
+  difficulty: z.enum(['easy', 'medium', 'hard']),
+  resources: z.array(z.string()).optional(),
+});
+
+// Schema for workflow implementation step structure
+export const workflowImplementationStepSchema = z.object({
+  title: z.string(),
+  description: z.string(),
+  actions: z.array(workflowStepActionSchema),
+  expectedOutcome: z.string(),
+  priority: z.enum(['high', 'medium', 'low']),
+});
+
 // Schema for workflow module structure
 export const workflowModuleSchema = z.object({
   name: z.string(),
@@ -77,7 +94,14 @@ export const workflowModuleSchema = z.object({
   integrationPoints: z.array(z.string()),
   benefits: z.array(z.string()),
   icon: z.string(),
+  businessArea: z.enum(['marketing', 'operations', 'finance', 'customer_service', 'sales', 'general']),
+  estimatedTimeToImplement: z.string(),
+  estimatedCostSavings: z.string(),
+  estimatedRoi: z.string(),
+  implementationSteps: z.array(workflowImplementationStepSchema).optional(),
 });
 
 export type Recommendation = z.infer<typeof recommendationSchema>;
+export type WorkflowStepAction = z.infer<typeof workflowStepActionSchema>;
+export type WorkflowImplementationStep = z.infer<typeof workflowImplementationStepSchema>;
 export type WorkflowModule = z.infer<typeof workflowModuleSchema>;

@@ -48,12 +48,32 @@ export interface Recommendation {
   description: string;
 }
 
+export interface WorkflowStepAction {
+  description: string;
+  timeEstimate: string;
+  difficulty: 'easy' | 'medium' | 'hard';
+  resources?: string[];
+}
+
+export interface WorkflowImplementationStep {
+  title: string;
+  description: string;
+  actions: WorkflowStepAction[];
+  expectedOutcome: string;
+  priority: 'high' | 'medium' | 'low';
+}
+
 export interface WorkflowModule {
   name: string;
   description: string;
   integrationPoints: string[];
   benefits: string[];
   icon: string;
+  businessArea: 'marketing' | 'operations' | 'finance' | 'customer_service' | 'sales' | 'general';
+  estimatedTimeToImplement: string;
+  estimatedCostSavings: string;
+  estimatedRoi: string;
+  implementationSteps?: WorkflowImplementationStep[];
 }
 
 export interface AuditResults extends AuditFormData {
