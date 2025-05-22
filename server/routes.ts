@@ -18,15 +18,43 @@ export async function registerRoutes(app: Express): Promise<Server> {
     res.sendFile('index.html', { root: 'public' });
   });
   
-  // Route to the Business Audit Tool
+  // Direct route to the Business Audit Tool
   app.get('/audit', (req, res) => {
-    // Redirect to the audit form page from the original business audit tool
-    res.redirect('/audit-form');
-  });
-  
-  // Setup route to serve audit form (backwards compatibility)
-  app.get('/audit-form', (req, res) => {
-    res.sendFile('index.html', { root: 'client/dist' });
+    // For now, let's show a message that this integration is coming soon
+    res.send(`
+      <!DOCTYPE html>
+      <html>
+      <head>
+        <title>OmniCore Audit Tool - Coming Soon</title>
+        <link rel="stylesheet" href="styles.css">
+        <style>
+          .container {
+            max-width: 800px;
+            margin: 100px auto;
+            text-align: center;
+            padding: 20px;
+          }
+          .btn {
+            display: inline-block;
+            background-color: #4F46E5;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            margin-top: 20px;
+          }
+        </style>
+      </head>
+      <body>
+        <div class="container">
+          <h1>Business Audit Tool Integration</h1>
+          <p>The full integration with the Business Audit Tool is coming soon.</p>
+          <p>This will allow you to analyze your business operations and get tailored workflow automation recommendations.</p>
+          <a href="/" class="btn">Return to OmniCore Dashboard</a>
+        </div>
+      </body>
+      </html>
+    `);
   });
   
   // Mount OmniCore routes
