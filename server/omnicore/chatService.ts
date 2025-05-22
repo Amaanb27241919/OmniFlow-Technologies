@@ -1,19 +1,18 @@
 import OpenAI from "openai";
+import { addToHistory } from './historyService';
 
 // Initialize OpenAI client
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 });
 
-// In-memory storage for chat history
+// Define the ChatInteraction type
 export type ChatInteraction = {
   id: string;
   prompt: string;
   response: string;
   timestamp: number;
 };
-
-let chatHistory: ChatInteraction[] = [];
 
 // Generate a unique ID for each interaction
 const generateId = (): string => {
@@ -50,7 +49,7 @@ markdown where appropriate for better readability.`;
     // Extract and return the response content
     const responseText = response.choices[0]?.message?.content || "I'm sorry, I couldn't generate a response.";
     
-    // Add interaction to history
+    // Create a chat interaction
     const interaction: ChatInteraction = {
       id: generateId(),
       prompt,
@@ -58,26 +57,12 @@ markdown where appropriate for better readability.`;
       timestamp: Date.now()
     };
     
-    chatHistory.push(interaction);
-    
-    // Keep history to a reasonable size (last 50 interactions)
-    if (chatHistory.length > 50) {
-      chatHistory = chatHistory.slice(-50);
-    }
+    // Add to history service
+    addToHistory(interaction);
     
     return responseText;
   } catch (error) {
     console.error("Error calling OpenAI:", error);
     throw new Error("Failed to process your request. Please try again later.");
   }
-}
-
-// Get all chat history
-export function getChatHistory(): ChatInteraction[] {
-  return [...chatHistory];
-}
-
-// Clear chat history
-export function clearChatHistory(): void {
-  chatHistory = [];
 }

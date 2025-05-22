@@ -1,5 +1,6 @@
 import { Router, Request, Response } from 'express';
-import { processPrompt, getChatHistory, clearChatHistory } from './chatService';
+import { processPrompt } from './chatService';
+import { getAllHistory, clearHistory } from './historyService';
 
 const router = Router();
 
@@ -26,7 +27,7 @@ router.post('/chat', async (req: Request, res: Response) => {
 // GET /api/history - Get chat history
 router.get('/history', (req: Request, res: Response) => {
   try {
-    const history = getChatHistory();
+    const history = getAllHistory();
     return res.json({ history });
   } catch (error) {
     console.error('Error retrieving chat history:', error);
@@ -39,7 +40,7 @@ router.get('/history', (req: Request, res: Response) => {
 // DELETE /api/history - Clear chat history
 router.delete('/history', (req: Request, res: Response) => {
   try {
-    clearChatHistory();
+    clearHistory();
     return res.json({ message: 'Chat history cleared successfully' });
   } catch (error) {
     console.error('Error clearing chat history:', error);

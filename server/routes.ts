@@ -1,4 +1,4 @@
-import type { Express } from "express";
+import express, { type Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import { z } from "zod";
@@ -7,8 +7,19 @@ import { generateAuditResults } from "./lib/auditLogic";
 import { notion, findDatabaseByTitle, addAuditToNotion } from "./lib/notion";
 import { templateManager } from "./lib/templates/templateManager";
 import { generateInsightTooltip, preGenerateTooltips } from "./lib/tooltipService";
+import omniCoreRoutes from "./omnicore/routes";
 
 export async function registerRoutes(app: Express): Promise<Server> {
+  // Serve static files from the public directory
+  app.use(express.static('public'));
+  
+  // Serve the OmniCore app at the root route
+  app.get('/', (req, res) => {
+    res.sendFile('index.html', { root: 'public' });
+  });
+  
+  // Mount OmniCore routes
+  app.use('/api', omniCoreRoutes);
   // Create a new business audit
   app.post("/api/audits", async (req, res) => {
     try {
