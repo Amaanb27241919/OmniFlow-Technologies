@@ -12,10 +12,14 @@ document.addEventListener('DOMContentLoaded', () => {
     const clearBtn = document.getElementById('clear-btn');
     const suggestionButtons = document.querySelectorAll('.suggestion');
     const featureButtons = document.querySelectorAll('.feature-button');
+    const chatInterface = document.getElementById('chat-interface');
 
     // State variables
     let conversationHistory = [];
     let isWaitingForResponse = false;
+    
+    // Initially hide the chat interface until a feature button is clicked
+    chatInterface.style.display = 'none';
 
     // Check for existing history in localStorage
     const loadHistory = () => {
@@ -223,12 +227,9 @@ document.addEventListener('DOMContentLoaded', () => {
         
         // Handle specific feature activation
         if (mode === 'chat') {
-            // Show chat interface if there are messages, otherwise show welcome message
-            if (chatContainer.children.length > 0) {
-                welcomeMessage.style.display = 'none';
-            } else {
-                welcomeMessage.style.display = 'block';
-            }
+            // Show chat interface, hide welcome message
+            welcomeMessage.style.display = 'none';
+            document.getElementById('chat-interface').style.display = 'flex';
         } else if (mode === 'audit') {
             // The audit tool button has a direct link to the audit tool page
             // No additional action needed here as it's handled by the onclick function

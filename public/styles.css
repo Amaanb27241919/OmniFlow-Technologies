@@ -53,6 +53,18 @@ header {
     gap: 0.5rem;
 }
 
+.logo-link {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    text-decoration: none;
+    transition: opacity 0.2s ease;
+}
+
+.logo-link:hover {
+    opacity: 0.85;
+}
+
 .logo h1 {
     font-size: 1.5rem;
     font-weight: 600;
@@ -228,12 +240,22 @@ main {
     box-shadow: var(--shadow-md);
 }
 
+/* Chat Interface */
+.chat-interface {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    overflow: hidden;
+}
+
 /* Chat Container */
 .chat-container {
     display: flex;
     flex-direction: column;
     gap: 1.5rem;
     padding-bottom: 1rem;
+    flex: 1;
+    overflow-y: auto;
 }
 
 .message {

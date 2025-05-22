@@ -20,41 +20,118 @@ export async function registerRoutes(app: Express): Promise<Server> {
   
   // Direct route to the Business Audit Tool
   app.get('/audit', (req, res) => {
-    // For now, let's show a message that this integration is coming soon
+    // Send the integrated Business Audit Form
     res.send(`
       <!DOCTYPE html>
       <html>
       <head>
-        <title>OmniCore Audit Tool - Coming Soon</title>
+        <title>OmniCore Business Audit Tool</title>
         <link rel="stylesheet" href="styles.css">
         <style>
           .container {
-            max-width: 800px;
-            margin: 100px auto;
-            text-align: center;
+            max-width: 900px;
+            margin: 0 auto;
             padding: 20px;
           }
-          .btn {
-            display: inline-block;
+          .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #e5e7eb;
+          }
+          .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-decoration: none;
+          }
+          .logo-icon {
+            width: 32px;
+            height: 32px;
+          }
+          .logo-text {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #4F46E5;
+          }
+          .logo-tag {
+            font-size: 0.75rem;
             background-color: #4F46E5;
             color: white;
-            padding: 10px 20px;
-            border-radius: 5px;
+            padding: 0.1rem 0.35rem;
+            border-radius: 0.25rem;
+            margin-left: 0.25rem;
+          }
+          .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #4F46E5;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 0.375rem;
             text-decoration: none;
-            margin-top: 20px;
+            font-size: 0.875rem;
+            font-weight: 500;
+            transition: background-color 0.2s;
+          }
+          .btn:hover {
+            background-color: #4338CA;
+          }
+          .btn-outline {
+            background-color: transparent;
+            color: #4F46E5;
+            border: 1px solid #4F46E5;
+          }
+          .btn-outline:hover {
+            background-color: rgba(79, 70, 229, 0.05);
+          }
+          .btn-icon {
+            margin-right: 0.5rem;
+            width: 16px;
+            height: 16px;
+          }
+          iframe {
+            width: 100%;
+            height: 800px;
+            border: none;
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
           }
         </style>
       </head>
       <body>
         <div class="container">
-          <h1>Business Audit Tool Integration</h1>
-          <p>The full integration with the Business Audit Tool is coming soon.</p>
-          <p>This will allow you to analyze your business operations and get tailored workflow automation recommendations.</p>
-          <a href="/" class="btn">Return to OmniCore Dashboard</a>
+          <div class="header">
+            <a href="/" class="logo-section">
+              <svg class="logo-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M6 8l6-6 6 6H6z" fill="#4F46E5"></path>
+                <path d="M12 22l-6-6h12l-6 6z" fill="#4F46E5"></path>
+                <path d="M2 12l4-4h12l4 4-4 4H6l-4-4z" fill="#818CF8"></path>
+              </svg>
+              <span class="logo-text">OmniCore</span>
+              <span class="logo-tag">by OmniFlow</span>
+            </a>
+            <a href="/" class="btn btn-outline">
+              <svg class="btn-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M19 12H5M12 19l-7-7 7-7"/>
+              </svg>
+              Back to Dashboard
+            </a>
+          </div>
+          
+          <iframe src="/api/audit-form" title="Business Audit Form"></iframe>
         </div>
       </body>
       </html>
     `);
+  });
+  
+  // Route to serve the actual audit form content
+  app.get('/api/audit-form', (req, res) => {
+    res.redirect('/audit-form');
   });
   
   // Mount OmniCore routes

@@ -13,13 +13,15 @@
     <div class="app-container">
         <header>
             <div class="logo">
-                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M6 8l6-6 6 6H6z" fill="#4F46E5"></path>
-                    <path d="M12 22l-6-6h12l-6 6z" fill="#4F46E5"></path>
-                    <path d="M2 12l4-4h12l4 4-4 4H6l-4-4z" fill="#818CF8"></path>
-                </svg>
-                <h1>OmniCore</h1>
-                <span class="logo-tag">by OmniFlow</span>
+                <a href="/" class="logo-link">
+                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M6 8l6-6 6 6H6z" fill="#4F46E5"></path>
+                        <path d="M12 22l-6-6h12l-6 6z" fill="#4F46E5"></path>
+                        <path d="M2 12l4-4h12l4 4-4 4H6l-4-4z" fill="#818CF8"></path>
+                    </svg>
+                    <h1>OmniCore</h1>
+                    <span class="logo-tag">by OmniFlow</span>
+                </a>
             </div>
             <div class="nav-buttons">
                 <button id="history-btn" title="View History">
@@ -71,30 +73,31 @@
                 <div class="suggestions">
                     <p>Try asking:</p>
                     <div class="suggestion-buttons">
-                        <button class="suggestion" data-prompt="I'm a solo consultant with 3 clients. What's a simple automation workflow I can set up to handle client intake and onboarding without coding skills?">Client Intake Automation</button>
-                        <button class="suggestion" data-prompt="How can I build a no-code system to handle leads from a Google Form, automatically send personalized follow-ups, and schedule meetings?">Lead Nurturing System</button>
-                        <button class="suggestion" data-prompt="What's the best way to automate client deliverable creation using AI for a small agency with limited resources?">AI Content Automation</button>
-                        <button class="suggestion" data-prompt="I need to create a system that helps me track client progress and send automated check-ins. What tools should I use if my budget is only $100/month?">Budget-Friendly CRM</button>
+                        <button class="suggestion" data-prompt="What AI automation systems would you recommend for a small business in the professional services industry with 5 employees and limited technical resources?">Industry-Specific Automation</button>
+                        <button class="suggestion" data-prompt="I want to automate my client onboarding process. We currently use email, Google Forms, and manual follow-ups. What workflow improvements would you recommend?">Workflow Optimization</button>
+                        <button class="suggestion" data-prompt="How can I improve my operational efficiency by implementing AI tools if my monthly revenue is around $25,000 and I have 3 employees?">Operational Efficiency</button>
+                        <button class="suggestion" data-prompt="What are the key metrics I should track to measure the ROI of implementing workflow automation in my small marketing agency?">Automation ROI Analysis</button>
                     </div>
                 </div>
             </div>
 
-            <div class="chat-container" id="chat-container"></div>
+            <div id="chat-interface" class="chat-interface">
+                <div class="chat-container" id="chat-container"></div>
+                <footer>
+                    <form id="prompt-form" class="prompt-form">
+                        <div class="input-container">
+                            <input type="text" id="prompt-input" placeholder="Ask about business process optimization, AI implementation, or workflow strategies..." autocomplete="off">
+                            <button type="submit" id="submit-btn">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <line x1="22" y1="2" x2="11" y2="13"></line>
+                                    <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                                </svg>
+                            </button>
+                        </div>
+                    </form>
+                </footer>
+            </div>
         </main>
-
-        <footer>
-            <form id="prompt-form" class="prompt-form">
-                <div class="input-container">
-                    <input type="text" id="prompt-input" placeholder="Ask about business process optimization, AI implementation, or workflow strategies..." autocomplete="off">
-                    <button type="submit" id="submit-btn">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <line x1="22" y1="2" x2="11" y2="13"></line>
-                            <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
-                        </svg>
-                    </button>
-                </div>
-            </form>
-        </footer>
     </div>
 
     <div class="history-panel" id="history-panel">
