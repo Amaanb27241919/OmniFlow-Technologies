@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OmniCore AI Business Assistant</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="app-container">
+        <header>
+            <div class="logo">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M6 8l6-6 6 6H6z" fill="#4F46E5"></path>
+                    <path d="M12 22l-6-6h12l-6 6z" fill="#4F46E5"></path>
+                    <path d="M2 12l4-4h12l4 4-4 4H6l-4-4z" fill="#818CF8"></path>
+                </svg>
+                <h1>OmniCore</h1>
+            </div>
+            <div class="nav-buttons">
+                <button id="history-btn" title="View History">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 8v4l3 3"></path>
+                        <circle cx="12" cy="12" r="10"></circle>
+                    </svg>
+                </button>
+                <button id="clear-btn" title="Clear Conversation">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M3 6h18"></path>
+                        <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"></path>
+                        <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"></path>
+                    </svg>
+                </button>
+            </div>
+        </header>
+
+        <main>
+            <div class="welcome-message" id="welcome-message">
+                <h2>Welcome to OmniCore AI</h2>
+                <p>Your intelligent business assistant powered by AI</p>
+                <div class="suggestions">
+                    <p>Try asking:</p>
+                    <div class="suggestion-buttons">
+                        <button class="suggestion" data-prompt="What are the key factors to consider when implementing AI automation in my small business?">AI Automation Factors</button>
+                        <button class="suggestion" data-prompt="How can I optimize my customer service processes with AI?">Customer Service AI</button>
+                        <button class="suggestion" data-prompt="What's a good strategy for implementing workflow automation with limited resources?">Workflow Strategy</button>
+                        <button class="suggestion" data-prompt="How can I calculate ROI for AI implementation projects?">AI ROI Calculation</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="chat-container" id="chat-container"></div>
+        </main>
+
+        <footer>
+            <form id="prompt-form" class="prompt-form">
+                <div class="input-container">
+                    <input type="text" id="prompt-input" placeholder="Ask about business process optimization, AI implementation, or workflow strategies..." autocomplete="off">
+                    <button type="submit" id="submit-btn">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="22" y1="2" x2="11" y2="13"></line>
+                            <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                        </svg>
+                    </button>
+                </div>
+            </form>
+        </footer>
+    </div>
+
+    <div class="history-panel" id="history-panel">
+        <div class="history-header">
+            <h3>Conversation History</h3>
+            <button id="close-history">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+            </button>
+        </div>
+        <div class="history-items" id="history-items"></div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
