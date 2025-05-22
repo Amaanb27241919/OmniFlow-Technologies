@@ -283,7 +283,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // Automation Hub Functions
 function showAutomationHub() {
-    const mainContent = document.querySelector('.main-content');
+    const mainContent = document.querySelector('main');
     
     mainContent.innerHTML = `
         <div class="automation-hub">
@@ -337,7 +337,7 @@ function showAutomationHub() {
 }
 
 function showTaskLogs() {
-    const mainContent = document.querySelector('.main-content');
+    const mainContent = document.querySelector('main');
     
     mainContent.innerHTML = `
         <div class="task-logs">
@@ -489,4 +489,103 @@ function copyToClipboard() {
     }).catch(() => {
         alert('Failed to copy to clipboard');
     });
+}
+
+function showDashboard() {
+    const mainContent = document.querySelector('main');
+    
+    mainContent.innerHTML = `
+        <div class="welcome-message" id="welcome-message">
+            <h2>Welcome to OmniCore</h2>
+            <p>Your AI Command Center for Building Automated Client Workflows</p>
+            
+            <div class="features-container">
+                <div class="feature">
+                    <div class="feature-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="3"></circle>
+                            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+                        </svg>
+                    </div>
+                    <h3>AI Chat Assistant</h3>
+                    <p>Get expert business advice on automation, workflows, and AI implementation</p>
+                    <button class="feature-button active" data-mode="chat" onclick="activateFeature('chat')">Access Now</button>
+                </div>
+                <div class="feature">
+                    <div class="feature-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M20 11.08V8l-6-6H6a2 2 0 0 0-2 2v16c0 1.1.9 2 2 2h6"></path>
+                            <path d="M14 3v5h5M18 16v6M15 19h6"></path>
+                        </svg>
+                    </div>
+                    <h3>Business Audit Tool</h3>
+                    <p>Analyze your operation and get tailored workflow automation recommendations</p>
+                    <button class="feature-button" data-mode="audit" onclick="window.location.href='/audit-form'">Launch Tool</button>
+                </div>
+                <div class="feature">
+                    <div class="feature-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"></path>
+                        </svg>
+                    </div>
+                    <h3>Automation Hub</h3>
+                    <p>Process tasks with AI: Summarize, Rewrite, Generate Copy, and Get Insights</p>
+                    <button class="feature-button" data-mode="automation" onclick="showAutomationHub()">Process with AI</button>
+                </div>
+                <div class="feature">
+                    <div class="feature-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M3 3v5h5"></path>
+                            <path d="M6 17l4-4 4 4"></path>
+                            <path d="M10 13l4-4 4 4"></path>
+                            <path d="M17 8l3-3"></path>
+                            <circle cx="21" cy="21" r="1"></circle>
+                        </svg>
+                    </div>
+                    <h3>Task Logs</h3>
+                    <p>View completed automation tasks and track your workflow history</p>
+                    <button class="feature-button" data-mode="logs" onclick="showTaskLogs()">View History</button>
+                </div>
+            </div>
+        </div>
+        
+        <div id="chat-interface" class="chat-interface">
+            <div class="chat-container" id="chat-container"></div>
+            <footer>
+                <form id="prompt-form" class="prompt-form">
+                    <div class="input-container">
+                        <input type="text" id="prompt-input" placeholder="Ask about business process optimization, AI implementation, or workflow strategies..." autocomplete="off">
+                        <button type="submit" id="submit-btn">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <line x1="22" y1="2" x2="11" y2="13"></line>
+                                <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                            </svg>
+                        </button>
+                    </div>
+                </form>
+            </footer>
+        </div>
+    `;
+    
+    // Reinitialize the chat functionality
+    initializeChatFeature();
+}
+
+function initializeChatFeature() {
+    // Reinitialize all the chat-related event listeners
+    const promptForm = document.getElementById('prompt-form');
+    const promptInput = document.getElementById('prompt-input');
+    
+    if (promptForm) {
+        promptForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const prompt = promptInput.value.trim();
+            
+            if (prompt && !isWaitingForResponse) {
+                promptInput.value = '';
+                sendPrompt(prompt);
+                activateFeature('chat');
+            }
+        });
+    }
 }
