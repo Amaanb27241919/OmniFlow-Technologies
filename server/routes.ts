@@ -129,9 +129,27 @@ export async function registerRoutes(app: Express): Promise<Server> {
     `);
   });
   
-  // Route to serve the actual audit form content
+  // Set up routes for the audit form app
+  app.get('/audit-form', (req, res) => {
+    // Serve the client app HTML for the audit form
+    res.sendFile('index.html', { root: './client/dist' });
+  });
+  
+  // API route for the audit form content
   app.get('/api/audit-form', (req, res) => {
-    res.redirect('/audit-form');
+    // Send a minimal HTML page that redirects to the audit form
+    res.send(`
+      <!DOCTYPE html>
+      <html>
+      <head>
+        <meta http-equiv="refresh" content="0;url=/audit-form">
+        <title>Redirecting to Audit Form</title>
+      </head>
+      <body>
+        <p>Redirecting to the Business Audit Form...</p>
+      </body>
+      </html>
+    `);
   });
   
   // Mount OmniCore routes
