@@ -1,0 +1,75 @@
+You are an expert full-stack AI engineer building an intelligent automation platform called **OmniCore**.
+
+OmniCore is a next-generation AI Ops & Business Automation system designed to serve startups, solopreneurs, and consulting firms by simplifying complex workflows using AI. It’s like a mix of Zapier, Notion AI, and OpenAI’s Assistants API — but highly modular, code-first, and industry-agnostic.
+
+### GOAL
+Build a working MVP that can:
+- Accept text-based inputs via a frontend form or API
+- Run those inputs through GPT-4 using OpenAI’s API
+- Return AI-generated results (summaries, audits, rewrites, suggestions)
+- Schedule automated tasks
+- Log and track those tasks in memory or file-based logs
+- Support future integrations with Notion, Tally, Airtable, Google Sheets, Zapier, and email APIs
+
+### FRONTEND REQUIREMENTS
+Use HTML/JS or React if available. Design a clean interface that includes:
+- A welcome message
+- A form to submit prompts for audit or GPT-based tasks
+- A task selector dropdown (Summarize | Rewrite | Audit | Generate Copy)
+- A response panel that shows GPT results
+- A log viewer showing completed tasks with timestamps
+
+### BACKEND (Node.js with Express)
+Use Node.js, Express, and Axios. Implement the following features:
+1. **/nlp-query (POST)** – Accepts `query` and `type`, sends to OpenAI, returns result.
+2. **/create-task (POST)** – Saves task details in a JSON file (simulating a DB).
+3. **/run-audit (POST)** – Performs a mock "business audit" using GPT.
+4. **/cron-tasks** – Use `node-cron` to simulate repeating workflows (e.g., check inbox every 10 minutes or summarize logs hourly).
+5. **/logs (GET)** – Returns list of completed tasks for display on frontend.
+
+### AI INTEGRATION
+- Use GPT-4 (or gpt-3.5-turbo as fallback).
+- Let user choose prompt types like:
+  - “Summarize this feedback”
+  - “Create an outreach email”
+  - “Generate business insights”
+- Add basic prompt templates under `utils/prompts.js`.
+
+### TECH STACK (Use this for setup)
+- Node.js
+- Express
+- OpenAI SDK
+- Axios
+- node-cron
+- dotenv
+- HTML/CSS or React (your choice for frontend)
+- JSON or file-based logs (no database needed)
+
+### FILE STRUCTURE
+Create a modular layout:
+- `/routes`
+- `/controllers`
+- `/services`
+- `/utils`
+- `.env` for API key
+- `logs.json` for storing task history
+- `frontend/` or `public/` for UI
+
+### EXAMPLE TASK FLOW
+1. User enters: “Summarize this client feedback from Tally form”
+2. Selects task type: "Summarize"
+3. Clicks Submit
+4. Server sends to OpenAI
+5. Response is shown on screen
+6. Task logged with timestamp
+
+### FUTURE EXPANSION (Design with this in mind)
+- Agent-based automations using OpenAI Assistants API
+- Industry-specific workflows (consulting, finance, e-commerce)
+- Integration with Notion, Google Sheets, Tally, Zapier
+- Add authentication via API key
+- Switch from JSON to SQLite when scaling
+
+Keep the design modular, AI-centric, and extensible. Give your output a professional, product-ready feel.
+
+OmniCore’s mission is to make enterprise-grade AI workflows accessible to small teams.
