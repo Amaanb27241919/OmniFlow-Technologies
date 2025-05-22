@@ -589,3 +589,256 @@ function initializeChatFeature() {
         });
     }
 }
+
+// Welcome Tour System
+class WelcomeTour {
+    constructor() {
+        this.currentStep = 0;
+        this.isActive = false;
+        this.steps = [
+            {
+                target: '.feature:nth-child(1)',
+                title: 'AI Chat Assistant 🤖',
+                description: 'Get instant expert advice on business automation, workflows, and AI implementation strategies.',
+                position: 'bottom'
+            },
+            {
+                target: '.feature:nth-child(2)',
+                title: 'Business Audit Tool 📊',
+                description: 'Complete a comprehensive 4-step assessment to receive personalized automation recommendations.',
+                position: 'bottom'
+            },
+            {
+                target: '.feature:nth-child(3)',
+                title: 'Automation Hub ⚡',
+                description: 'Process any content with AI: summarize documents, rewrite text, generate marketing copy, and extract insights.',
+                position: 'top'
+            },
+            {
+                target: '.feature:nth-child(4)',
+                title: 'Task Logs 📈',
+                description: 'Track all your automation workflows and view detailed analytics of your AI-powered tasks.',
+                position: 'top'
+            },
+            {
+                target: '.logo',
+                title: 'Welcome to OmniCore! 🎉',
+                description: 'You\'re all set! Click the logo anytime to return to this dashboard. Ready to automate your business?',
+                position: 'bottom'
+            }
+        ];
+        this.init();
+    }
+
+    init() {
+        this.createTourElements();
+        this.checkFirstVisit();
+    }
+
+    checkFirstVisit() {
+        const hasVisited = localStorage.getItem('omnicore-tour-completed');
+        if (!hasVisited) {
+            this.showWelcomeBanner();
+        }
+    }
+
+    showWelcomeBanner() {
+        const welcomeMessage = document.querySelector('.welcome-message');
+        if (welcomeMessage) {
+            const banner = document.createElement('div');
+            banner.className = 'welcome-banner';
+            banner.innerHTML = `
+                <h3>👋 Welcome to OmniCore!</h3>
+                <p>Discover how to automate your business with AI-powered workflows</p>
+                <button class="start-tour-btn" onclick="tour.startTour()">
+                    🚀 Take the Tour (2 minutes)
+                </button>
+                <button class="start-tour-btn" onclick="tour.skipTour()" style="margin-left: 1rem; background: transparent; border: 1px solid rgba(255,255,255,0.3);">
+                    Skip for now
+                </button>
+            `;
+            
+            welcomeMessage.insertBefore(banner, welcomeMessage.firstChild);
+            setTimeout(() => banner.classList.add('show'), 100);
+        }
+    }
+
+    createTourElements() {
+        // Create overlay
+        const overlay = document.createElement('div');
+        overlay.className = 'tour-overlay';
+        overlay.id = 'tour-overlay';
+        document.body.appendChild(overlay);
+
+        // Create popup
+        const popup = document.createElement('div');
+        popup.className = 'tour-popup';
+        popup.id = 'tour-popup';
+        document.body.appendChild(popup);
+    }
+
+    startTour() {
+        this.hideWelcomeBanner();
+        this.isActive = true;
+        this.currentStep = 0;
+        this.showStep();
+    }
+
+    showStep() {
+        const step = this.steps[this.currentStep];
+        const target = document.querySelector(step.target);
+        const overlay = document.getElementById('tour-overlay');
+        const popup = document.getElementById('tour-popup');
+
+        if (!target) return;
+
+        // Show overlay
+        overlay.classList.add('active');
+
+        // Highlight target
+        this.clearHighlights();
+        target.classList.add('tour-highlight');
+
+        // Position and show popup
+        this.positionPopup(target, step, popup);
+        this.updatePopupContent(step, popup);
+        
+        setTimeout(() => popup.classList.add('active'), 100);
+    }
+
+    positionPopup(target, step, popup) {
+        const rect = target.getBoundingClientRect();
+        const popupRect = popup.getBoundingClientRect();
+        
+        let top, left;
+
+        if (step.position === 'bottom') {
+            top = rect.bottom + 20;
+            left = rect.left + (rect.width / 2) - (350 / 2);
+        } else if (step.position === 'top') {
+            top = rect.top - popupRect.height - 20;
+            left = rect.left + (rect.width / 2) - (350 / 2);
+        }
+
+        // Keep popup on screen
+        if (left < 20) left = 20;
+        if (left + 350 > window.innerWidth - 20) left = window.innerWidth - 370;
+        if (top < 20) top = 20;
+
+        popup.style.top = top + 'px';
+        popup.style.left = left + 'px';
+    }
+
+    updatePopupContent(step, popup) {
+        const isLastStep = this.currentStep === this.steps.length - 1;
+        const progress = this.steps.map((_, index) => 
+            `<div class="tour-dot ${index <= this.currentStep ? 'active' : ''}"></div>`
+        ).join('');
+
+        popup.innerHTML = `
+            <h3>${step.title}</h3>
+            <p>${step.description}</p>
+            <div class="tour-controls">
+                <div class="tour-progress">
+                    ${progress}
+                </div>
+                <div class="tour-nav">
+                    <button class="tour-btn tour-btn-skip" onclick="tour.skipTour()">
+                        Skip Tour
+                    </button>
+                    <button class="tour-btn ${isLastStep ? 'tour-btn-finish' : 'tour-btn-next'}" 
+                            onclick="tour.${isLastStep ? 'finishTour' : 'nextStep'}()">
+                        ${isLastStep ? 'Get Started!' : 'Next'}
+                    </button>
+                </div>
+            </div>
+        `;
+    }
+
+    nextStep() {
+        this.currentStep++;
+        if (this.currentStep < this.steps.length) {
+            this.showStep();
+        } else {
+            this.finishTour();
+        }
+    }
+
+    skipTour() {
+        this.hideWelcomeBanner();
+        this.endTour();
+    }
+
+    finishTour() {
+        localStorage.setItem('omnicore-tour-completed', 'true');
+        this.endTour();
+        this.showCompletionMessage();
+    }
+
+    endTour() {
+        this.isActive = false;
+        this.clearHighlights();
+        
+        const overlay = document.getElementById('tour-overlay');
+        const popup = document.getElementById('tour-popup');
+        
+        popup.classList.remove('active');
+        setTimeout(() => {
+            overlay.classList.remove('active');
+        }, 300);
+    }
+
+    clearHighlights() {
+        document.querySelectorAll('.tour-highlight').forEach(el => {
+            el.classList.remove('tour-highlight');
+        });
+    }
+
+    hideWelcomeBanner() {
+        const banner = document.querySelector('.welcome-banner');
+        if (banner) {
+            banner.style.animation = 'slideDown 0.3s ease reverse';
+            setTimeout(() => banner.remove(), 300);
+        }
+    }
+
+    showCompletionMessage() {
+        // Create a subtle success notification
+        const notification = document.createElement('div');
+        notification.innerHTML = `
+            <div style="
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: linear-gradient(135deg, var(--accent) 0%, var(--primary) 100%);
+                color: white;
+                padding: 1rem 1.5rem;
+                border-radius: 12px;
+                box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+                z-index: 1000;
+                animation: slideDown 0.5s ease;
+            ">
+                <div style="display: flex; align-items: center; gap: 0.5rem;">
+                    <span style="font-size: 1.2rem;">🎉</span>
+                    <span style="font-weight: 500;">Welcome tour completed!</span>
+                </div>
+                <div style="font-size: 0.9rem; opacity: 0.9; margin-top: 0.25rem;">
+                    Ready to automate your business workflows!
+                </div>
+            </div>
+        `;
+        
+        document.body.appendChild(notification);
+        
+        setTimeout(() => {
+            notification.style.animation = 'slideDown 0.3s ease reverse';
+            setTimeout(() => notification.remove(), 300);
+        }, 4000);
+    }
+}
+
+// Initialize tour when page loads
+let tour;
+document.addEventListener('DOMContentLoaded', function() {
+    tour = new WelcomeTour();
+});
