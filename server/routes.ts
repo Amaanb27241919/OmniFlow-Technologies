@@ -154,6 +154,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
   
   // Mount OmniCore routes
   app.use('/api', omniCoreRoutes);
+  
+  // Mount Automation routes
+  const automationRoutes = await import('./routes/automationRoutes');
+  app.use('/api/automation', automationRoutes.default);
   // Create a new business audit
   app.post("/api/audits", async (req, res) => {
     try {
