@@ -1,0 +1,71 @@
+OmniFlow Advisory
+
+Main Demographic
+	•	Primary: Solo entrepreneurs, early-stage startups, and small-to-mid-sized consulting or service-based firms (1–50 employees).
+	•	Secondary: Independent creators, freelancers, and small businesses overwhelmed by manual operations (financial advisors, boutique agencies, etc.)
+
+Niche
+	•	AI-powered consulting for automating operations, intake workflows, and client experience.
+	•	Bridging “no-code” tech with actual consulting strategy for non-technical business owners.
+
+Problem
+	•	Many small firms or creators can’t afford $5K+/mo for custom systems or CRM builds.
+	•	They rely on duct-taped tools (emails, Google Forms, Excel) that don’t scale or integrate well.
+	•	Missed leads, wasted time, and no process automation.
+
+Solution
+	•	Simple, affordable AI-backed systems (e.g., Google Form + Notion + GPT).
+	•	Consulting layered with lightweight automation to build real backend workflows.
+	•	Human-centered advisory, paired with just enough automation.
+
+Competition
+	•	Direct: No-code automation consultants (Zapier pros, Airtable + Make.com experts)
+	•	Indirect: Management consultants, marketing automators, or firms like Cloud9 (local) and Upwork freelancers.
+	•	Gap: Most focus on tool implementation, not strategic, budget-friendly, founder-first automation.
+
+Budget
+	•	Lean — designed for clients with $100–$1,500/month budgets.
+	•	Focused on MVP-style automations rather than $20K+ custom dev projects.
+
+⸻
+
+2. OmniCore (SaaS Platform)
+
+Main Demographic
+	•	Future Clients: Mid-sized consulting firms (20–200 employees) and boutique agencies.
+	•	Beta Users: Tech-savvy freelancers, agency founders, or operations leads who want scalable backend automations.
+	•	Targeting users who currently build custom Notion, Airtable, Zapier, or GPT flows manually.
+
+Niche
+	•	Backend operating system (“AI command center”) for client-serving businesses.
+	•	Centralizes GPT agents, workflows, forms, CRM, and task automation into one dashboard.
+
+Problem
+	•	Existing tools (Notion, Airtable, Zapier) are powerful but scattered and hard to manage at scale.
+	•	Founders waste time reinventing the wheel for every client system.
+	•	Most AI automation tools aren’t tailored for boutique consulting workflows.
+
+Solution
+	•	OmniCore = “plug-and-play” backend that lets users create AI agents, dashboards, and flows tailored to their client business.
+	•	Offers deep customization like ChatGPT but anchored in operations.
+	•	Aimed to replace scattered tools with a unified system.
+
+Competition
+	•	Direct: Zapier, Make.com, Tally + Notion builders, Chatbase, Typedream AI dashboards.
+	•	Indirect: Framer AI, Lovable.so, Superhuman-like tools.
+	•	OmniCore will differentiate by:
+	•	Focus on consultants/agencies.
+	•	Modular AI agent builder.
+	•	Strategic templates (not just APIs and triggers).
+
+Budget
+	•	SaaS pricing TBD. Freemium or $10–$50/month for solopreneurs; $99–$299+/month for teams.
+	•	Initial dev budget: minimal MVP build (self or small team); long-term funding possible if traction is shown.
+
+⸻
+
+Conclusion
+
+OmniFlow Advisory = the service arm helping people now.
+OmniCore = the platform to productize everything you’ve been manually building.
+They’re connected — clients from Advisory could become power users of OmniCore when it’s ready.

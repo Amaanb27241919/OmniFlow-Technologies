@@ -18,6 +18,17 @@ export async function registerRoutes(app: Express): Promise<Server> {
     res.sendFile('index.html', { root: 'public' });
   });
   
+  // Route to the Business Audit Tool
+  app.get('/audit', (req, res) => {
+    // Redirect to the audit form page from the original business audit tool
+    res.redirect('/audit-form');
+  });
+  
+  // Setup route to serve audit form (backwards compatibility)
+  app.get('/audit-form', (req, res) => {
+    res.sendFile('index.html', { root: 'client/dist' });
+  });
+  
   // Mount OmniCore routes
   app.use('/api', omniCoreRoutes);
   // Create a new business audit

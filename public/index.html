@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>OmniCore AI Business Assistant</title>
+    <title>OmniCore - AI Command Center for Consultants</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -39,15 +39,41 @@
 
         <main>
             <div class="welcome-message" id="welcome-message">
-                <h2>Welcome to OmniCore AI</h2>
-                <p>Your intelligent business assistant powered by AI</p>
+                <h2>Welcome to OmniCore</h2>
+                <p>Your AI Command Center for Building Automated Client Workflows</p>
+                
+                <div class="features-container">
+                    <div class="feature">
+                        <div class="feature-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="12" cy="12" r="3"></circle>
+                                <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+                            </svg>
+                        </div>
+                        <h3>AI Chat Assistant</h3>
+                        <p>Get expert business advice on automation, workflows, and AI implementation</p>
+                        <button class="feature-button active" data-mode="chat">Access Now</button>
+                    </div>
+                    <div class="feature">
+                        <div class="feature-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M20 11.08V8l-6-6H6a2 2 0 0 0-2 2v16c0 1.1.9 2 2 2h6"></path>
+                                <path d="M14 3v5h5M18 16v6M15 19h6"></path>
+                            </svg>
+                        </div>
+                        <h3>Business Audit Tool</h3>
+                        <p>Analyze your operation and get tailored workflow automation recommendations</p>
+                        <button class="feature-button" data-mode="audit" onclick="window.location.href='/audit'">Launch Tool</button>
+                    </div>
+                </div>
+                
                 <div class="suggestions">
                     <p>Try asking:</p>
                     <div class="suggestion-buttons">
-                        <button class="suggestion" data-prompt="What are the key factors to consider when implementing AI automation in my small business?">AI Automation Factors</button>
-                        <button class="suggestion" data-prompt="How can I optimize my customer service processes with AI?">Customer Service AI</button>
-                        <button class="suggestion" data-prompt="What's a good strategy for implementing workflow automation with limited resources?">Workflow Strategy</button>
-                        <button class="suggestion" data-prompt="How can I calculate ROI for AI implementation projects?">AI ROI Calculation</button>
+                        <button class="suggestion" data-prompt="I'm a solo consultant with 3 clients. What's a simple automation workflow I can set up to handle client intake and onboarding without coding skills?">Client Intake Automation</button>
+                        <button class="suggestion" data-prompt="How can I build a no-code system to handle leads from a Google Form, automatically send personalized follow-ups, and schedule meetings?">Lead Nurturing System</button>
+                        <button class="suggestion" data-prompt="What's the best way to automate client deliverable creation using AI for a small agency with limited resources?">AI Content Automation</button>
+                        <button class="suggestion" data-prompt="I need to create a system that helps me track client progress and send automated check-ins. What tools should I use if my budget is only $100/month?">Budget-Friendly CRM</button>
                     </div>
                 </div>
             </div>

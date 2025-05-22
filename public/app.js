@@ -11,6 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const historyItems = document.getElementById('history-items');
     const clearBtn = document.getElementById('clear-btn');
     const suggestionButtons = document.querySelectorAll('.suggestion');
+    const featureButtons = document.querySelectorAll('.feature-button');
 
     // State variables
     let conversationHistory = [];
@@ -210,6 +211,41 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
+    // Feature navigation handling
+    const activateFeature = (mode) => {
+        // Make all feature buttons inactive
+        featureButtons.forEach(button => {
+            button.classList.remove('active');
+            if (button.getAttribute('data-mode') === mode) {
+                button.classList.add('active');
+            }
+        });
+        
+        // Handle specific feature activation
+        if (mode === 'chat') {
+            // Show chat interface if there are messages, otherwise show welcome message
+            if (chatContainer.children.length > 0) {
+                welcomeMessage.style.display = 'none';
+            } else {
+                welcomeMessage.style.display = 'block';
+            }
+        } else if (mode === 'audit') {
+            // The audit tool button has a direct link to the audit tool page
+            // No additional action needed here as it's handled by the onclick function
+        }
+    };
+    
+    // Handle feature button clicks
+    featureButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            const mode = button.getAttribute('data-mode');
+            if (mode === 'chat') {
+                activateFeature(mode);
+            }
+            // Note: The audit button has its own onclick handler to navigate to the audit page
+        });
+    });
+
     // Event Listeners
     promptForm.addEventListener('submit', (e) => {
         e.preventDefault();
@@ -218,6 +254,9 @@ document.addEventListener('DOMContentLoaded', () => {
         if (prompt && !isWaitingForResponse) {
             promptInput.value = '';
             sendPrompt(prompt);
+            
+            // Make sure chat feature is active when sending a prompt
+            activateFeature('chat');
         }
     });
 
