@@ -26,25 +26,13 @@ import {
   UserCheck,
   Bot,
   ArrowRight,
-  Cloud,
   AlertCircle
 } from "lucide-react";
-
-// Type definition for Notion status response
-interface NotionStatus {
-  enabled: boolean;
-  message: string;
-}
 
 export default function Results() {
   const [location] = useLocation();
   const id = location.split('/').pop() || '';
   const [isRefreshingAi, setIsRefreshingAi] = useState(false);
-
-  // Fetch Notion integration status
-  const { data: notionStatus } = useQuery<NotionStatus>({
-    queryKey: ['/api/notion/status'],
-  });
 
   const { data, isLoading, isError, error } = useQuery<AuditResults>({
     queryKey: [`/api/audits/${id}`],
@@ -486,33 +474,56 @@ export default function Results() {
         </Card>
       )}
 
-      {/* Notion Integration Status */}
+      {/* OmniFlow Introduction */}
       <Card className="form-card mb-8">
         <CardContent className="p-6 md:p-8">
           <div className="flex items-center gap-2 mb-2">
-            <Cloud size={20} className={notionStatus?.enabled ? "text-green-500" : "text-gray-400"} />
-            <h3 className="text-lg font-semibold text-gray-900">Notion Integration</h3>
-            <Badge variant={notionStatus?.enabled ? "secondary" : "outline"} className={notionStatus?.enabled ? "bg-green-100 text-green-800 border-green-200" : ""}>
-              {notionStatus?.enabled ? "Active" : "Not Configured"}
-            </Badge>
+            <GitBranch className="h-5 w-5 text-primary" />
+            <h3 className="text-lg font-semibold text-gray-900">About OmniFlow Consulting</h3>
           </div>
           
-          <p className="text-gray-600 text-sm">
-            {notionStatus?.enabled 
-              ? "Your business audit data is automatically synced to your Notion workspace for easy tracking and collaboration."
-              : "Configure Notion integration to automatically sync audit data to your Notion workspace for better tracking and team collaboration."}
+          <p className="text-gray-600 text-sm mb-3">
+            OmniFlow provides advanced automation solutions to help small and medium businesses implement AI-driven processes without requiring extensive technical resources or knowledge.
           </p>
-
-          {!notionStatus?.enabled && (
-            <div className="mt-4 p-3 bg-gray-50 rounded-md border border-gray-200 text-xs text-gray-600">
-              <p className="font-medium mb-1">To enable Notion integration:</p>
-              <ol className="list-decimal pl-5 space-y-1">
-                <li>Create a Notion integration at <span className="text-blue-600">notion.so/my-integrations</span></li>
-                <li>Add <code className="bg-gray-100 px-1 py-0.5 rounded">NOTION_INTEGRATION_SECRET</code> from your integration</li>
-                <li>Add <code className="bg-gray-100 px-1 py-0.5 rounded">NOTION_PAGE_URL</code> where audit data should be stored</li>
-              </ol>
+          
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
+            <div className="flex items-start">
+              <div className="bg-blue-100 p-2 rounded-full mr-2">
+                <BrainCircuit className="h-4 w-4 text-blue-600" />
+              </div>
+              <div>
+                <h5 className="text-sm font-medium">AI Implementation</h5>
+                <p className="text-xs text-gray-600">Custom AI solutions tailored to your business needs</p>
+              </div>
             </div>
-          )}
+            
+            <div className="flex items-start">
+              <div className="bg-purple-100 p-2 rounded-full mr-2">
+                <Layers className="h-4 w-4 text-purple-600" />
+              </div>
+              <div>
+                <h5 className="text-sm font-medium">Process Automation</h5>
+                <p className="text-xs text-gray-600">Streamline operations with intelligent automation</p>
+              </div>
+            </div>
+            
+            <div className="flex items-start">
+              <div className="bg-green-100 p-2 rounded-full mr-2">
+                <UserCheck className="h-4 w-4 text-green-600" />
+              </div>
+              <div>
+                <h5 className="text-sm font-medium">Expert Guidance</h5>
+                <p className="text-xs text-gray-600">Ongoing support for your business transformation</p>
+              </div>
+            </div>
+          </div>
+          
+          <div className="mt-4 text-xs text-right">
+            <a href="https://www.omni-flow.net" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline flex items-center justify-end">
+              Visit OmniFlow website
+              <ArrowRight className="h-3 w-3 ml-1" />
+            </a>
+          </div>
         </CardContent>
       </Card>
 
