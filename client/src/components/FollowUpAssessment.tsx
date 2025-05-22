@@ -15,7 +15,8 @@ import {
   AlertCircle,
   FileText,
   Save,
-  ArrowRight
+  ArrowRight,
+  Users
 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";

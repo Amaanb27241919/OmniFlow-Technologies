@@ -8,6 +8,11 @@ import { Separator } from "@/components/ui/separator";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Badge } from "@/components/ui/badge";
 import ImplementationTools from "@/components/ImplementationTools";
+import ConsolidatedActionPlan from "@/components/ConsolidatedActionPlan";
+import ROICalculator from "@/components/ROICalculator";
+import BusinessMetricsDashboard from "@/components/BusinessMetricsDashboard";
+import BusinessCommunity from "@/components/BusinessCommunity";
+import FollowUpAssessment from "@/components/FollowUpAssessment";
 import { 
   CheckCircle, 
   Zap, 
@@ -511,6 +516,21 @@ export default function Results() {
         </CardContent>
       </Card>
 
+      {/* Enhancement 1: Consolidated Action Plan */}
+      {data && <ConsolidatedActionPlan auditData={data} />}
+      
+      {/* Enhancement 2: ROI Calculator */}
+      {data && <ROICalculator auditData={data} />}
+      
+      {/* Enhancement 3: Business Metrics Dashboard */}
+      {data && <BusinessMetricsDashboard auditData={data} />}
+      
+      {/* Enhancement 4: Business Community */}
+      {data && <BusinessCommunity auditData={data} />}
+      
+      {/* Enhancement 5: Follow-Up Assessment */}
+      {data && <FollowUpAssessment auditData={data} />}
+      
       {/* Next Steps */}
       <Card className="form-card mb-8">
         <CardContent className="p-6 md:p-8">
