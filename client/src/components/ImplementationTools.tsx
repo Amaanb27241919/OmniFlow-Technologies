@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { WorkflowModule } from "@/lib/auditTypes";
 import { Card, CardContent } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -78,23 +78,29 @@ export default function ImplementationTools({ auditId, module }: ImplementationT
   const [implementationSteps, setImplementationSteps] = useState(steps);
   
   // Fetch implementation progress
-  const { data: progressData, isLoading: isLoadingProgress } = useQuery({
+  const { data: progressData, isLoading: isLoadingProgress } = useQuery<{
+    progress: { 
+      steps: Array<{ id: number; completed: boolean; completedAt: string | null }>; 
+      notes: string 
+    }
+  }>({
     queryKey: [`/api/progress/${auditId}/${moduleId}`],
-    enabled: activeTab === "progress",
-    // Progress data is fetched from server, but for demo we'll use the state
-    onSuccess: (data) => {
-      if (data?.progress?.steps) {
-        const updatedSteps = implementationSteps.map(step => {
-          const serverStep = data.progress.steps.find((s: any) => s.id === step.id);
-          return serverStep ? { ...step, completed: serverStep.completed } : step;
-        });
-        setImplementationSteps(updatedSteps);
-        if (data.progress.notes) {
-          setNotes(data.progress.notes);
-        }
+    enabled: activeTab === "progress"
+  });
+  
+  // Update state when progress data changes
+  React.useEffect(() => {
+    if (progressData?.progress?.steps) {
+      const updatedSteps = implementationSteps.map(step => {
+        const serverStep = progressData.progress.steps.find(s => s.id === step.id);
+        return serverStep ? { ...step, completed: serverStep.completed } : step;
+      });
+      setImplementationSteps(updatedSteps);
+      if (progressData.progress.notes) {
+        setNotes(progressData.progress.notes);
       }
     }
-  });
+  }, [progressData]);
   
   // Save progress mutation
   const progressMutation = useMutation({
