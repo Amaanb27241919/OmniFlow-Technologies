@@ -240,7 +240,7 @@ export default function Results() {
               Based on your business profile, these OmniFlow modules could help automate your workflows and improve efficiency:
             </p>
 
-            <div className="space-y-6">
+            <div className="space-y-10">
               {data.workflowRecommendations.map((module, index) => {
                 // Determine which icon to display
                 let ModuleIcon;
@@ -460,14 +460,17 @@ export default function Results() {
                       
                       <div className="flex justify-between mt-4">
                         <Button size="sm" variant="outline">
-                          <span>Download Implementation Guide</span>
-                          <Download className="ml-2 h-4 w-4" />
-                        </Button>
-                        <Button size="sm" className="bg-primary text-white hover:bg-primary/90">
                           <span>Request Demo</span>
                           <ArrowRight className="ml-2 h-4 w-4" />
                         </Button>
+                        <Button size="sm" className="bg-primary text-white hover:bg-primary/90">
+                          <span>Implement Now</span>
+                          <ArrowRight className="ml-2 h-4 w-4" />
+                        </Button>
                       </div>
+                      
+                      {/* Implementation Tools Component */}
+                      {data && <ImplementationTools auditId={data.id} module={module} />}
                     </div>
                   </div>
                 );
