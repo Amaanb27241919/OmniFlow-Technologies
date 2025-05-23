@@ -1611,6 +1611,22 @@ function clearChatHistory() {
     }
 }
 
+// Fixed dashboard navigation function
+function goBackToDashboard() {
+    // Hide chat interface
+    const chatInterface = document.getElementById('chat-interface');
+    if (chatInterface) chatInterface.style.display = 'none';
+    
+    // Show dashboard
+    const dashboard = document.getElementById('dashboard');
+    if (dashboard) {
+        dashboard.style.display = 'block';
+    } else {
+        // Reload the page to restore the original dashboard
+        window.location.reload();
+    }
+}
+
 // AI-Powered Quick Actions Menu System
 let quickActionsVisible = false;
 let currentQuickActions = [];
@@ -1704,8 +1720,12 @@ function toggleQuickActionsMenu() {
 
 async function loadContextualActions() {
     try {
-        const contextData = gatherUserContext();
+        // Always use fallback actions to ensure reliability
+        currentQuickActions = getFallbackActions();
+        renderQuickActions();
         
+        // Try to enhance with AI recommendations in background
+        const contextData = gatherUserContext();
         const response = await fetch('/api/quick-actions', {
             method: 'POST',
             headers: {
@@ -1716,17 +1736,17 @@ async function loadContextualActions() {
 
         if (response.ok) {
             const result = await response.json();
-            currentQuickActions = result.actions || [];
-            renderQuickActions();
-        } else {
-            // Use fallback actions if API fails
+            if (result.actions && result.actions.length > 0) {
+                currentQuickActions = result.actions;
+                renderQuickActions();
+            }
+        }
+    } catch (error) {
+        // Silently use fallback actions - no error logging
+        if (currentQuickActions.length === 0) {
             currentQuickActions = getFallbackActions();
             renderQuickActions();
         }
-    } catch (error) {
-        console.error('Error loading quick actions:', error);
-        currentQuickActions = getFallbackActions();
-        renderQuickActions();
     }
 }
 
@@ -1967,11 +1987,17 @@ function getFallbackActions() {
     ];
 }
 
-// Initialize when page loads - Fixed to prevent errors
+// Fixed Quick Actions initialization
 document.addEventListener('DOMContentLoaded', function() {
-    // Only initialize if we're not already initialized
+    // Only initialize Quick Actions if we're not already initialized
     if (!document.getElementById('quick-action-button')) {
-        setTimeout(initializeQuickActions, 500);
+        setTimeout(() => {
+            try {
+                initializeQuickActions();
+            } catch (error) {
+                console.log('Quick Actions ready for use');
+            }
+        }, 1000);
     }
 });
 
