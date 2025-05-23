@@ -1519,6 +1519,12 @@ function updateUserInterface() {
         userControls.style.display = 'none';
         userInfo.style.display = 'flex';
         usernameDisplay.textContent = `Welcome, ${currentUser}!`;
+        
+        // Only show admin dashboard button if user is admin
+        const adminBtn = userInfo.querySelector('button[onclick="testOpsManagerAccess()"]');
+        if (adminBtn) {
+            adminBtn.style.display = isOpsManager() ? 'inline-block' : 'none';
+        }
     } else {
         userControls.style.display = 'flex';
         userInfo.style.display = 'none';
