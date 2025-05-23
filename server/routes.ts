@@ -14,6 +14,7 @@ import jwt from "jsonwebtoken";
 import cron from "node-cron";
 import fs from "fs/promises";
 import path from "path";
+import { registerEnhancedAutomation } from "./enhanced-automation";
 
 // Enhanced task and user management from your existing backend
 interface EnhancedTask {
@@ -210,6 +211,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Mount Automation routes
   const automationRoutes = await import('./routes/automationRoutes');
   app.use('/api/automation', automationRoutes.default);
+  
+  // Register enhanced automation capabilities
+  registerEnhancedAutomation(app);
   // Create a new business audit
   app.post("/api/audits", async (req, res) => {
     try {

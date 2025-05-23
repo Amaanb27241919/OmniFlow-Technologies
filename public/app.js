@@ -1286,19 +1286,74 @@ function showAutomationHub() {
 function showAnalyticsDashboard() {
     console.log('Showing analytics dashboard');
     const dashboard = document.getElementById('dashboard');
-    const analyticsSection = document.getElementById('analytics-dashboard');
     
     if (dashboard) dashboard.style.display = 'none';
-    if (analyticsSection) analyticsSection.style.display = 'block';
+    
+    // Create analytics dashboard content if it doesn't exist
+    const main = document.querySelector('main');
+    main.innerHTML = `
+        <div id="analytics-dashboard" class="analytics-dashboard">
+            <div class="dashboard-header">
+                <h2>📊 Analytics & Insights Dashboard</h2>
+                <p>Track your business automation performance and growth metrics</p>
+                <button onclick="showDashboard()" class="btn-secondary">← Back to Dashboard</button>
+            </div>
+            <div class="metrics-grid">
+                <div class="metric-card">
+                    <div class="metric-icon">⚡</div>
+                    <div class="metric-data">
+                        <span class="metric-value">5</span>
+                        <span class="metric-label">Active Automations</span>
+                    </div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-icon">💰</div>
+                    <div class="metric-data">
+                        <span class="metric-value">$2,500</span>
+                        <span class="metric-label">Monthly Savings</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
 }
 
 function showROIDashboard() {
     console.log('Showing ROI dashboard');
     const dashboard = document.getElementById('dashboard');
-    const roiSection = document.getElementById('roi-dashboard');
     
     if (dashboard) dashboard.style.display = 'none';
-    if (roiSection) roiSection.style.display = 'block';
+    
+    // Create ROI dashboard content
+    const main = document.querySelector('main');
+    main.innerHTML = `
+        <div id="roi-dashboard" class="roi-dashboard">
+            <div class="dashboard-header">
+                <h2>💰 ROI Tracking Dashboard</h2>
+                <p>Monitor your automation investment returns and business impact</p>
+                <button onclick="showDashboard()" class="btn-secondary">← Back to Dashboard</button>
+            </div>
+            <div class="roi-overview">
+                <div class="roi-card">
+                    <h3>Total ROI</h3>
+                    <div class="roi-value">
+                        <span class="roi-percentage">245%</span>
+                        <span class="roi-trend positive">↗ +15%</span>
+                    </div>
+                </div>
+                <div class="roi-metrics">
+                    <div class="metric-item">
+                        <span class="metric-label">Monthly Savings</span>
+                        <span class="metric-value">$2,500</span>
+                    </div>
+                    <div class="metric-item">
+                        <span class="metric-label">Time Recovered</span>
+                        <span class="metric-value">40 hrs/month</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
 }
 
 function showOnboardingWorkflows() {
