@@ -74,31 +74,39 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const { email, password } = req.body;
       const username = email; // Accept email or username
       
+      console.log('Login attempt:', { email, passwordLength: password?.length });
+      
       // Authentication check for both admin and clients
       if (username === 'admin' && password === 'admin') {
-        res.json({ 
+        const response = { 
           success: true, 
           token: 'admin-token', 
           username: 'admin',
           role: 'ops_manager'
-        });
+        };
+        console.log('Admin login successful:', response);
+        res.json(response);
       } else if (password && password.length >= 6) {
         // Allow any email with password 6+ characters for client access
-        res.json({ 
+        const response = { 
           success: true, 
           token: 'client-token', 
           username: username,
           role: 'client'
-        });
+        };
+        console.log('Client login successful:', response);
+        res.json(response);
       } else {
-        res.json({ 
+        const response = { 
           success: false, 
           message: 'Invalid credentials. Password must be at least 6 characters.' 
-        });
+        };
+        console.log('Login failed:', response);
+        res.json(response);
       }
     } catch (error) {
       console.error('Login error:', error);
-      res.status(500).json({ 
+      res.status(200).json({ 
         success: false, 
         message: 'Server error' 
       });

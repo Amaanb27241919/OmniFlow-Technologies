@@ -253,10 +253,18 @@
                     body: JSON.stringify({ email, password })
                 });
                 
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
+                
                 const data = await response.json();
+                console.log('Login response:', data); // Debug log
                 
                 if (data.success) {
-                    // Successful login - redirect to dashboard
+                    // Store login info and redirect to dashboard
+                    localStorage.setItem('authToken', data.token);
+                    localStorage.setItem('userRole', data.role);
+                    localStorage.setItem('username', data.username);
                     window.location.href = '/app';
                 } else {
                     // Show error message
@@ -265,7 +273,7 @@
                 }
             } catch (error) {
                 console.error('Login error:', error);
-                errorMsg.textContent = 'Network error. Please check your connection and try again.';
+                errorMsg.textContent = `Login failed: ${error.message}`;
                 errorMsg.style.display = 'block';
             } finally {
                 // Reset button state
