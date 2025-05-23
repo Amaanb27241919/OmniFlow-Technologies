@@ -893,6 +893,34 @@ code {
     background: #059669;
 }
 
+.tour-btn-next {
+    background: var(--primary-color);
+    color: white;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: var(--radius-md);
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.tour-btn-next:hover {
+    background: var(--primary-light);
+    transform: translateY(-2px);
+}
+
+.tour-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.tour-controls {
+    margin-top: 1.5rem;
+}
+
 .welcome-banner {
     background: linear-gradient(135deg, var(--primary-color) 0%, var(--accent-color) 100%);
     color: white;
