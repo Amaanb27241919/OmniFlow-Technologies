@@ -98,6 +98,11 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   // Landing page route is now handled in index.ts
   
+  // Serve the login page
+  app.get('/login', (req, res) => {
+    res.sendFile('login.html', { root: 'public' });
+  });
+  
   // Serve the app dashboard for logged-in users
   app.get('/app', (req, res) => {
     res.sendFile('index.html', { root: 'public' });
