@@ -1277,10 +1277,248 @@ document.addEventListener('DOMContentLoaded', function() {
 function showAutomationHub() {
     console.log('Showing automation hub');
     const dashboard = document.getElementById('dashboard');
-    const automationHub = document.getElementById('automation-hub');
     
     if (dashboard) dashboard.style.display = 'none';
-    if (automationHub) automationHub.style.display = 'block';
+    
+    // Create enhanced automation hub with workflow builder
+    const main = document.querySelector('main');
+    main.innerHTML = `
+        <div id="automation-hub" class="automation-hub">
+            <div class="dashboard-header">
+                <h2>⚡ AI Automation Hub</h2>
+                <p>Build powerful workflows that run your business automatically</p>
+                <button onclick="showDashboard()" class="btn-secondary">← Back to Dashboard</button>
+            </div>
+            
+            <div class="automation-tabs">
+                <button class="tab-button active" onclick="showAutomationTab('quick-tasks')">🔥 Quick Tasks</button>
+                <button class="tab-button" onclick="showAutomationTab('workflow-builder')">🔧 Workflow Builder</button>
+                <button class="tab-button" onclick="showAutomationTab('scheduled-tasks')">⏰ Scheduled Tasks</button>
+                <button class="tab-button" onclick="showAutomationTab('templates')">📋 Templates</button>
+            </div>
+
+            <!-- Quick Tasks Tab -->
+            <div id="quick-tasks-tab" class="tab-content active">
+                <div class="quick-task-grid">
+                    <div class="task-type-card" onclick="selectTaskType('summarize')">
+                        <div class="task-icon">📝</div>
+                        <h4>Summarize Content</h4>
+                        <p>AI-powered content summarization</p>
+                    </div>
+                    <div class="task-type-card" onclick="selectTaskType('rewrite')">
+                        <div class="task-icon">✏️</div>
+                        <h4>Rewrite Text</h4>
+                        <p>Improve and optimize your content</p>
+                    </div>
+                    <div class="task-type-card" onclick="selectTaskType('generate-copy')">
+                        <div class="task-icon">💡</div>
+                        <h4>Generate Copy</h4>
+                        <p>Create marketing content</p>
+                    </div>
+                    <div class="task-type-card" onclick="selectTaskType('insights')">
+                        <div class="task-icon">📊</div>
+                        <h4>Business Insights</h4>
+                        <p>Analyze data and trends</p>
+                    </div>
+                </div>
+                
+                <div id="task-processor" class="task-processor" style="display: none;">
+                    <div class="processor-header">
+                        <h3 id="selected-task-title">Selected Task</h3>
+                        <button onclick="resetTaskSelection()" class="btn-secondary">Choose Different Task</button>
+                    </div>
+                    <div class="task-input-section">
+                        <textarea id="task-input" placeholder="Enter your content here..." rows="6"></textarea>
+                        <div class="task-controls">
+                            <button id="process-btn" onclick="processAutomationTask()" class="btn-primary">
+                                <span class="btn-icon">⚡</span> Process with AI
+                            </button>
+                        </div>
+                    </div>
+                    <div id="result-panel" class="result-panel" style="display: none;">
+                        <div id="result-content"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Workflow Builder Tab -->
+            <div id="workflow-builder-tab" class="tab-content">
+                <div class="workflow-builder">
+                    <div class="builder-header">
+                        <h3>🔧 Visual Workflow Builder</h3>
+                        <button onclick="createNewWorkflow()" class="btn-primary">+ New Workflow</button>
+                    </div>
+                    <div id="workflow-canvas" class="workflow-canvas">
+                        <div class="workflow-placeholder">
+                            <div class="placeholder-icon">🏗️</div>
+                            <h4>Ready to Build Amazing Workflows?</h4>
+                            <p>Create automated processes that save time and grow your business</p>
+                            <button onclick="showWorkflowTemplates()" class="btn-primary">Start with Template</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Scheduled Tasks Tab -->
+            <div id="scheduled-tasks-tab" class="tab-content">
+                <div class="scheduled-tasks">
+                    <div class="schedule-header">
+                        <h3>⏰ Automated Schedules</h3>
+                        <button onclick="loadScheduledTasks()" class="btn-primary">+ Schedule New Task</button>
+                    </div>
+                    <div id="scheduled-tasks-list" class="tasks-list">
+                        <div class="task-item">
+                            <div class="task-info">
+                                <h4>📊 Daily Performance Report</h4>
+                                <p>Generate and email daily business metrics</p>
+                                <span class="schedule-time">Every day at 9:00 AM</span>
+                            </div>
+                            <div class="task-status active">Active</div>
+                        </div>
+                        <div class="task-item">
+                            <div class="task-info">
+                                <h4>📧 Lead Follow-up Sequence</h4>
+                                <p>Automated follow-up emails for new leads</p>
+                                <span class="schedule-time">Weekdays at 10:00 AM & 2:00 PM</span>
+                            </div>
+                            <div class="task-status active">Active</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Templates Tab -->
+            <div id="templates-tab" class="tab-content">
+                <div class="workflow-templates">
+                    <h3>📋 Business Automation Templates</h3>
+                    <div class="templates-grid">
+                        <div class="template-card" onclick="useTemplate('lead-processing')">
+                            <div class="template-icon">🎯</div>
+                            <h4>Lead Processing</h4>
+                            <p>Automatically score, qualify, and follow up with new leads</p>
+                            <div class="template-steps">3 steps • AI Analysis • Email</div>
+                        </div>
+                        <div class="template-card" onclick="useTemplate('content-creation')">
+                            <div class="template-icon">📝</div>
+                            <h4>Content Pipeline</h4>
+                            <p>Generate blog posts and social media content automatically</p>
+                            <div class="template-steps">4 steps • AI Content • Social</div>
+                        </div>
+                        <div class="template-card" onclick="useTemplate('customer-onboarding')">
+                            <div class="template-icon">👥</div>
+                            <h4>Customer Onboarding</h4>
+                            <p>Welcome new customers with automated setup sequences</p>
+                            <div class="template-steps">5 steps • Email • Setup</div>
+                        </div>
+                        <div class="template-card" onclick="useTemplate('data-insights')">
+                            <div class="template-icon">📈</div>
+                            <h4>Business Intelligence</h4>
+                            <p>Weekly reports with insights and recommendations</p>
+                            <div class="template-steps">3 steps • Analysis • Reports</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
+}
+
+// Enhanced automation hub functions
+let selectedTaskType = null;
+
+function showAutomationTab(tabName) {
+    // Hide all tabs
+    document.querySelectorAll('.tab-content').forEach(tab => {
+        tab.classList.remove('active');
+    });
+    document.querySelectorAll('.tab-button').forEach(btn => {
+        btn.classList.remove('active');
+    });
+    
+    // Show selected tab
+    const targetTab = document.getElementById(tabName + '-tab');
+    const targetButton = document.querySelector(`[onclick="showAutomationTab('${tabName}')"]`);
+    
+    if (targetTab) targetTab.classList.add('active');
+    if (targetButton) targetButton.classList.add('active');
+}
+
+function selectTaskType(taskType) {
+    selectedTaskType = taskType;
+    const taskProcessor = document.getElementById('task-processor');
+    const taskTitle = document.getElementById('selected-task-title');
+    
+    const taskTitles = {
+        'summarize': '📝 AI Content Summarizer',
+        'rewrite': '✏️ AI Text Rewriter', 
+        'generate-copy': '💡 AI Copy Generator',
+        'insights': '📊 AI Business Insights'
+    };
+    
+    taskTitle.textContent = taskTitles[taskType] || 'Selected Task';
+    taskProcessor.style.display = 'block';
+    taskProcessor.scrollIntoView({ behavior: 'smooth' });
+}
+
+function resetTaskSelection() {
+    selectedTaskType = null;
+    const taskProcessor = document.getElementById('task-processor');
+    taskProcessor.style.display = 'none';
+}
+
+function createNewWorkflow() {
+    const canvas = document.getElementById('workflow-canvas');
+    canvas.innerHTML = `
+        <div class="workflow-builder-interface">
+            <div class="workflow-header">
+                <input type="text" placeholder="Enter workflow name..." class="workflow-name-input" id="workflow-name">
+                <button onclick="alert('Workflow Builder Coming Soon! 🚀')" class="btn-primary">💾 Save Workflow</button>
+            </div>
+            <div class="workflow-steps">
+                <div class="step-builder">
+                    <h4>🔧 Build Your Workflow Steps</h4>
+                    <div class="available-steps">
+                        <div class="step-option" onclick="alert('AI Processing step selected! 🤖')">
+                            <span class="step-icon">🤖</span> AI Processing
+                        </div>
+                        <div class="step-option" onclick="alert('Email step selected! 📧')">
+                            <span class="step-icon">📧</span> Send Email
+                        </div>
+                        <div class="step-option" onclick="alert('Logic step selected! 🔀')">
+                            <span class="step-icon">🔀</span> Conditional Logic
+                        </div>
+                    </div>
+                </div>
+                <div class="workflow-steps-list">
+                    <div class="workflow-placeholder-mini">
+                        <p>✨ Advanced workflow builder coming soon!</p>
+                        <p>For now, use Quick Tasks for instant AI automation</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
+}
+
+function useTemplate(templateName) {
+    const templates = {
+        'lead-processing': 'Lead Processing Automation - Score and follow up with leads automatically',
+        'content-creation': 'Content Pipeline - Generate blog posts and social media content',
+        'customer-onboarding': 'Customer Onboarding - Welcome new customers with automated sequences',
+        'data-insights': 'Business Intelligence - Weekly reports with insights and recommendations'
+    };
+    
+    alert(`🚀 Loading ${templates[templateName]}!\n\nThis template will help you automate your business processes.`);
+    showAutomationTab('workflow-builder');
+    setTimeout(createNewWorkflow, 100);
+}
+
+function showWorkflowTemplates() {
+    showAutomationTab('templates');
+}
+
+function loadScheduledTasks() {
+    alert('📅 Schedule Management coming soon!\n\nFor now, you can use Quick Tasks for immediate AI processing.');
 }
 
 function showAnalyticsDashboard() {
