@@ -1,5 +1,6 @@
 import express, { type Express } from "express";
 import { createServer, type Server } from "http";
+import path from "path";
 import { storage } from "./storage";
 import { z } from "zod";
 import { insertAuditSchema } from "@shared/schema";
@@ -96,9 +97,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // Serve the new landing page at the root route
+  // Serve the new landing page at the root route - MUST come before Vite middleware
   app.get('/', (req, res) => {
-    res.sendFile('landing.html', { root: 'public' });
+    res.sendFile(path.join(__dirname, '../public/landing.html'));
   });
   
   // Serve the app dashboard for logged-in users
