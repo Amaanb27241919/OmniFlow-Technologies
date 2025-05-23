@@ -1159,7 +1159,7 @@ function showDashboard() {
     }
 }
 
-// Add missing showAutomationHub function
+// Add missing navigation functions
 function showAutomationHub() {
     console.log('Showing automation hub');
     const dashboard = document.getElementById('dashboard');
@@ -1167,4 +1167,31 @@ function showAutomationHub() {
     
     if (dashboard) dashboard.style.display = 'none';
     if (automationHub) automationHub.style.display = 'block';
+}
+
+function showAnalyticsDashboard() {
+    console.log('Showing analytics dashboard');
+    const dashboard = document.getElementById('dashboard');
+    const analyticsSection = document.getElementById('analytics-dashboard');
+    
+    if (dashboard) dashboard.style.display = 'none';
+    if (analyticsSection) analyticsSection.style.display = 'block';
+}
+
+function showROIDashboard() {
+    console.log('Showing ROI dashboard');
+    const dashboard = document.getElementById('dashboard');
+    const roiSection = document.getElementById('roi-dashboard');
+    
+    if (dashboard) dashboard.style.display = 'none';
+    if (roiSection) roiSection.style.display = 'block';
+}
+
+function showOnboardingWorkflows() {
+    console.log('Showing onboarding workflows');
+    const dashboard = document.getElementById('dashboard');
+    const onboardingSection = document.getElementById('onboarding-workflows');
+    
+    if (dashboard) dashboard.style.display = 'none';
+    if (onboardingSection) onboardingSection.style.display = 'block';
 }
