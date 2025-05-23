@@ -1577,7 +1577,6 @@ function showDashboard() {
 }
 
 // User Authentication Functions
-let currentUser = null;
 let authToken = null;
 
 function showLoginForm() {
