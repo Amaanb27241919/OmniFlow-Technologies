@@ -638,7 +638,7 @@ class WelcomeTour {
     checkFirstVisit() {
         const hasVisited = localStorage.getItem('omnicore-tour-completed');
         if (!hasVisited) {
-            this.showWelcomeBanner();
+            setTimeout(() => this.showWelcomeBanner(), 1000);
         }
     }
 
@@ -842,3 +842,11 @@ let tour;
 document.addEventListener('DOMContentLoaded', function() {
     tour = new WelcomeTour();
 });
+
+// Add manual tour trigger for testing
+function startWelcomeTour() {
+    if (tour) {
+        localStorage.removeItem('omnicore-tour-completed');
+        tour.showWelcomeBanner();
+    }
+}
