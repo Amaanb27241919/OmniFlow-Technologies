@@ -964,15 +964,15 @@ code {
     left: 0;
     right: 0;
     height: 3px;
-    background: linear-gradient(90deg, #2563EB 0%, #059669 100%);
+    background: linear-gradient(90deg, #1E3A8A 0%, #F59E0B 100%);
     transform: scaleX(0);
     transition: transform 0.4s ease;
 }
 
 .enhanced-feature-card:hover {
     transform: translateY(-8px) scale(1.02);
-    box-shadow: 0 20px 40px rgba(37, 99, 235, 0.15);
-    border-color: rgba(37, 99, 235, 0.2);
+    box-shadow: 0 20px 40px rgba(30, 58, 138, 0.15);
+    border-color: rgba(30, 58, 138, 0.2);
 }
 
 .enhanced-feature-card:hover::before {
