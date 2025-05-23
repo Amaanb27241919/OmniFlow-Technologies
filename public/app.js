@@ -1113,3 +1113,23 @@ function calculateROI() {
         alert('Please fill in all fields to calculate ROI');
     }
 }
+
+// Fix missing functions for dashboard navigation
+function activateFeature(featureName) {
+    if (featureName === 'chat') {
+        initializeChatFeature();
+    }
+}
+
+function showDashboard() {
+    // Hide all sections
+    document.getElementById('chat-interface').style.display = 'none';
+    document.getElementById('automation-hub').style.display = 'none';
+    document.getElementById('task-logs').style.display = 'none';
+    document.getElementById('analytics-dashboard').style.display = 'none';
+    document.getElementById('onboarding-workflows').style.display = 'none';
+    document.getElementById('roi-dashboard').style.display = 'none';
+    
+    // Show dashboard
+    document.getElementById('dashboard').style.display = 'block';
+}
