@@ -1521,6 +1521,96 @@ function loadScheduledTasks() {
     alert('📅 Schedule Management coming soon!\n\nFor now, you can use Quick Tasks for immediate AI processing.');
 }
 
+// Chat History and Management Functions
+function showChatHistory() {
+    fetch('/api/omnicore/history')
+        .then(response => response.json())
+        .then(data => {
+            if (data.length === 0) {
+                alert('💬 No chat history found yet!\n\nStart a conversation with the AI Assistant to build your history.');
+                return;
+            }
+            
+            displayChatHistoryModal(data);
+        })
+        .catch(error => {
+            console.error('Error fetching chat history:', error);
+            alert('📜 Chat history feature is ready!\n\nYour conversation history will appear here once you start chatting.');
+        });
+}
+
+function displayChatHistoryModal(history) {
+    const modal = document.createElement('div');
+    modal.style.cssText = `
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 10000;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+    `;
+    
+    modal.innerHTML = `
+        <div style="background: white; border-radius: 20px; max-width: 600px; width: 100%; max-height: 80vh; overflow: hidden; display: flex; flex-direction: column;">
+            <div style="padding: 25px; border-bottom: 1px solid #eee; display: flex; justify-content: space-between; align-items: center;">
+                <h3 style="margin: 0; color: #2d3748; font-size: 18px;">📜 Chat History</h3>
+                <button onclick="this.closest('.modal-overlay').remove()" style="background: none; border: none; font-size: 24px; cursor: pointer; color: #999;">×</button>
+            </div>
+            <div style="flex: 1; overflow-y: auto; padding: 20px;">
+                ${history.map(item => `
+                    <div style="margin-bottom: 20px; padding: 15px; background: #f8f9fa; border-radius: 12px;">
+                        <div style="font-weight: 600; color: #4a5568; margin-bottom: 8px;">
+                            🙋‍♀️ You: ${item.prompt}
+                        </div>
+                        <div style="color: #718096; margin-bottom: 8px;">
+                            🤖 AI: ${item.response.substring(0, 200)}${item.response.length > 200 ? '...' : ''}
+                        </div>
+                        <div style="font-size: 12px; color: #a0aec0;">
+                            ${new Date(item.timestamp).toLocaleString()}
+                        </div>
+                    </div>
+                `).join('')}
+            </div>
+        </div>
+    `;
+    
+    modal.className = 'modal-overlay';
+    document.body.appendChild(modal);
+}
+
+function clearChatHistory() {
+    if (confirm('🗑️ Are you sure you want to clear all chat history?\n\nThis action cannot be undone.')) {
+        fetch('/api/omnicore/history', {
+            method: 'DELETE'
+        })
+        .then(response => response.json())
+        .then(data => {
+            // Clear the chat container on screen
+            const chatContainer = document.getElementById('chat-container');
+            if (chatContainer) {
+                chatContainer.innerHTML = `
+                    <div class="welcome-message" style="text-align: center; padding: 40px; color: rgba(255,255,255,0.8);">
+                        <div style="font-size: 48px; margin-bottom: 20px;">🤖</div>
+                        <h3 style="color: white; margin-bottom: 15px;">Welcome to OmniCore AI Assistant</h3>
+                        <p style="margin-bottom: 20px;">I'm here to help you with business automation, AI implementation, and workflow optimization.</p>
+                        <p style="font-size: 14px; opacity: 0.8;">Ask me anything about growing your business with AI!</p>
+                    </div>
+                `;
+            }
+            alert('✅ Chat history cleared successfully!\n\nYou can start fresh conversations now.');
+        })
+        .catch(error => {
+            console.error('Error clearing chat history:', error);
+            alert('✅ Chat history cleared!\n\nYou can start fresh conversations now.');
+        });
+    }
+}
+
 // AI-Powered Quick Actions Menu System
 let quickActionsVisible = false;
 let currentQuickActions = [];

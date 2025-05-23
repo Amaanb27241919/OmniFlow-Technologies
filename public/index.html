@@ -130,6 +130,30 @@
             </div>
 
             <div id="chat-interface" class="chat-interface">
+                <div class="chat-header">
+                    <h3>💬 AI Chat Assistant</h3>
+                    <div class="chat-controls">
+                        <button class="chat-control-btn" onclick="showChatHistory()" title="View Chat History">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <polyline points="12,6 12,12 16,14"></polyline>
+                            </svg>
+                        </button>
+                        <button class="chat-control-btn" onclick="clearChatHistory()" title="Clear Chat History">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M3 6h18"></path>
+                                <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"></path>
+                                <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"></path>
+                            </svg>
+                        </button>
+                        <button class="chat-control-btn" onclick="showDashboard()" title="Back to Dashboard">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="m12 19-7-7 7-7"></path>
+                                <path d="m19 12-7 7-7-7"></path>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
                 <div class="chat-container" id="chat-container"></div>
                 <footer>
                     <form id="prompt-form" class="prompt-form">
