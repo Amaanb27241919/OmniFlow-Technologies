@@ -1071,7 +1071,7 @@ code {
 }
 
 .dashboard-header h2, .workflow-header h2, .roi-header h2 {
-    background: linear-gradient(135deg, #2D5BFF 0%, #00C896 100%);
+    background: linear-gradient(135deg, #1E3A8A 0%, #F59E0B 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -1105,7 +1105,7 @@ code {
 
 .metric-icon {
     font-size: 2.5rem;
-    background: linear-gradient(135deg, rgba(45, 91, 255, 0.1) 0%, rgba(0, 200, 150, 0.1) 100%);
+    background: linear-gradient(135deg, rgba(30, 58, 138, 0.1) 0%, rgba(245, 158, 11, 0.1) 100%);
     padding: 1rem;
     border-radius: 12px;
 }
@@ -1118,7 +1118,7 @@ code {
 .metric-value {
     font-size: 2rem;
     font-weight: 700;
-    color: #2D5BFF;
+    color: #1E3A8A;
     line-height: 1;
 }
 
@@ -1133,7 +1133,7 @@ code {
 }
 
 .insights-section h3 {
-    color: #2D5BFF;
+    color: #1E3A8A;
     margin-bottom: 1.5rem;
     font-size: 1.5rem;
 }
@@ -1145,10 +1145,10 @@ code {
 }
 
 .insight-item {
-    background: rgba(45, 91, 255, 0.05);
+    background: rgba(30, 58, 138, 0.05);
     padding: 1.5rem;
     border-radius: 12px;
-    border-left: 4px solid #2D5BFF;
+    border-left: 4px solid #1E3A8A;
     display: flex;
     align-items: center;
     gap: 1rem;
