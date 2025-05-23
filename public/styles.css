@@ -206,9 +206,9 @@ main {
 }
 
 .feature-button:hover, .feature-button.active {
+    background: var(--primary-light);
     transform: translateY(-2px);
-    box-shadow: 0 8px 20px rgba(30, 58, 138, 0.4);
-    background: linear-gradient(135deg, #1E40AF 0%, #1E3A8A 100%);
+    box-shadow: var(--shadow-md);
 }
 
 .suggestions {
@@ -987,37 +987,47 @@ code {
 }
 
 .enhanced-button {
-    background: linear-gradient(135deg, #1E3A8A 0%, #3B82F6 100%);
+    background: var(--primary-color);
     color: white;
     border: none;
-    padding: 0.75rem 2rem;
-    border-radius: 12px;
-    font-weight: 600;
-    letter-spacing: 0.025em;
+    padding: 0.75rem 1.5rem;
+    border-radius: var(--radius-md);
+    font-weight: 500;
+    cursor: pointer;
     transition: all 0.3s ease;
-    box-shadow: 0 4px 12px rgba(30, 58, 138, 0.3);
+    text-decoration: none;
+    display: inline-block;
 }
 
 .enhanced-button:hover {
+    background: var(--primary-light);
     transform: translateY(-2px);
-    box-shadow: 0 8px 20px rgba(30, 58, 138, 0.4);
-    background: linear-gradient(135deg, #1E40AF 0%, #1E3A8A 100%);
+    box-shadow: var(--shadow-md);
 }
 
 .enhanced-button-secondary {
-    background: linear-gradient(135deg, #F59E0B 0%, #FCD34D 100%);
-    color: #1E3A8A;
-    box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3);
+    background: var(--secondary-color);
+    color: var(--text-primary);
+    border: 2px solid var(--border-color);
+    padding: 0.75rem 1.5rem;
+    border-radius: var(--radius-md);
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    display: inline-block;
 }
 
 .enhanced-button-secondary:hover {
-    background: linear-gradient(135deg, #FCD34D 0%, #F59E0B 100%);
+    background: var(--accent-color);
+    color: white;
+    border-color: var(--accent-color);
     transform: translateY(-2px);
-    box-shadow: 0 8px 20px rgba(245, 158, 11, 0.4);
+    box-shadow: var(--shadow-md);
 }
 
 .enhanced-welcome-title {
-    background: linear-gradient(135deg, #1E3A8A 0%, #F59E0B 100%);
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--accent-color) 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
