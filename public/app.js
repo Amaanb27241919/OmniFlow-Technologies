@@ -893,74 +893,35 @@ function showClientView() {
     window.location.reload(); // Reload to show client landing page
 }
 
-// Client dashboard for paying customers
+// Client dashboard for paying customers - use the current beautiful layout
 function showClientDashboard() {
     const main = document.querySelector('main');
     if (!main) return;
     
-    main.innerHTML = `
-        <div class="client-dashboard">
-            <div class="client-hero">
-                <h1>Welcome to <span class="gradient-text">OmniCore</span></h1>
-                <p class="hero-subtitle">Your Complete AI Automation Platform</p>
-                <p class="client-welcome">Ready to transform your business with intelligent automation</p>
-            </div>
-            
-            <div class="dashboard-grid" style="margin-top: 30px;">
-                <div class="feature enhanced-feature-card">
-                    <div class="feature-icon enhanced-feature-icon">💬</div>
-                    <h3>AI Chat Assistant</h3>
-                    <p>Get strategic business advice and automation recommendations from your AI consultant</p>
-                    <button class="feature-button" onclick="initializeChatFeature()">Start Conversation</button>
-                </div>
-                
-                <div class="feature enhanced-feature-card">
-                    <div class="feature-icon enhanced-feature-icon">⚡</div>
-                    <h3>Automation Hub</h3>
-                    <p>Process content with AI: summarize documents, generate marketing copy, extract insights</p>
-                    <button class="feature-button" onclick="showAutomationHub()">Launch Automation</button>
-                </div>
-                
-                <div class="feature enhanced-feature-card">
-                    <div class="feature-icon enhanced-feature-icon">📊</div>
-                    <h3>Analytics Dashboard</h3>
-                    <p>Track automation ROI, monitor savings, and measure business impact</p>
-                    <button class="feature-button" onclick="showAnalyticsDashboard()">View Analytics</button>
-                </div>
-                
-                <div class="feature enhanced-feature-card">
-                    <div class="feature-icon enhanced-feature-icon">🎯</div>
-                    <h3>Workflow Templates</h3>
-                    <p>Access proven automation templates customized for your industry</p>
-                    <button class="feature-button" onclick="showWorkflowTemplates()">Browse Templates</button>
-                </div>
-                
-                <div class="feature enhanced-feature-card">
-                    <div class="feature-icon enhanced-feature-icon">📈</div>
-                    <h3>ROI Tracking</h3>
-                    <p>Monitor time savings, cost reductions, and business growth metrics</p>
-                    <button class="feature-button" onclick="showROIDashboard()">Track Performance</button>
-                </div>
-                
-                <div class="feature enhanced-feature-card">
-                    <div class="feature-icon enhanced-feature-icon">📝</div>
-                    <h3>Task History</h3>
-                    <p>Review completed automations and access previous AI-generated content</p>
-                    <button class="feature-button" onclick="showTaskLogs()">View History</button>
-                </div>
-            </div>
-            
-            <div class="quick-actions-panel" style="margin-top: 40px;">
-                <h3>🚀 Quick Actions</h3>
-                <div id="quick-actions-container" class="quick-actions-grid">
-                    <div class="loading-quick-actions">Loading personalized recommendations...</div>
-                </div>
-            </div>
-        </div>
-    `;
+    // Hide welcome message and show the existing dashboard layout
+    const welcomeMsg = document.getElementById('welcome-message');
+    const chatInterface = document.getElementById('chat-interface');
+    
+    if (welcomeMsg) {
+        welcomeMsg.style.display = 'block';
+        // Update the welcome message for logged-in clients
+        const titleElement = welcomeMsg.querySelector('.enhanced-welcome-title');
+        const descElement = welcomeMsg.querySelector('.enhanced-description');
+        const ctaSection = welcomeMsg.querySelector('.cta-section');
+        
+        if (titleElement) titleElement.textContent = 'Welcome to OmniCore';
+        if (descElement) descElement.textContent = 'Your Complete AI Automation Platform';
+        if (ctaSection) ctaSection.style.display = 'none'; // Hide the audit CTA for logged-in clients
+    }
+    
+    if (chatInterface) {
+        chatInterface.style.display = 'none';
+    }
     
     // Load contextual quick actions for logged-in clients
-    loadContextualActions();
+    setTimeout(() => {
+        loadContextualActions();
+    }, 1000);
 }
 
 // Enhanced dashboard switcher
@@ -977,62 +938,87 @@ function showOpsManagerDashboard() {
     if (!main) return;
     
     main.innerHTML = `
-        <div id="ops-manager-dashboard" class="ops-dashboard">
-            <div class="hero-section" style="background: linear-gradient(135deg, #1a202c 0%, #2d3748 100%); color: white;">
-                <div class="hero-content">
-                    <h1 class="hero-title">
-                        <span class="gradient-text">OmniCore</span> Operations Center
-                    </h1>
-                    <p class="hero-subtitle">Advanced Management Dashboard - Ops Manager Access</p>
-                    <p class="brand-accent">Building Your SMB Automation Empire • Ready for Growth</p>
-                </div>
-                <div style="display: flex; gap: 15px; margin-top: 20px;">
-                    <button onclick="showClientView()" class="btn-secondary">👥 Client View</button>
-                    <button onclick="showSystemMonitoring()" class="btn-primary">📊 Live Monitoring</button>
-                </div>
+        <div class="welcome-message" id="admin-welcome-message">
+            <h2 class="enhanced-welcome-title">OmniCore Operations Center</h2>
+            <p class="enhanced-description">Advanced Management Dashboard for Building Your SMB Automation Empire</p>
+            
+            <div class="admin-status-section" style="background: linear-gradient(135deg, #1e293b 0%, #334155 100%); padding: 30px; border-radius: 12px; color: white; margin: 30px 0; text-align: center;">
+                <h3 style="margin: 0 0 15px 0; font-size: 1.5rem;">🚀 Platform Status</h3>
+                <p style="margin: 0 0 20px 0; opacity: 0.9;">Ready for growth • 0 clients • All systems operational</p>
+                <button onclick="showClientView()" class="btn-primary" style="background: white; color: #1e293b; font-weight: 600; padding: 12px 30px;">Switch to Client View</button>
             </div>
-
-            <div class="dashboard-grid" style="margin-top: 30px;">
-                <div class="feature enhanced-feature-card" style="border-left: 4px solid #4299e1;">
-                    <div class="feature-icon enhanced-feature-icon">👥</div>
+            
+            <div class="features-container">
+                <div class="feature enhanced-feature-card">
+                    <div class="feature-icon enhanced-feature-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
+                            <circle cx="9" cy="7" r="4"></circle>
+                            <path d="m22 21-3-3 3-3"></path>
+                            <path d="m16 21 3-3-3-3"></path>
+                        </svg>
+                    </div>
                     <h3>Client Acquisition</h3>
-                    <p>0 clients • Platform ready • Lead generation active</p>
-                    <button class="feature-button enhanced-button" onclick="showClientManagement()">Start Growing</button>
+                    <p>Track leads from audit forms and manage client onboarding process</p>
+                    <button class="feature-button enhanced-button" onclick="showClientManagement()">Manage Leads</button>
                 </div>
                 
-                <div class="feature enhanced-feature-card" style="border-left: 4px solid #48bb78;">
-                    <div class="feature-icon enhanced-feature-icon">⚡</div>
-                    <h3>System Preparation</h3>
-                    <p>Templates ready • AI systems operational • Demo workflows built</p>
-                    <button class="feature-button enhanced-button" onclick="showSystemAutomations()">View Templates</button>
+                <div class="feature enhanced-feature-card">
+                    <div class="feature-icon enhanced-feature-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M12 2v20m8-18H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2z"></path>
+                            <path d="m7 14 3-3 3 3"></path>
+                        </svg>
+                    </div>
+                    <h3>Revenue Analytics</h3>
+                    <p>Monitor subscription growth, revenue projections, and business metrics</p>
+                    <button class="feature-button enhanced-button-secondary" onclick="showPlatformAnalytics()">View Revenue</button>
                 </div>
                 
-                <div class="feature enhanced-feature-card" style="border-left: 4px solid #ed8936;">
-                    <div class="feature-icon enhanced-feature-icon">📊</div>
-                    <h3>Revenue Pipeline</h3>
-                    <p>$0 current • Growth projections ready • ROI tracking prepared</p>
-                    <button class="feature-button enhanced-button" onclick="showPlatformAnalytics()">Track Growth</button>
+                <div class="feature enhanced-feature-card">
+                    <div class="feature-icon enhanced-feature-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"></path>
+                        </svg>
+                    </div>
+                    <h3>System Automations</h3>
+                    <p>Monitor platform performance, template usage, and automation analytics</p>
+                    <button class="feature-button enhanced-button" onclick="showSystemAutomations()">View Systems</button>
                 </div>
                 
-                <div class="feature enhanced-feature-card" style="border-left: 4px solid #9f7aea;">
-                    <div class="feature-icon enhanced-feature-icon">🎧</div>
-                    <h3>Support System</h3>
-                    <p>Ready for clients • Knowledge base prepared • Response templates built</p>
-                    <button class="feature-button enhanced-button" onclick="showSupportCenter()">Setup Support</button>
+                <div class="feature enhanced-feature-card">
+                    <div class="feature-icon enhanced-feature-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"></path>
+                            <polyline points="14,2 14,8 20,8"></polyline>
+                        </svg>
+                    </div>
+                    <h3>Template Management</h3>
+                    <p>Create and deploy workflow templates across multiple client accounts</p>
+                    <button class="feature-button enhanced-button-secondary" onclick="showTemplateManager()">Manage Templates</button>
                 </div>
                 
-                <div class="feature enhanced-feature-card" style="border-left: 4px solid #38b2ac;">
-                    <div class="feature-icon enhanced-feature-icon">🔧</div>
-                    <h3>Workflow Templates</h3>
-                    <p>Ready-to-deploy templates • Proven strategies • Scalable solutions</p>
-                    <button class="feature-button enhanced-button" onclick="showTemplateManager()">Deploy Templates</button>
+                <div class="feature enhanced-feature-card">
+                    <div class="feature-icon enhanced-feature-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path>
+                        </svg>
+                    </div>
+                    <h3>Support Center</h3>
+                    <p>Handle client support tickets, knowledge base, and customer success</p>
+                    <button class="feature-button enhanced-button" onclick="showSupportCenter()">Support Queue</button>
                 </div>
                 
-                <div class="feature enhanced-feature-card" style="border-left: 4px solid #e53e3e;">
-                    <div class="feature-icon enhanced-feature-icon">⚙️</div>
+                <div class="feature enhanced-feature-card">
+                    <div class="feature-icon enhanced-feature-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="3"></circle>
+                            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+                        </svg>
+                    </div>
                     <h3>System Administration</h3>
-                    <p>User roles • System settings • Bulk operations • Monitoring</p>
-                    <button class="feature-button enhanced-button" onclick="showSystemAdmin()">Admin Panel</button>
+                    <p>Platform settings, user management, and system configuration tools</p>
+                    <button class="feature-button enhanced-button-secondary" onclick="showSystemAdmin()">Admin Panel</button>
                 </div>
             </div>
         </div>
