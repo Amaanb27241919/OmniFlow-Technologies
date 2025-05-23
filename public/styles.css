@@ -980,7 +980,7 @@ code {
 }
 
 .enhanced-button {
-    background: linear-gradient(135deg, #2563EB 0%, #1D4ED8 100%);
+    background: linear-gradient(135deg, #1E3A8A 0%, #3B82F6 100%);
     color: white;
     border: none;
     padding: 0.75rem 2rem;
@@ -988,27 +988,29 @@ code {
     font-weight: 600;
     letter-spacing: 0.025em;
     transition: all 0.3s ease;
-    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+    box-shadow: 0 4px 12px rgba(30, 58, 138, 0.3);
 }
 
 .enhanced-button:hover {
     transform: translateY(-2px);
-    box-shadow: 0 8px 20px rgba(37, 99, 235, 0.4);
-    background: linear-gradient(135deg, #1D4ED8 0%, #1E40AF 100%);
+    box-shadow: 0 8px 20px rgba(30, 58, 138, 0.4);
+    background: linear-gradient(135deg, #1E40AF 0%, #1E3A8A 100%);
 }
 
 .enhanced-button-secondary {
-    background: linear-gradient(135deg, #059669 0%, #10B981 100%);
-    box-shadow: 0 4px 12px rgba(5, 150, 105, 0.3);
+    background: linear-gradient(135deg, #F59E0B 0%, #FCD34D 100%);
+    color: #1E3A8A;
+    box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3);
 }
 
 .enhanced-button-secondary:hover {
-    background: linear-gradient(135deg, #047857 0%, #059669 100%);
-    box-shadow: 0 8px 20px rgba(5, 150, 105, 0.4);
+    background: linear-gradient(135deg, #FCD34D 0%, #F59E0B 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(245, 158, 11, 0.4);
 }
 
 .enhanced-welcome-title {
-    background: linear-gradient(135deg, #2563EB 0%, #059669 100%);
+    background: linear-gradient(135deg, #1E3A8A 0%, #F59E0B 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
