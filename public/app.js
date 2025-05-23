@@ -658,20 +658,29 @@ class WelcomeTour {
         const welcomeMessage = document.querySelector('.welcome-message');
         if (welcomeMessage) {
             const banner = document.createElement('div');
-            banner.className = 'welcome-banner show';
+            banner.className = 'welcome-banner';
             banner.innerHTML = `
-                <h3>👋 Welcome to OmniCore!</h3>
-                <p>Discover how to automate your business with AI-powered workflows</p>
-                <button class="start-tour-btn" onclick="tour.startTour()">
-                    🚀 Take the Tour (2 minutes)
-                </button>
-                <button class="start-tour-btn" onclick="tour.skipTour()" style="margin-left: 1rem; background: transparent; border: 1px solid rgba(255,255,255,0.3);">
-                    Skip for now
-                </button>
+                <div style="animation: fadeInScale 0.6s ease-out;">
+                    <h3 style="margin-bottom: 0.75rem; font-size: 1.8rem;">👋 Welcome to OmniCore!</h3>
+                    <p style="margin-bottom: 1.5rem; font-size: 1.1rem; opacity: 0.95;">Discover how AI automation can transform your business operations</p>
+                    <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+                        <button class="start-tour-btn" onclick="tour.startTour()" style="animation: pulse 2s infinite;">
+                            🚀 Take the Interactive Tour
+                        </button>
+                        <button class="start-tour-btn" onclick="tour.skipTour()" style="background: transparent; border: 2px solid rgba(255,255,255,0.4);">
+                            Maybe Later
+                        </button>
+                    </div>
+                </div>
             `;
             
             welcomeMessage.insertBefore(banner, welcomeMessage.firstChild);
-            setTimeout(() => banner.classList.add('show'), 100);
+            
+            // Smooth animation reveal
+            setTimeout(() => {
+                banner.classList.add('show');
+                banner.style.animation = 'slideDown 0.8s cubic-bezier(0.4, 0, 0.2, 1)';
+            }, 200);
         }
     }
 
@@ -1116,8 +1125,18 @@ function calculateROI() {
 
 // Fix missing functions for dashboard navigation
 function activateFeature(featureName) {
+    console.log('Activating feature:', featureName);
+    
+    // Hide dashboard
+    const dashboard = document.getElementById('dashboard');
+    if (dashboard) dashboard.style.display = 'none';
+    
     if (featureName === 'chat') {
-        initializeChatFeature();
+        const chatInterface = document.getElementById('chat-interface');
+        if (chatInterface) {
+            chatInterface.style.display = 'block';
+            initializeChatFeature();
+        }
     }
 }
 
