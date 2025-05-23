@@ -1594,13 +1594,19 @@ function toggleQuickActionsMenu() {
     const menu = document.getElementById('quick-actions-menu');
     const button = document.getElementById('quick-action-button');
     
+    if (!menu || !button) return;
+    
     if (quickActionsVisible) {
-        menu.classList.add('hidden');
-        button.classList.remove('active');
+        menu.style.opacity = '0';
+        menu.style.transform = 'translateY(20px)';
+        menu.style.pointerEvents = 'none';
+        button.style.transform = 'scale(1)';
         quickActionsVisible = false;
     } else {
-        menu.classList.remove('hidden');
-        button.classList.add('active');
+        menu.style.opacity = '1';
+        menu.style.transform = 'translateY(0)';
+        menu.style.pointerEvents = 'auto';
+        button.style.transform = 'scale(0.95)';
         quickActionsVisible = true;
         loadContextualActions(); // Refresh actions when opened
     }
@@ -1689,24 +1695,41 @@ function renderQuickActions() {
             <p>AI-recommended based on your current context</p>
             <button class="close-btn" onclick="toggleQuickActionsMenu()">×</button>
         </div>
-        <div class="quick-actions-grid">
-            ${highPriorityActions.map(action => `
-                <div class="quick-action-card" onclick="executeQuickAction('${action.action || 'default'}', '${(action.title || '').replace(/'/g, "&apos;")}')" data-category="${action.category || 'general'}">
-                    <div class="action-icon">${action.icon || '⚡'}</div>
-                    <div class="action-content">
-                        <h4>${action.title || 'Quick Action'}</h4>
-                        <p>${action.description || 'Automation task'}</p>
-                        <div class="action-meta">
-                            <span class="time-estimate">${action.estimatedTime || '5 min'}</span>
-                            <span class="impact-badge impact-${action.businessImpact || 'medium'}">${action.businessImpact || 'medium'} impact</span>
+        <div class="quick-actions-grid" style="padding: 16px; display: grid; gap: 12px; max-height: 50vh; overflow-y: auto;">
+            ${highPriorityActions.length > 0 ? highPriorityActions.map((action, index) => `
+                <div class="quick-action-card" onclick="executeQuickAction('${action.action || 'summarize'}', 'Quick Action ${index + 1}')" 
+                     style="background: white; border-radius: 12px; padding: 16px; cursor: pointer; border: 1px solid rgba(0,0,0,0.1); display: flex; align-items: flex-start; gap: 12px;">
+                    <div class="action-icon" style="font-size: 20px; padding: 8px; background: rgba(102, 126, 234, 0.1); border-radius: 10px; display: flex; align-items: center; justify-content: center;">
+                        ${action.icon || '⚡'}
+                    </div>
+                    <div class="action-content" style="flex: 1;">
+                        <h4 style="margin: 0 0 6px 0; font-size: 14px; font-weight: 600; color: #2d3748;">
+                            ${action.title || 'AI Task'}
+                        </h4>
+                        <p style="margin: 0 0 8px 0; font-size: 12px; color: #718096;">
+                            ${action.description || 'Automate your business process'}
+                        </p>
+                        <div class="action-meta" style="display: flex; gap: 6px; font-size: 10px;">
+                            <span style="background: rgba(74, 85, 104, 0.1); padding: 2px 6px; border-radius: 6px; font-weight: 500;">
+                                ${action.estimatedTime || '5 min'}
+                            </span>
+                            <span style="background: rgba(251, 211, 141, 0.3); color: #d69e2e; padding: 2px 6px; border-radius: 6px; font-weight: 600;">
+                                ${action.businessImpact || 'medium'} impact
+                            </span>
                         </div>
                     </div>
                 </div>
-            `).join('')}
+            `).join('') : `
+                <div style="text-align: center; padding: 20px; color: #718096;">
+                    <div style="font-size: 32px; margin-bottom: 10px;">⚡</div>
+                    <h4>Smart Actions Ready!</h4>
+                    <p>AI-powered automation tasks for your business</p>
+                </div>
+            `}
         </div>
-        <div class="quick-actions-footer">
-            <button onclick="showAllQuickActions()" class="btn-secondary">View All Actions</button>
-            <button onclick="refreshContextualActions()" class="btn-primary">🔄 Refresh</button>
+        <div class="quick-actions-footer" style="padding: 12px 16px; background: rgba(247, 250, 252, 0.9); display: flex; gap: 8px;">
+            <button onclick="showAllQuickActions()" style="flex: 1; padding: 8px 12px; border-radius: 8px; border: 1px solid #ddd; background: white; cursor: pointer; font-size: 12px;">View All</button>
+            <button onclick="refreshContextualActions()" style="flex: 1; padding: 8px 12px; border-radius: 8px; border: none; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; cursor: pointer; font-size: 12px;">🔄 Refresh</button>
         </div>
     `;
 }
