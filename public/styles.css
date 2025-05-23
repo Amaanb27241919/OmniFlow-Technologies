@@ -902,11 +902,35 @@ code {
 }
 
 .welcome-banner.show {
-    display: block;
+    display: block !important;
 }
 
 .welcome-banner h3 {
+    color: white !important;
     margin-bottom: 0.5rem;
+    font-size: 1.5rem;
+}
+
+.welcome-banner p {
+    color: white !important;
+    opacity: 0.9;
+    margin-bottom: 1rem;
+}
+
+.start-tour-btn {
+    background: rgba(255, 255, 255, 0.2);
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: 500;
+}
+
+.start-tour-btn:hover {
+    background: rgba(255, 255, 255, 0.3);
+    border-color: rgba(255, 255, 255, 0.5);
 }
 
 .welcome-banner p {
