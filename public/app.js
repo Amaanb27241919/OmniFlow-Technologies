@@ -1122,14 +1122,19 @@ function activateFeature(featureName) {
 }
 
 function showDashboard() {
-    // Hide all sections
-    document.getElementById('chat-interface').style.display = 'none';
-    document.getElementById('automation-hub').style.display = 'none';
-    document.getElementById('task-logs').style.display = 'none';
-    document.getElementById('analytics-dashboard').style.display = 'none';
-    document.getElementById('onboarding-workflows').style.display = 'none';
-    document.getElementById('roi-dashboard').style.display = 'none';
+    // Hide all sections safely (check if elements exist first)
+    const sections = ['chat-interface', 'automation-hub', 'task-logs', 'analytics-dashboard', 'onboarding-workflows', 'roi-dashboard'];
+    
+    sections.forEach(sectionId => {
+        const element = document.getElementById(sectionId);
+        if (element) {
+            element.style.display = 'none';
+        }
+    });
     
     // Show dashboard
-    document.getElementById('dashboard').style.display = 'block';
+    const dashboard = document.getElementById('dashboard');
+    if (dashboard) {
+        dashboard.style.display = 'block';
+    }
 }
