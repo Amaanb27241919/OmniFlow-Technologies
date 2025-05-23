@@ -1,6 +1,7 @@
 // Check login status first
 const isLoggedIn = localStorage.getItem('isLoggedIn');
 const userRole = localStorage.getItem('userRole');
+let currentUser = null;
 
 if (isLoggedIn === 'true' && userRole) {
     // User is logged in, set current user
@@ -935,6 +936,17 @@ function showClientDashboard() {
         if (titleElement) titleElement.textContent = 'Welcome to OmniCore';
         if (descElement) descElement.textContent = 'Your Complete AI Automation Platform';
         if (ctaSection) ctaSection.style.display = 'none'; // Hide the audit CTA for logged-in clients
+    }
+    
+    // Also hide any audit banners that might be showing
+    const auditBanner = document.querySelector('.audit-banner');
+    const auditCta = document.querySelector('.audit-cta');
+    const freeAuditSection = document.querySelector('[class*="audit"]');
+    
+    if (auditBanner) auditBanner.style.display = 'none';
+    if (auditCta) auditCta.style.display = 'none';
+    if (freeAuditSection && freeAuditSection.textContent.includes('Free Business Audit')) {
+        freeAuditSection.style.display = 'none';
     }
     
     if (chatInterface) {
