@@ -986,31 +986,22 @@ code {
 }
 
 .enhanced-feature-card {
-    background: linear-gradient(145deg, #FFFFFF 0%, #FAFBFF 100%);
-    border: 1px solid rgba(30, 58, 138, 0.1);
-    box-shadow: 0 8px 32px rgba(30, 58, 138, 0.08);
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    background: var(--surface-color);
+    border: 2px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    padding: 2rem;
+    text-align: center;
+    box-shadow: var(--shadow-sm);
+    transition: all 0.3s ease;
     position: relative;
-    overflow: hidden;
-    border-radius: 16px;
 }
 
-.enhanced-feature-card::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 3px;
-    background: linear-gradient(90deg, #1E3A8A 0%, #F59E0B 100%);
-    transform: scaleX(0);
-    transition: transform 0.4s ease;
-}
+
 
 .enhanced-feature-card:hover {
-    transform: translateY(-8px) scale(1.02);
-    box-shadow: 0 20px 40px rgba(30, 58, 138, 0.15);
-    border-color: rgba(30, 58, 138, 0.2);
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-md);
+    border-color: var(--primary-color);
 }
 
 .enhanced-feature-card:hover::before {
