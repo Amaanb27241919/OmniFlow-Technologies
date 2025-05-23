@@ -601,6 +601,45 @@ export async function registerRoutes(app: Express): Promise<Server> {
       res.status(500).json({ success: false, message: 'Error processing audit' });
     }
   });
+
+  // Client registration endpoint (for new subscribers)
+  app.post('/api/register-client', async (req, res) => {
+    try {
+      const { email, password, businessName, subscriptionPlan } = req.body;
+      
+      const clients = await readJsonFile('clients.json', []);
+      
+      // Check if client already exists
+      const existingClient = clients.find(c => c.email === email);
+      if (existingClient) {
+        return res.status(400).json({ success: false, message: 'Account already exists' });
+      }
+      
+      const newClient = {
+        id: clients.length + 1,
+        email,
+        password, // In production, hash this password
+        businessName,
+        subscriptionPlan: subscriptionPlan || 'basic',
+        status: 'active',
+        registeredAt: new Date().toISOString()
+      };
+      
+      clients.push(newClient);
+      await writeJsonFile('clients.json', clients);
+      
+      console.log('New client registered:', email);
+      
+      res.json({ 
+        success: true, 
+        message: 'Account created successfully',
+        clientId: newClient.id 
+      });
+    } catch (error) {
+      console.error('Error registering client:', error);
+      res.status(500).json({ success: false, message: 'Error creating account' });
+    }
+  });
   
   // Mount OmniCore routes
   app.use('/api', omniCoreRoutes);

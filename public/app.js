@@ -893,6 +893,76 @@ function showClientView() {
     window.location.reload(); // Reload to show client landing page
 }
 
+// Client dashboard for paying customers
+function showClientDashboard() {
+    const main = document.querySelector('main');
+    if (!main) return;
+    
+    main.innerHTML = `
+        <div class="client-dashboard">
+            <div class="client-hero">
+                <h1>Welcome to <span class="gradient-text">OmniCore</span></h1>
+                <p class="hero-subtitle">Your Complete AI Automation Platform</p>
+                <p class="client-welcome">Ready to transform your business with intelligent automation</p>
+            </div>
+            
+            <div class="dashboard-grid" style="margin-top: 30px;">
+                <div class="feature enhanced-feature-card">
+                    <div class="feature-icon enhanced-feature-icon">💬</div>
+                    <h3>AI Chat Assistant</h3>
+                    <p>Get strategic business advice and automation recommendations from your AI consultant</p>
+                    <button class="feature-button" onclick="initializeChatFeature()">Start Conversation</button>
+                </div>
+                
+                <div class="feature enhanced-feature-card">
+                    <div class="feature-icon enhanced-feature-icon">⚡</div>
+                    <h3>Automation Hub</h3>
+                    <p>Process content with AI: summarize documents, generate marketing copy, extract insights</p>
+                    <button class="feature-button" onclick="showAutomationHub()">Launch Automation</button>
+                </div>
+                
+                <div class="feature enhanced-feature-card">
+                    <div class="feature-icon enhanced-feature-icon">📊</div>
+                    <h3>Analytics Dashboard</h3>
+                    <p>Track automation ROI, monitor savings, and measure business impact</p>
+                    <button class="feature-button" onclick="showAnalyticsDashboard()">View Analytics</button>
+                </div>
+                
+                <div class="feature enhanced-feature-card">
+                    <div class="feature-icon enhanced-feature-icon">🎯</div>
+                    <h3>Workflow Templates</h3>
+                    <p>Access proven automation templates customized for your industry</p>
+                    <button class="feature-button" onclick="showWorkflowTemplates()">Browse Templates</button>
+                </div>
+                
+                <div class="feature enhanced-feature-card">
+                    <div class="feature-icon enhanced-feature-icon">📈</div>
+                    <h3>ROI Tracking</h3>
+                    <p>Monitor time savings, cost reductions, and business growth metrics</p>
+                    <button class="feature-button" onclick="showROIDashboard()">Track Performance</button>
+                </div>
+                
+                <div class="feature enhanced-feature-card">
+                    <div class="feature-icon enhanced-feature-icon">📝</div>
+                    <h3>Task History</h3>
+                    <p>Review completed automations and access previous AI-generated content</p>
+                    <button class="feature-button" onclick="showTaskLogs()">View History</button>
+                </div>
+            </div>
+            
+            <div class="quick-actions-panel" style="margin-top: 40px;">
+                <h3>🚀 Quick Actions</h3>
+                <div id="quick-actions-container" class="quick-actions-grid">
+                    <div class="loading-quick-actions">Loading personalized recommendations...</div>
+                </div>
+            </div>
+        </div>
+    `;
+    
+    // Load contextual quick actions for logged-in clients
+    loadContextualActions();
+}
+
 // Enhanced dashboard switcher
 function switchDashboardView() {
     if (isOpsManager()) {
@@ -1549,7 +1619,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const password = document.getElementById('login-password').value;
         
         try {
-            // Simple admin login check - bypass server for now
+            // Admin login check
             if (username === 'admin' && password === 'admin') {
                 authToken = 'admin-token';
                 currentUser = 'admin';
@@ -1560,6 +1630,20 @@ document.addEventListener('DOMContentLoaded', function() {
                 
                 // Automatically switch to Ops Manager dashboard
                 showOpsManagerDashboard();
+                return;
+            }
+            
+            // Client login check (paying customers)
+            if (username.includes('@') && password.length >= 6) {
+                authToken = 'client-token';
+                currentUser = username;
+                localStorage.setItem('authToken', authToken);
+                localStorage.setItem('username', currentUser);
+                updateUserInterface();
+                closeModal();
+                
+                // Show client dashboard with full access
+                showClientDashboard();
                 return;
             }
             
