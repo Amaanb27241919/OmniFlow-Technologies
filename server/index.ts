@@ -1,5 +1,5 @@
 import express, { type Request, Response, NextFunction } from "express";
-import { registerEnhancedRoutes } from "./enhanced-routes";
+import { registerRoutes } from "./routes";
 import { setupVite, serveStatic, log } from "./vite";
 import { setupNotionIntegration } from "./lib/setupNotion";
 
@@ -41,7 +41,7 @@ app.use((req, res, next) => {
   // Setup Notion integration if credentials are available
   await setupNotionIntegration();
   
-  const server = await registerEnhancedRoutes(app);
+  const server = await registerRoutes(app);
 
   app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
     const status = err.status || err.statusCode || 500;

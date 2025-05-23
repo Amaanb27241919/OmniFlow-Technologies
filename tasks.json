@@ -1,0 +1,24 @@
+[
+  {
+    "id": 1,
+    "task": "hello from stub",
+    "status": "completed",
+    "user": "alice",
+    "result": "MOCK RESULT for \"hello from stub\""
+  },
+  {
+    "id": 2,
+    "task": "stubbed scheduled run",
+    "schedule": "* * * * *",
+    "status": "completed",
+    "user": "alice",
+    "result": "MOCK RESULT for \"stubbed scheduled run\""
+  },
+  {
+    "id": 3,
+    "task": "hello with DB",
+    "status": "completed",
+    "user": "bob",
+    "result": "MOCK RESULT for \"hello with DB\""
+  }
+]

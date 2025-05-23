@@ -8,8 +8,60 @@ import { notion, findDatabaseByTitle, addAuditToNotion } from "./lib/notion";
 import { templateManager } from "./lib/templates/templateManager";
 import { generateInsightTooltip, preGenerateTooltips } from "./lib/tooltipService";
 import omniCoreRoutes from "./omnicore/routes";
+import cors from "cors";
+import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
+import cron from "node-cron";
+import fs from "fs/promises";
+import path from "path";
+
+// Enhanced task and user management from your existing backend
+interface EnhancedTask {
+  id: number;
+  task: string;
+  status: 'pending' | 'completed' | 'failed';
+  user: string;
+  result?: string;
+  schedule?: string;
+  timestamp?: string;
+}
+
+interface EnhancedUser {
+  username: string;
+  password: string;
+}
+
+interface EnhancedLogEntry {
+  id: number;
+  user: string;
+  task: string;
+  result: string;
+  timestamp: string;
+}
+
+// File paths for JSON storage
+const TASKS_FILE = path.join(process.cwd(), 'tasks.json');
+const USERS_FILE = path.join(process.cwd(), 'users.json');
+const LOGS_FILE = path.join(process.cwd(), 'logs.json');
+
+// Helper functions for file operations
+async function readJsonFile<T>(filePath: string, defaultValue: T[]): Promise<T[]> {
+  try {
+    const data = await fs.readFile(filePath, 'utf-8');
+    return JSON.parse(data);
+  } catch {
+    return defaultValue;
+  }
+}
+
+async function writeJsonFile<T>(filePath: string, data: T[]): Promise<void> {
+  await fs.writeFile(filePath, JSON.stringify(data, null, 2));
+}
 
 export async function registerRoutes(app: Express): Promise<Server> {
+  // Enhanced middleware setup
+  app.use(cors());
+  
   // Serve static files from the public directory
   app.use(express.static('public'));
   
