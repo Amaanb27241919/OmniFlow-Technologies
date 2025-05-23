@@ -41,6 +41,11 @@ app.use((req, res, next) => {
   // Setup Notion integration if credentials are available
   await setupNotionIntegration();
   
+  // Add landing page route BEFORE other routes and Vite
+  app.get('/', (req, res) => {
+    res.sendFile('landing.html', { root: 'public' });
+  });
+  
   const server = await registerRoutes(app);
 
   app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
