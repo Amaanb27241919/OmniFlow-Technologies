@@ -62,14 +62,23 @@ async function writeJsonFile<T>(filePath: string, data: T[]): Promise<void> {
 
 export async function registerRoutes(app: Express): Promise<Server> {
   // Enhanced middleware setup
-  app.use(cors());
+  app.use(cors({
+    origin: true,
+    credentials: true
+  }));
   app.use(express.json());
+  app.use(express.urlencoded({ extended: true }));
   
   // Serve static files from the public directory
   app.use(express.static('public'));
   
+  // Test endpoint
+  app.get('/api/test', (req, res) => {
+    res.json({ message: 'Server is working!' });
+  });
+
   // Authentication endpoint
-  app.post('/api/login', async (req, res) => {
+  app.post('/api/login', (req, res) => {
     try {
       const { email, password } = req.body;
       const username = email; // Accept email or username
