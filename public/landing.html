@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OmniCore - AI Automation Platform for SMBs</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%);
+            color: white;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Header */
+        .header {
+            padding: 20px 0;
+            position: relative;
+            z-index: 100;
+        }
+        
+        .nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            color: white;
+        }
+        
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .logo-text {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #f8fafc;
+        }
+        
+        .logo-tag {
+            font-size: 0.75rem;
+            background: rgba(99, 102, 241, 0.2);
+            color: #a5b4fc;
+            padding: 2px 8px;
+            border-radius: 4px;
+            margin-left: 8px;
+        }
+        
+        .nav-buttons {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .btn {
+            padding: 10px 20px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+        
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            backdrop-filter: blur(10px);
+        }
+        
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-1px);
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(99, 102, 241, 0.3);
+        }
+        
+        /* Hero Section */
+        .hero {
+            padding: 100px 0 150px;
+            text-align: center;
+            position: relative;
+        }
+        
+        .hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .hero-title {
+            font-size: 3.5rem;
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 24px;
+            background: linear-gradient(135deg, #f8fafc 0%, #cbd5e1 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .hero-subtitle {
+            font-size: 1.3rem;
+            color: #94a3b8;
+            margin-bottom: 40px;
+            line-height: 1.6;
+            font-weight: 400;
+        }
+        
+        .hero-cta {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            margin-bottom: 60px;
+        }
+        
+        .btn-large {
+            padding: 16px 32px;
+            font-size: 1.1rem;
+            border-radius: 12px;
+        }
+        
+        .audit-btn {
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            color: white;
+            font-weight: 600;
+            box-shadow: 0 10px 25px rgba(99, 102, 241, 0.2);
+        }
+        
+        .audit-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 35px rgba(99, 102, 241, 0.4);
+        }
+        
+        /* Product Showcase */
+        .product-showcase {
+            position: relative;
+            margin-top: 80px;
+            perspective: 1000px;
+        }
+        
+        .devices-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 30px;
+            transform-style: preserve-3d;
+        }
+        
+        .device {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            padding: 20px;
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: transform 0.3s ease;
+        }
+        
+        .device:hover {
+            transform: rotateY(5deg) rotateX(5deg);
+        }
+        
+        .device-screen {
+            width: 250px;
+            height: 500px;
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            border-radius: 16px;
+            padding: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .screen-content {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            height: 100%;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .screen-header {
+            color: #1e293b;
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+        
+        .screen-text {
+            color: #64748b;
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+        
+        /* Features Section */
+        .features {
+            padding: 150px 0;
+            background: rgba(0, 0, 0, 0.2);
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+            margin-top: 80px;
+        }
+        
+        .feature-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 40px;
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.08);
+        }
+        
+        .feature-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+        }
+        
+        .feature-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: #f8fafc;
+        }
+        
+        .feature-description {
+            color: #94a3b8;
+            line-height: 1.6;
+        }
+        
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #f8fafc;
+            margin-bottom: 20px;
+        }
+        
+        .section-subtitle {
+            text-align: center;
+            font-size: 1.2rem;
+            color: #94a3b8;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        /* CTA Section */
+        .cta-section {
+            padding: 100px 0;
+            text-align: center;
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            margin: 100px 0 0;
+        }
+        
+        .cta-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: white;
+        }
+        
+        .cta-subtitle {
+            font-size: 1.2rem;
+            margin-bottom: 40px;
+            opacity: 0.9;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 2.5rem;
+            }
+            
+            .hero-cta {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .devices-container {
+                flex-direction: column;
+                gap: 20px;
+            }
+            
+            .device-screen {
+                width: 200px;
+                height: 400px;
+            }
+            
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <nav class="nav">
+                <a href="#" class="logo">
+                    <div class="logo-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="white">
+                            <path d="M6 8l6-6 6 6H6z"></path>
+                            <path d="M12 22l-6-6h12l-6 6z"></path>
+                            <path d="M2 12l4-4h12l4 4-4 4H6l-4-4z"></path>
+                        </svg>
+                    </div>
+                    <div>
+                        <span class="logo-text">OmniCore</span>
+                        <span class="logo-tag">by OmniFlow Advisory</span>
+                    </div>
+                </a>
+                <div class="nav-buttons">
+                    <a href="/app" class="btn btn-secondary">Login</a>
+                    <a href="/audit" class="btn btn-primary">Start Free Audit</a>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero">
+            <div class="container">
+                <div class="hero-content">
+                    <h1 class="hero-title">Transform Your Business with AI Automation</h1>
+                    <p class="hero-subtitle">
+                        Discover $10,000+ in annual savings through intelligent automation. 
+                        Get personalized recommendations in 5 minutes, no technical expertise required.
+                    </p>
+                    <div class="hero-cta">
+                        <a href="/audit" class="btn btn-large audit-btn">🚀 Start Your Free Business Audit</a>
+                        <a href="#features" class="btn btn-large btn-secondary">Learn More</a>
+                    </div>
+                </div>
+                
+                <div class="product-showcase">
+                    <div class="devices-container">
+                        <div class="device">
+                            <div class="device-screen">
+                                <div class="screen-content">
+                                    <div class="screen-header">AI Chat Assistant</div>
+                                    <div class="screen-text">
+                                        Get strategic business advice and automation recommendations from your AI consultant.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="device">
+                            <div class="device-screen">
+                                <div class="screen-content">
+                                    <div class="screen-header">Automation Hub</div>
+                                    <div class="screen-text">
+                                        Process content with AI: summarize documents, generate marketing copy, extract insights.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="device">
+                            <div class="device-screen">
+                                <div class="screen-content">
+                                    <div class="screen-header">ROI Analytics</div>
+                                    <div class="screen-text">
+                                        Track automation impact, cost savings, and business growth metrics in real-time.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="features" id="features">
+            <div class="container">
+                <h2 class="section-title">Built for Small Business Success</h2>
+                <p class="section-subtitle">
+                    Enterprise-grade AI automation made accessible for SMBs, solo entrepreneurs, and growing teams.
+                </p>
+                
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon">🎯</div>
+                        <h3 class="feature-title">Business Intelligence</h3>
+                        <p class="feature-description">
+                            AI-powered insights and recommendations tailored to your industry and business model.
+                        </p>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <div class="feature-icon">⚡</div>
+                        <h3 class="feature-title">Instant Automation</h3>
+                        <p class="feature-description">
+                            Deploy proven workflow templates in minutes, not months. No technical expertise required.
+                        </p>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <div class="feature-icon">📊</div>
+                        <h3 class="feature-title">ROI Tracking</h3>
+                        <p class="feature-description">
+                            Monitor time savings, cost reductions, and business growth with real-time analytics.
+                        </p>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <div class="feature-icon">🔧</div>
+                        <h3 class="feature-title">Expert Support</h3>
+                        <p class="feature-description">
+                            Dedicated automation consultants to guide your implementation and maximize results.
+                        </p>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <div class="feature-icon">🚀</div>
+                        <h3 class="feature-title">Scalable Growth</h3>
+                        <p class="feature-description">
+                            Automation that grows with your business, from startup to enterprise scale.
+                        </p>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <div class="feature-icon">💰</div>
+                        <h3 class="feature-title">Proven ROI</h3>
+                        <p class="feature-description">
+                            Average clients see 245% ROI within 6 months of implementation.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="cta-section">
+            <div class="container">
+                <h2 class="cta-title">Ready to Transform Your Business?</h2>
+                <p class="cta-subtitle">
+                    Join hundreds of SMBs already saving thousands with AI automation.
+                </p>
+                <a href="/audit" class="btn btn-large" style="background: white; color: #6366f1; font-weight: 600;">
+                    Get Your Free Automation Analysis
+                </a>
+            </div>
+        </section>
+    </main>
+</body>
+</html>

@@ -96,8 +96,13 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // Serve the OmniCore app at the root route
+  // Serve the new landing page at the root route
   app.get('/', (req, res) => {
+    res.sendFile('landing.html', { root: 'public' });
+  });
+  
+  // Serve the app dashboard for logged-in users
+  app.get('/app', (req, res) => {
     res.sendFile('index.html', { root: 'public' });
   });
   
