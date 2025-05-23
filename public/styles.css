@@ -1188,14 +1188,14 @@ code {
 .template-icon {
     font-size: 3rem;
     margin-bottom: 1.5rem;
-    background: linear-gradient(135deg, rgba(45, 91, 255, 0.1) 0%, rgba(0, 200, 150, 0.1) 100%);
+    background: linear-gradient(135deg, rgba(30, 58, 138, 0.1) 0%, rgba(245, 158, 11, 0.1) 100%);
     padding: 1.5rem;
     border-radius: 20px;
     display: inline-block;
 }
 
 .template-card h3 {
-    color: #2D5BFF;
+    color: #1E3A8A;
     margin-bottom: 1rem;
     font-size: 1.25rem;
 }
@@ -1216,7 +1216,7 @@ code {
 }
 
 .active-workflows h3 {
-    color: #2D5BFF;
+    color: #1E3A8A;
     margin-bottom: 1.5rem;
 }
 
@@ -1225,7 +1225,7 @@ code {
     align-items: center;
     gap: 1rem;
     padding: 1rem;
-    background: rgba(45, 91, 255, 0.05);
+    background: rgba(30, 58, 138, 0.05);
     border-radius: 8px;
     margin-bottom: 0.5rem;
 }
@@ -1253,12 +1253,12 @@ code {
 }
 
 .roi-card.primary {
-    background: linear-gradient(135deg, #2D5BFF 0%, #00C896 100%);
+    background: linear-gradient(135deg, #1E3A8A 0%, #F59E0B 100%);
     color: white;
     padding: 3rem;
     border-radius: 20px;
     text-align: center;
-    box-shadow: 0 8px 30px rgba(45, 91, 255, 0.3);
+    box-shadow: 0 8px 30px rgba(30, 58, 138, 0.3);
 }
 
 .roi-card.primary h3 {
@@ -1312,7 +1312,7 @@ code {
 }
 
 .breakdown-value {
-    color: #2D5BFF;
+    color: #1E3A8A;
     font-weight: 700;
     font-size: 1.1rem;
 }
@@ -1327,7 +1327,7 @@ code {
 }
 
 .roi-calculator h3 {
-    color: #2D5BFF;
+    color: #1E3A8A;
     margin-bottom: 2rem;
 }
 
@@ -1376,7 +1376,7 @@ code {
 .result-value {
     font-size: 1.5rem;
     font-weight: 700;
-    color: #00C896;
+    color: #F59E0B;
 }
 
 .dashboard-actions, .workflow-actions, .roi-actions {
