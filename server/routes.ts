@@ -7,6 +7,7 @@ import { generateAuditResults } from "./lib/auditLogic";
 import { notion, findDatabaseByTitle, addAuditToNotion } from "./lib/notion";
 import { templateManager } from "./lib/templates/templateManager";
 import { generateInsightTooltip, preGenerateTooltips } from "./lib/tooltipService";
+import { generateContextualActions, type ContextData } from "./lib/quickActionsAI";
 import omniCoreRoutes from "./omnicore/routes";
 import cors from "cors";
 import bcrypt from "bcrypt";
@@ -214,6 +215,27 @@ export async function registerRoutes(app: Express): Promise<Server> {
   
   // Register enhanced automation capabilities
   registerEnhancedAutomation(app);
+
+  // AI-powered quick actions endpoint
+  app.post('/api/quick-actions', async (req, res) => {
+    try {
+      const contextData: ContextData = {
+        currentPage: req.body.currentPage || 'dashboard',
+        userRole: req.body.userRole || 'business_owner',
+        businessType: req.body.businessType || 'small_business',
+        selectedText: req.body.selectedText || '',
+        timeOfDay: new Date().getHours() < 12 ? 'morning' : 'afternoon',
+        recentActions: req.body.recentActions || [],
+        businessGoals: req.body.businessGoals || ['growth', 'efficiency']
+      };
+
+      const actions = await generateContextualActions(contextData);
+      res.json({ success: true, actions });
+    } catch (error) {
+      console.error('Error generating quick actions:', error);
+      res.status(500).json({ error: 'Failed to generate quick actions' });
+    }
+  });
   // Create a new business audit
   app.post("/api/audits", async (req, res) => {
     try {

@@ -1521,6 +1521,287 @@ function loadScheduledTasks() {
     alert('📅 Schedule Management coming soon!\n\nFor now, you can use Quick Tasks for immediate AI processing.');
 }
 
+// AI-Powered Quick Actions Menu System
+let quickActionsVisible = false;
+let currentQuickActions = [];
+
+// Initialize quick actions menu
+function initializeQuickActions() {
+    // Add floating action button
+    const quickActionButton = document.createElement('div');
+    quickActionButton.id = 'quick-action-button';
+    quickActionButton.className = 'quick-action-fab';
+    quickActionButton.innerHTML = `
+        <div class="fab-icon">⚡</div>
+        <div class="fab-label">Quick Actions</div>
+    `;
+    quickActionButton.onclick = toggleQuickActionsMenu;
+    document.body.appendChild(quickActionButton);
+
+    // Add quick actions menu container
+    const quickActionsMenu = document.createElement('div');
+    quickActionsMenu.id = 'quick-actions-menu';
+    quickActionsMenu.className = 'quick-actions-menu hidden';
+    document.body.appendChild(quickActionsMenu);
+
+    // Load initial contextual actions
+    loadContextualActions();
+    
+    // Auto-refresh actions based on user context
+    setInterval(refreshContextualActions, 30000); // Every 30 seconds
+}
+
+function toggleQuickActionsMenu() {
+    const menu = document.getElementById('quick-actions-menu');
+    const button = document.getElementById('quick-action-button');
+    
+    if (quickActionsVisible) {
+        menu.classList.add('hidden');
+        button.classList.remove('active');
+        quickActionsVisible = false;
+    } else {
+        menu.classList.remove('hidden');
+        button.classList.add('active');
+        quickActionsVisible = true;
+        loadContextualActions(); // Refresh actions when opened
+    }
+}
+
+async function loadContextualActions() {
+    try {
+        const contextData = gatherUserContext();
+        
+        const response = await fetch('/api/quick-actions', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(contextData)
+        });
+
+        if (response.ok) {
+            const result = await response.json();
+            currentQuickActions = result.actions || [];
+            renderQuickActions();
+        } else {
+            // Use fallback actions if API fails
+            currentQuickActions = getFallbackActions();
+            renderQuickActions();
+        }
+    } catch (error) {
+        console.error('Error loading quick actions:', error);
+        currentQuickActions = getFallbackActions();
+        renderQuickActions();
+    }
+}
+
+function gatherUserContext() {
+    return {
+        currentPage: getCurrentPageContext(),
+        businessType: 'small_business',
+        selectedText: getSelectedText(),
+        recentActions: getRecentUserActions(),
+        businessGoals: ['growth', 'efficiency', 'automation']
+    };
+}
+
+function getCurrentPageContext() {
+    const currentView = document.querySelector('main').innerHTML;
+    if (currentView.includes('automation-hub')) return 'automation';
+    if (currentView.includes('analytics-dashboard')) return 'analytics';
+    if (currentView.includes('roi-dashboard')) return 'roi';
+    return 'dashboard';
+}
+
+function getSelectedText() {
+    return window.getSelection().toString().substring(0, 100);
+}
+
+function getRecentUserActions() {
+    // Track recent actions from localStorage
+    return JSON.parse(localStorage.getItem('recentActions') || '[]').slice(0, 5);
+}
+
+function renderQuickActions() {
+    const menu = document.getElementById('quick-actions-menu');
+    if (!menu) return;
+
+    const highPriorityActions = currentQuickActions
+        .filter(action => action.priority >= 7)
+        .sort((a, b) => b.priority - a.priority)
+        .slice(0, 6);
+
+    menu.innerHTML = `
+        <div class="quick-actions-header">
+            <h3>⚡ Smart Quick Actions</h3>
+            <p>AI-recommended based on your current context</p>
+            <button class="close-btn" onclick="toggleQuickActionsMenu()">×</button>
+        </div>
+        <div class="quick-actions-grid">
+            ${highPriorityActions.map(action => `
+                <div class="quick-action-card" onclick="executeQuickAction('${action.action}', '${action.title}')" data-category="${action.category}">
+                    <div class="action-icon">${action.icon}</div>
+                    <div class="action-content">
+                        <h4>${action.title}</h4>
+                        <p>${action.description}</p>
+                        <div class="action-meta">
+                            <span class="time-estimate">${action.estimatedTime}</span>
+                            <span class="impact-badge impact-${action.businessImpact}">${action.businessImpact} impact</span>
+                        </div>
+                    </div>
+                </div>
+            `).join('')}
+        </div>
+        <div class="quick-actions-footer">
+            <button onclick="showAllQuickActions()" class="btn-secondary">View All Actions</button>
+            <button onclick="refreshContextualActions()" class="btn-primary">🔄 Refresh</button>
+        </div>
+    `;
+}
+
+async function executeQuickAction(actionType, actionTitle) {
+    // Track the action
+    trackUserAction(actionType);
+    
+    // Close the menu
+    toggleQuickActionsMenu();
+    
+    // Execute the action based on type
+    switch (actionType) {
+        case 'summarize':
+            showAutomationHub();
+            setTimeout(() => selectTaskType('summarize'), 500);
+            break;
+        case 'generate-copy':
+            showAutomationHub();
+            setTimeout(() => selectTaskType('generate-copy'), 500);
+            break;
+        case 'insights':
+            showAutomationHub();
+            setTimeout(() => selectTaskType('insights'), 500);
+            break;
+        case 'rewrite':
+            showAutomationHub();
+            setTimeout(() => selectTaskType('rewrite'), 500);
+            break;
+        case 'email-draft':
+            showAutomationHub();
+            setTimeout(() => {
+                selectTaskType('generate-copy');
+                document.getElementById('task-input').placeholder = 'Describe the email you want to create...';
+            }, 500);
+            break;
+        case 'social-media':
+            showAutomationHub();
+            setTimeout(() => {
+                selectTaskType('generate-copy');
+                document.getElementById('task-input').placeholder = 'Describe your social media post...';
+            }, 500);
+            break;
+        default:
+            alert(`🚀 Executing: ${actionTitle}\n\nThis will help automate your business processes!`);
+    }
+}
+
+function trackUserAction(action) {
+    const recentActions = JSON.parse(localStorage.getItem('recentActions') || '[]');
+    recentActions.unshift(action);
+    localStorage.setItem('recentActions', JSON.stringify(recentActions.slice(0, 10)));
+}
+
+function refreshContextualActions() {
+    loadContextualActions();
+    alert('🔄 Quick actions refreshed based on your current context!');
+}
+
+function showAllQuickActions() {
+    const menu = document.getElementById('quick-actions-menu');
+    menu.innerHTML = `
+        <div class="quick-actions-header">
+            <h3>📋 All Quick Actions</h3>
+            <button class="close-btn" onclick="toggleQuickActionsMenu()">×</button>
+        </div>
+        <div class="actions-by-category">
+            ${renderActionsByCategory()}
+        </div>
+        <div class="quick-actions-footer">
+            <button onclick="loadContextualActions(); renderQuickActions();" class="btn-primary">← Back to Smart Actions</button>
+        </div>
+    `;
+}
+
+function renderActionsByCategory() {
+    const categories = {
+        'content': { name: 'Content Creation', icon: '📝' },
+        'marketing': { name: 'Marketing', icon: '📈' },
+        'operations': { name: 'Operations', icon: '⚙️' },
+        'analysis': { name: 'Analysis', icon: '📊' },
+        'communication': { name: 'Communication', icon: '💬' }
+    };
+
+    return Object.entries(categories).map(([category, info]) => {
+        const categoryActions = currentQuickActions.filter(action => action.category === category);
+        if (categoryActions.length === 0) return '';
+
+        return `
+            <div class="category-section">
+                <h4>${info.icon} ${info.name}</h4>
+                <div class="category-actions">
+                    ${categoryActions.map(action => `
+                        <div class="mini-action-card" onclick="executeQuickAction('${action.action}', '${action.title}')">
+                            <span class="mini-icon">${action.icon}</span>
+                            <span class="mini-title">${action.title}</span>
+                        </div>
+                    `).join('')}
+                </div>
+            </div>
+        `;
+    }).join('');
+}
+
+function getFallbackActions() {
+    return [
+        {
+            id: "content_summarize",
+            title: "📝 Summarize Content",
+            description: "Quickly summarize long documents or articles",
+            icon: "📝",
+            category: "content",
+            priority: 8,
+            action: "summarize",
+            estimatedTime: "2-5 min",
+            businessImpact: "medium"
+        },
+        {
+            id: "marketing_copy",
+            title: "💡 Generate Marketing Copy",
+            description: "Create compelling marketing content",
+            icon: "💡",
+            category: "marketing",
+            priority: 9,
+            action: "generate-copy",
+            estimatedTime: "5-10 min",
+            businessImpact: "high"
+        },
+        {
+            id: "business_insights",
+            title: "📊 Business Analysis",
+            description: "Get insights from your business data",
+            icon: "📊",
+            category: "analysis",
+            priority: 7,
+            action: "insights",
+            estimatedTime: "10-15 min",
+            businessImpact: "high"
+        }
+    ];
+}
+
+// Initialize when page loads
+document.addEventListener('DOMContentLoaded', function() {
+    setTimeout(initializeQuickActions, 1000);
+});
+
 function showAnalyticsDashboard() {
     console.log('Showing analytics dashboard');
     const dashboard = document.getElementById('dashboard');
