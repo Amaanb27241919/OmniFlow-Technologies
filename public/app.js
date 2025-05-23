@@ -599,25 +599,37 @@ class WelcomeTour {
             {
                 target: '.feature:nth-child(1)',
                 title: 'AI Chat Assistant 🤖',
-                description: 'Get instant expert advice on business automation, workflows, and AI implementation strategies.',
+                description: 'Your intelligent business advisor that provides expert guidance on automation strategies, workflow optimization, and implementation best practices. Get personalized recommendations based on your specific business needs.',
                 position: 'bottom'
             },
             {
                 target: '.feature:nth-child(2)',
                 title: 'Business Audit Tool 📊',
-                description: 'Complete a comprehensive 4-step assessment to receive personalized automation recommendations.',
+                description: 'Complete a comprehensive 4-step assessment analyzing your business basics, operations, growth challenges, and AI readiness. Receive detailed reports with actionable automation recommendations.',
                 position: 'bottom'
             },
             {
                 target: '.feature:nth-child(3)',
                 title: 'Automation Hub ⚡',
-                description: 'Process any content with AI: summarize documents, rewrite text, generate marketing copy, and extract insights.',
+                description: 'Powerful AI-driven content processing center. Automatically summarize documents, rewrite content for different audiences, generate marketing copy, and extract valuable business insights.',
                 position: 'top'
             },
             {
                 target: '.feature:nth-child(4)',
-                title: 'Task Logs 📈',
-                description: 'Track all your automation workflows and view detailed analytics of your AI-powered tasks.',
+                title: 'Analytics & Insights 📈',
+                description: 'Track your automation performance with real-time metrics including cost savings, time recovered, and efficiency gains. Monitor ROI and get intelligent optimization recommendations.',
+                position: 'top'
+            },
+            {
+                target: '.feature:nth-child(5)',
+                title: 'Client Onboarding 👥',
+                description: 'Streamline new client acquisition with automated workflows for welcome sequences, document collection, consultation scheduling, and progress tracking for consistent professional experiences.',
+                position: 'top'
+            },
+            {
+                target: '.feature:nth-child(6)',
+                title: 'ROI Tracking 💰',
+                description: 'Calculate and monitor your automation investment returns with detailed financial analytics. Use the built-in calculator to project potential savings and measure actual business impact.',
                 position: 'top'
             },
             {
