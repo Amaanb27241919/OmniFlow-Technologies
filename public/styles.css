@@ -164,7 +164,7 @@ main {
     border-color: var(--primary-color);
 }
 
-.feature-icon {
+.feature-icon, .enhanced-feature-icon {
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -175,6 +175,12 @@ main {
     color: white;
     margin-bottom: 1.5rem;
     box-shadow: var(--shadow-sm);
+}
+
+.feature-icon svg, .enhanced-feature-icon svg {
+    width: 24px;
+    height: 24px;
+    stroke: currentColor;
 }
 
 .feature h3 {
@@ -885,13 +891,14 @@ code {
 }
 
 .welcome-banner {
-    background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--accent-color) 100%);
     color: white;
-    padding: 1rem 2rem;
-    border-radius: 12px;
+    padding: 1.5rem 2rem;
+    border-radius: var(--radius-lg);
     margin-bottom: 2rem;
     display: none;
     animation: slideDown 0.5s ease;
+    text-align: center;
 }
 
 .welcome-banner.show {
@@ -1027,29 +1034,33 @@ code {
 }
 
 .enhanced-welcome-title {
-    background: linear-gradient(135deg, var(--primary-color) 0%, var(--accent-color) 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    font-weight: 800;
-    font-size: 3rem;
+    color: var(--primary-color);
+    font-weight: 700;
+    font-size: 2.5rem;
+    text-align: center;
+    margin-bottom: 1rem;
     letter-spacing: -0.025em;
 }
 
 .enhanced-description {
-    color: #64748B;
-    font-size: 1.25rem;
-    font-weight: 500;
-    opacity: 0.9;
+    color: var(--text-secondary);
+    font-size: 1.125rem;
+    text-align: center;
+    margin-bottom: 2.5rem;
 }
 
 .enhanced-feature-icon {
-    background: linear-gradient(135deg, rgba(37, 99, 235, 0.1) 0%, rgba(5, 150, 105, 0.1) 100%);
-    padding: 1.5rem;
-    border-radius: 20px;
+    background: var(--primary-color);
+    width: 60px;
+    height: 60px;
+    border-radius: var(--radius-md);
     display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
     margin-bottom: 1.5rem;
     transition: all 0.3s ease;
+    box-shadow: var(--shadow-sm);
 }
 
 .enhanced-feature-card:hover .enhanced-feature-icon {

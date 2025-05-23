@@ -658,7 +658,7 @@ class WelcomeTour {
         const welcomeMessage = document.querySelector('.welcome-message');
         if (welcomeMessage) {
             const banner = document.createElement('div');
-            banner.className = 'welcome-banner';
+            banner.className = 'welcome-banner show';
             banner.innerHTML = `
                 <h3>👋 Welcome to OmniCore!</h3>
                 <p>Discover how to automate your business with AI-powered workflows</p>
