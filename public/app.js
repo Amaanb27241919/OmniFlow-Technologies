@@ -881,6 +881,12 @@ function isOpsManager() {
     return currentUser === 'admin' || currentUser === 'ops_manager' || currentUser === 'manager';
 }
 
+// Temporary direct access to Ops Manager dashboard for testing
+function testOpsManagerAccess() {
+    currentUser = 'admin'; // Set admin access
+    showOpsManagerDashboard();
+}
+
 // Enhanced dashboard switcher
 function switchDashboardView() {
     if (isOpsManager()) {
