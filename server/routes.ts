@@ -116,6 +116,107 @@ export async function registerRoutes(app: Express): Promise<Server> {
             margin: 0 auto;
             padding: 20px;
           }
+          .audit-container {
+            background: white;
+            border-radius: 12px;
+            padding: 40px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            margin: 20px 0;
+          }
+          .audit-header {
+            text-align: center;
+            margin-bottom: 40px;
+          }
+          .audit-header h1 {
+            color: #4F46E5;
+            margin-bottom: 10px;
+            font-size: 2.5rem;
+          }
+          .audit-subtitle {
+            font-size: 1.2rem;
+            color: #374151;
+            margin-bottom: 10px;
+          }
+          .value-prop {
+            color: #059669;
+            font-weight: 600;
+          }
+          .form-section {
+            margin-bottom: 30px;
+            padding: 25px;
+            background: #f8fafc;
+            border-radius: 8px;
+            border-left: 4px solid #4F46E5;
+          }
+          .form-section h3 {
+            color: #1f2937;
+            margin-bottom: 20px;
+            font-size: 1.3rem;
+          }
+          .form-row {
+            margin-bottom: 20px;
+          }
+          .form-row label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+            color: #374151;
+          }
+          .form-row input, .form-row select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e5e7eb;
+            border-radius: 6px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+          }
+          .form-row input:focus, .form-row select:focus {
+            outline: none;
+            border-color: #4F46E5;
+          }
+          .checkbox-group {
+            display: grid;
+            gap: 12px;
+          }
+          .checkbox-group label {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: normal;
+            cursor: pointer;
+            padding: 10px;
+            border-radius: 6px;
+            transition: background-color 0.3s;
+          }
+          .checkbox-group label:hover {
+            background-color: #f3f4f6;
+          }
+          .checkbox-group input[type="checkbox"] {
+            width: auto;
+            margin: 0;
+          }
+          .audit-submit-btn {
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(135deg, #4F46E5 0%, #7C3AED 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.3s;
+            margin-top: 20px;
+          }
+          .audit-submit-btn:hover {
+            transform: translateY(-2px);
+          }
+          .privacy-note {
+            text-align: center;
+            color: #6b7280;
+            font-size: 0.9rem;
+            margin-top: 15px;
+          }
           .header {
             display: flex;
             align-items: center;
@@ -205,8 +306,260 @@ export async function registerRoutes(app: Express): Promise<Server> {
             </a>
           </div>
           
-          <iframe src="/api/audit-form" title="Business Audit Form"></iframe>
+          <!-- Lead Magnet Business Audit Form -->
+          <div class="audit-container">
+            <div class="audit-header">
+              <h1>🚀 Free Business Automation Audit</h1>
+              <p class="audit-subtitle">Discover $10,000+ in annual savings through AI automation</p>
+              <p class="value-prop">✓ No login required ✓ Get instant results ✓ Personalized recommendations</p>
+            </div>
+            
+            <form id="audit-form" class="audit-form">
+              <div class="form-section">
+                <h3>📊 Business Overview</h3>
+                <div class="form-row">
+                  <label>Business Name:</label>
+                  <input type="text" name="businessName" required placeholder="e.g., Tech Solutions Inc">
+                </div>
+                <div class="form-row">
+                  <label>Industry:</label>
+                  <select name="industry" required>
+                    <option value="">Select your industry</option>
+                    <option value="consulting">Consulting</option>
+                    <option value="marketing">Marketing Agency</option>
+                    <option value="ecommerce">E-commerce</option>
+                    <option value="saas">Software/SaaS</option>
+                    <option value="retail">Retail</option>
+                    <option value="manufacturing">Manufacturing</option>
+                    <option value="other">Other</option>
+                  </select>
+                </div>
+                <div class="form-row">
+                  <label>Annual Revenue:</label>
+                  <select name="revenue" required>
+                    <option value="">Select revenue range</option>
+                    <option value="under-100k">Under $100K</option>
+                    <option value="100k-500k">$100K - $500K</option>
+                    <option value="500k-1m">$500K - $1M</option>
+                    <option value="1m-5m">$1M - $5M</option>
+                    <option value="over-5m">Over $5M</option>
+                  </select>
+                </div>
+              </div>
+              
+              <div class="form-section">
+                <h3>⚡ Current Challenges</h3>
+                <div class="checkbox-group">
+                  <label><input type="checkbox" name="challenges" value="manual-tasks"> Too many manual, repetitive tasks</label>
+                  <label><input type="checkbox" name="challenges" value="client-communication"> Client communication takes too much time</label>
+                  <label><input type="checkbox" name="challenges" value="content-creation"> Content creation is slow and expensive</label>
+                  <label><input type="checkbox" name="challenges" value="data-analysis"> Difficulty analyzing business data</label>
+                  <label><input type="checkbox" name="challenges" value="scaling"> Hard to scale without hiring more staff</label>
+                  <label><input type="checkbox" name="challenges" value="roi-tracking"> Can't measure ROI effectively</label>
+                </div>
+              </div>
+              
+              <div class="form-section">
+                <h3>📧 Get Your Results</h3>
+                <div class="form-row">
+                  <label>Email Address:</label>
+                  <input type="email" name="email" required placeholder="your@email.com">
+                </div>
+                <div class="form-row">
+                  <label>Phone (optional):</label>
+                  <input type="tel" name="phone" placeholder="For priority consultation">
+                </div>
+              </div>
+              
+              <button type="submit" class="audit-submit-btn">
+                🚀 Get My Free Automation Analysis
+              </button>
+              
+              <p class="privacy-note">We respect your privacy. No spam, unsubscribe anytime.</p>
+            </form>
+          </div>
         </div>
+        
+        <script>
+          document.getElementById('audit-form').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const submitBtn = document.querySelector('.audit-submit-btn');
+            submitBtn.innerHTML = '🔄 Analyzing Your Business...';
+            submitBtn.disabled = true;
+            
+            const formData = new FormData(this);
+            const challenges = formData.getAll('challenges');
+            
+            const auditData = {
+              businessName: formData.get('businessName'),
+              industry: formData.get('industry'),
+              revenue: formData.get('revenue'),
+              challenges: challenges,
+              email: formData.get('email'),
+              phone: formData.get('phone'),
+              timestamp: new Date().toISOString()
+            };
+            
+            try {
+              const response = await fetch('/api/submit-audit', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(auditData)
+              });
+              
+              if (response.ok) {
+                // Show conversion page with results + upgrade CTA
+                showAuditResults(auditData);
+              } else {
+                throw new Error('Submission failed');
+              }
+            } catch (error) {
+              submitBtn.innerHTML = '❌ Please try again';
+              submitBtn.disabled = false;
+              setTimeout(() => {
+                submitBtn.innerHTML = '🚀 Get My Free Automation Analysis';
+              }, 2000);
+            }
+          });
+          
+          function showAuditResults(data) {
+            document.querySelector('.audit-container').innerHTML = \`
+              <div class="results-container">
+                <div class="results-header">
+                  <h1>🎉 Your Business Automation Analysis</h1>
+                  <p class="results-subtitle">Based on your \${data.industry} business with \${data.revenue} revenue</p>
+                </div>
+                
+                <div class="savings-highlight">
+                  <h2>💰 Estimated Annual Savings: $12,000 - $45,000</h2>
+                  <p>Through AI automation of your current pain points</p>
+                </div>
+                
+                <div class="recommendations">
+                  <h3>🎯 Priority Automation Opportunities:</h3>
+                  <div class="recommendation-list">
+                    \${generateRecommendations(data.challenges)}
+                  </div>
+                </div>
+                
+                <div class="conversion-cta">
+                  <h3>🚀 Ready to Implement These Solutions?</h3>
+                  <p>Unlock full access to OmniCore's automation platform:</p>
+                  <ul class="benefits-list">
+                    <li>✅ AI Chat Assistant for ongoing strategy</li>
+                    <li>✅ Automation Hub for content processing</li>
+                    <li>✅ ROI tracking and analytics</li>
+                    <li>✅ Custom workflow templates</li>
+                    <li>✅ Priority support and consultation</li>
+                  </ul>
+                  
+                  <div class="pricing-box">
+                    <div class="price">$97/month</div>
+                    <p class="price-note">Cancel anytime • 30-day money-back guarantee</p>
+                    <button class="upgrade-btn" onclick="window.location.href='mailto:hello@omni-flow.net?subject=OmniCore Subscription&body=I completed the audit and want to subscribe to OmniCore.'">
+                      🎯 Start My Automation Journey
+                    </button>
+                  </div>
+                  
+                  <p class="contact-note">Questions? Email us at hello@omni-flow.net</p>
+                </div>
+              </div>
+            \`;
+          }
+          
+          function generateRecommendations(challenges) {
+            const recommendations = {
+              'manual-tasks': '⚡ Automated workflow builder for repetitive processes',
+              'client-communication': '📧 AI-powered email templates and response automation',
+              'content-creation': '✍️ AI content generation and marketing copy automation',
+              'data-analysis': '📊 Automated reporting and business intelligence dashboards',
+              'scaling': '🚀 Scalable automation templates for team expansion',
+              'roi-tracking': '💹 Real-time ROI monitoring and performance analytics'
+            };
+            
+            return challenges.map(challenge => 
+              \`<div class="recommendation-item">\${recommendations[challenge] || '🔧 Custom automation solution'}</div>\`
+            ).join('');
+          }
+        </script>
+        
+        <style>
+          .results-container {
+            text-align: center;
+          }
+          .savings-highlight {
+            background: linear-gradient(135deg, #059669 0%, #10b981 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 12px;
+            margin: 30px 0;
+          }
+          .savings-highlight h2 {
+            margin: 0 0 10px 0;
+            font-size: 2rem;
+          }
+          .recommendations {
+            background: #f0f9ff;
+            padding: 30px;
+            border-radius: 12px;
+            margin: 30px 0;
+            text-align: left;
+          }
+          .recommendation-item {
+            background: white;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 8px;
+            border-left: 4px solid #4F46E5;
+          }
+          .conversion-cta {
+            background: #fef7ff;
+            padding: 40px;
+            border-radius: 12px;
+            border: 2px solid #7c3aed;
+          }
+          .benefits-list {
+            text-align: left;
+            margin: 20px 0;
+            display: inline-block;
+          }
+          .benefits-list li {
+            margin: 8px 0;
+            font-size: 1.1rem;
+          }
+          .pricing-box {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            margin: 30px 0;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+          }
+          .price {
+            font-size: 3rem;
+            font-weight: bold;
+            color: #4F46E5;
+            margin-bottom: 10px;
+          }
+          .upgrade-btn {
+            background: linear-gradient(135deg, #4F46E5 0%, #7C3AED 100%);
+            color: white;
+            border: none;
+            padding: 18px 40px;
+            border-radius: 8px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.3s;
+          }
+          .upgrade-btn:hover {
+            transform: scale(1.05);
+          }
+          .contact-note {
+            margin-top: 20px;
+            color: #6b7280;
+          }
+        </style>
       </body>
       </html>
     `);
@@ -218,21 +571,35 @@ export async function registerRoutes(app: Express): Promise<Server> {
     res.sendFile('index.html', { root: './client/dist' });
   });
   
-  // API route for the audit form content
-  app.get('/api/audit-form', (req, res) => {
-    // Send a minimal HTML page that redirects to the audit form
-    res.send(`
-      <!DOCTYPE html>
-      <html>
-      <head>
-        <meta http-equiv="refresh" content="0;url=/audit-form">
-        <title>Redirecting to Audit Form</title>
-      </head>
-      <body>
-        <p>Redirecting to the Business Audit Form...</p>
-      </body>
-      </html>
-    `);
+  // Handle audit form submissions (lead capture)
+  app.post('/api/submit-audit', async (req, res) => {
+    try {
+      const auditData = req.body;
+      
+      // Save the lead to your database/storage
+      const leads = await readJsonFile('leads.json', []);
+      const newLead = {
+        id: leads.length + 1,
+        ...auditData,
+        status: 'new_lead',
+        timestamp: new Date().toISOString()
+      };
+      
+      leads.push(newLead);
+      await writeJsonFile('leads.json', leads);
+      
+      // Here you could also send an email to yourself about the new lead
+      console.log('New lead captured:', newLead.businessName, newLead.email);
+      
+      res.json({ 
+        success: true, 
+        message: 'Audit submitted successfully',
+        leadId: newLead.id 
+      });
+    } catch (error) {
+      console.error('Error saving lead:', error);
+      res.status(500).json({ success: false, message: 'Error processing audit' });
+    }
   });
   
   // Mount OmniCore routes
