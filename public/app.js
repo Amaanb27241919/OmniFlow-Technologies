@@ -1,4 +1,27 @@
+// Check login status first
+const isLoggedIn = localStorage.getItem('isLoggedIn');
+const userRole = localStorage.getItem('userRole');
+
+if (isLoggedIn === 'true' && userRole) {
+    // User is logged in, set current user
+    currentUser = userRole === 'admin' ? 'admin' : 'client';
+} else {
+    // Not logged in, redirect to login
+    window.location.href = '/login';
+}
+
 document.addEventListener('DOMContentLoaded', () => {
+    // If user is logged in, show appropriate dashboard
+    if (isLoggedIn === 'true' && userRole) {
+        if (userRole === 'admin') {
+            showOpsManagerDashboard();
+        } else {
+            showClientDashboard();
+        }
+        initializeQuickActions();
+        return;
+    }
+    
     // DOM Elements
     const promptForm = document.getElementById('prompt-form');
     const promptInput = document.getElementById('prompt-input');
