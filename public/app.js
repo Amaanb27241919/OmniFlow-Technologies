@@ -961,14 +961,31 @@ function showClientDashboard() {
 
 // Enhanced dashboard switcher
 function switchDashboardView() {
+    const userRole = localStorage.getItem('userRole');
+    
+    // Only admin can switch views
+    if (userRole !== 'admin') {
+        console.log('Access denied: Only admin can switch dashboard views');
+        return;
+    }
+    
     if (isOpsManager()) {
-        showOpsManagerDashboard();
+        showClientDashboard();
     } else {
-        showSMBOwnerDashboard();
+        showOpsManagerDashboard();
     }
 }
 
 function showOpsManagerDashboard() {
+    const userRole = localStorage.getItem('userRole');
+    
+    // Security check: Only admin can access ops manager dashboard
+    if (userRole !== 'admin') {
+        console.log('Access denied: Admin privileges required');
+        showClientDashboard(); // Redirect to client dashboard
+        return;
+    }
+    
     const main = document.querySelector('main');
     if (!main) return;
     
@@ -980,7 +997,7 @@ function showOpsManagerDashboard() {
             <div class="admin-status-section" style="background: linear-gradient(135deg, #1e293b 0%, #334155 100%); padding: 30px; border-radius: 12px; color: white; margin: 30px 0; text-align: center;">
                 <h3 style="margin: 0 0 15px 0; font-size: 1.5rem;">🚀 Platform Status</h3>
                 <p style="margin: 0 0 20px 0; opacity: 0.9;">Ready for growth • 0 clients • All systems operational</p>
-                <button onclick="showClientView()" class="btn-primary" style="background: white; color: #1e293b; font-weight: 600; padding: 12px 30px;">Switch to Client View</button>
+                <button onclick="switchDashboardView()" class="btn-primary" style="background: white; color: #1e293b; font-weight: 600; padding: 12px 30px;">Switch to Client View</button>
             </div>
             
             <div class="features-container">
