@@ -63,10 +63,39 @@ async function writeJsonFile<T>(filePath: string, data: T[]): Promise<void> {
 export async function registerRoutes(app: Express): Promise<Server> {
   // Enhanced middleware setup
   app.use(cors());
+  app.use(express.json());
   
   // Serve static files from the public directory
   app.use(express.static('public'));
   
+  // Authentication endpoint
+  app.post('/api/auth/login', async (req, res) => {
+    try {
+      const { username, password } = req.body;
+      
+      // Simple authentication check - you can enhance this later
+      if (username === 'admin' && password === 'admin') {
+        res.json({ 
+          success: true, 
+          token: 'admin-token', 
+          username: 'admin',
+          role: 'ops_manager'
+        });
+      } else {
+        res.status(401).json({ 
+          success: false, 
+          message: 'Invalid credentials' 
+        });
+      }
+    } catch (error) {
+      console.error('Login error:', error);
+      res.status(500).json({ 
+        success: false, 
+        message: 'Server error' 
+      });
+    }
+  });
+
   // Serve the OmniCore app at the root route
   app.get('/', (req, res) => {
     res.sendFile('index.html', { root: 'public' });
