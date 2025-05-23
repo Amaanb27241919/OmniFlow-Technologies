@@ -850,3 +850,254 @@ function startWelcomeTour() {
         tour.showWelcomeBanner();
     }
 }
+
+// Analytics & Insights Dashboard
+function showAnalyticsDashboard() {
+    const mainContent = document.querySelector('main');
+    
+    mainContent.innerHTML = `
+        <div class="analytics-dashboard enhanced-automation-panel">
+            <div class="dashboard-header">
+                <h2>📊 Analytics & Insights Dashboard</h2>
+                <p>Track your business automation performance and growth metrics</p>
+            </div>
+            
+            <div class="metrics-grid">
+                <div class="metric-card">
+                    <div class="metric-icon">⚡</div>
+                    <div class="metric-data">
+                        <span class="metric-value" id="automations-count">0</span>
+                        <span class="metric-label">Automations Running</span>
+                    </div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-icon">💰</div>
+                    <div class="metric-data">
+                        <span class="metric-value" id="cost-savings">$0</span>
+                        <span class="metric-label">Monthly Savings</span>
+                    </div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-icon">⏱️</div>
+                    <div class="metric-data">
+                        <span class="metric-value" id="time-saved">0</span>
+                        <span class="metric-label">Hours Saved</span>
+                    </div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-icon">📈</div>
+                    <div class="metric-data">
+                        <span class="metric-value" id="efficiency-gain">0%</span>
+                        <span class="metric-label">Efficiency Gain</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="insights-section">
+                <h3>🎯 Key Insights</h3>
+                <div class="insights-list" id="insights-list">
+                    <div class="insight-item">
+                        <span class="insight-icon">💡</span>
+                        <span class="insight-text">Start tracking your automation ROI by completing a business audit</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="dashboard-actions">
+                <button onclick="showDashboard()" class="btn-secondary">← Back to Dashboard</button>
+                <button onclick="showROIDashboard()" class="enhanced-button">View ROI Details</button>
+            </div>
+        </div>
+    `;
+    
+    loadAnalyticsData();
+}
+
+// Client Onboarding Workflows
+function showOnboardingWorkflows() {
+    const mainContent = document.querySelector('main');
+    
+    mainContent.innerHTML = `
+        <div class="onboarding-workflows enhanced-automation-panel">
+            <div class="workflow-header">
+                <h2>👥 Client Onboarding Workflows</h2>
+                <p>Automate your client setup and engagement processes</p>
+            </div>
+            
+            <div class="workflow-templates">
+                <div class="template-card">
+                    <div class="template-icon">📋</div>
+                    <h3>New Client Setup</h3>
+                    <p>Automated welcome emails, document collection, and initial consultations</p>
+                    <button class="enhanced-button" onclick="setupClientWorkflow('new-client')">Setup Workflow</button>
+                </div>
+                <div class="template-card">
+                    <div class="template-icon">📊</div>
+                    <h3>Business Assessment</h3>
+                    <p>Automated audit scheduling, data collection, and report generation</p>
+                    <button class="enhanced-button-secondary" onclick="setupClientWorkflow('assessment')">Setup Workflow</button>
+                </div>
+                <div class="template-card">
+                    <div class="template-icon">🎯</div>
+                    <h3>Implementation Plan</h3>
+                    <p>Automated milestone tracking, progress updates, and check-ins</p>
+                    <button class="enhanced-button" onclick="setupClientWorkflow('implementation')">Setup Workflow</button>
+                </div>
+            </div>
+            
+            <div class="active-workflows">
+                <h3>🚀 Active Workflows</h3>
+                <div class="workflow-list" id="workflow-list">
+                    <div class="workflow-item">
+                        <span class="workflow-status">⚪</span>
+                        <span class="workflow-name">No active workflows yet</span>
+                        <span class="workflow-action">Start by setting up your first workflow above</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="workflow-actions">
+                <button onclick="showDashboard()" class="btn-secondary">← Back to Dashboard</button>
+                <button onclick="showAutomationHub()" class="enhanced-button-secondary">Create Custom Workflow</button>
+            </div>
+        </div>
+    `;
+}
+
+// ROI Tracking Dashboard
+function showROIDashboard() {
+    const mainContent = document.querySelector('main');
+    
+    mainContent.innerHTML = `
+        <div class="roi-dashboard enhanced-automation-panel">
+            <div class="roi-header">
+                <h2>💰 ROI Tracking Dashboard</h2>
+                <p>Monitor your automation investment returns and business impact</p>
+            </div>
+            
+            <div class="roi-overview">
+                <div class="roi-card primary">
+                    <h3>Total ROI</h3>
+                    <div class="roi-value">
+                        <span class="roi-percentage" id="total-roi">0%</span>
+                        <span class="roi-trend positive">↗ +0%</span>
+                    </div>
+                </div>
+                <div class="roi-breakdown">
+                    <div class="breakdown-item">
+                        <span class="breakdown-label">Cost Savings</span>
+                        <span class="breakdown-value" id="total-savings">$0</span>
+                    </div>
+                    <div class="breakdown-item">
+                        <span class="breakdown-label">Time Recovered</span>
+                        <span class="breakdown-value" id="time-recovered">0 hrs</span>
+                    </div>
+                    <div class="breakdown-item">
+                        <span class="breakdown-label">Productivity Boost</span>
+                        <span class="breakdown-value" id="productivity-boost">0%</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="roi-calculator">
+                <h3>🧮 Calculate Your Potential ROI</h3>
+                <div class="calculator-form">
+                    <div class="form-row">
+                        <label>Monthly Revenue</label>
+                        <input type="number" id="monthly-revenue" placeholder="50000" class="form-control">
+                    </div>
+                    <div class="form-row">
+                        <label>Hours Spent on Manual Tasks</label>
+                        <input type="number" id="manual-hours" placeholder="40" class="form-control">
+                    </div>
+                    <div class="form-row">
+                        <label>Average Hourly Rate</label>
+                        <input type="number" id="hourly-rate" placeholder="75" class="form-control">
+                    </div>
+                    <button onclick="calculateROI()" class="enhanced-button">Calculate Potential ROI</button>
+                </div>
+                <div class="roi-results" id="roi-results" style="display: none;">
+                    <div class="result-item">
+                        <span class="result-label">Potential Monthly Savings:</span>
+                        <span class="result-value" id="potential-savings">$0</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="result-label">Annual ROI Projection:</span>
+                        <span class="result-value" id="annual-roi">0%</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="roi-actions">
+                <button onclick="showDashboard()" class="btn-secondary">← Back to Dashboard</button>
+                <button onclick="showAnalyticsDashboard()" class="enhanced-button-secondary">View Analytics</button>
+            </div>
+        </div>
+    `;
+}
+
+// Supporting Functions
+function loadAnalyticsData() {
+    // Simulate loading analytics data
+    setTimeout(() => {
+        document.getElementById('automations-count').textContent = '3';
+        document.getElementById('cost-savings').textContent = '$2,400';
+        document.getElementById('time-saved').textContent = '32';
+        document.getElementById('efficiency-gain').textContent = '45%';
+        
+        const insightsList = document.getElementById('insights-list');
+        insightsList.innerHTML = `
+            <div class="insight-item">
+                <span class="insight-icon">💡</span>
+                <span class="insight-text">Your automation workflows are saving 32 hours per month</span>
+            </div>
+            <div class="insight-item">
+                <span class="insight-icon">📈</span>
+                <span class="insight-text">Efficiency has improved by 45% since implementing AI automation</span>
+            </div>
+            <div class="insight-item">
+                <span class="insight-icon">🎯</span>
+                <span class="insight-text">Consider adding client onboarding automation for additional 20% savings</span>
+            </div>
+        `;
+    }, 500);
+}
+
+function setupClientWorkflow(workflowType) {
+    alert(`Setting up ${workflowType} workflow! This feature connects with your existing business systems to automate client processes.`);
+    
+    // Add to active workflows
+    const workflowList = document.getElementById('workflow-list');
+    const workflowNames = {
+        'new-client': 'New Client Setup Workflow',
+        'assessment': 'Business Assessment Workflow', 
+        'implementation': 'Implementation Plan Workflow'
+    };
+    
+    workflowList.innerHTML = `
+        <div class="workflow-item">
+            <span class="workflow-status">🟢</span>
+            <span class="workflow-name">${workflowNames[workflowType]}</span>
+            <span class="workflow-action">Active - Processing clients</span>
+        </div>
+    `;
+}
+
+function calculateROI() {
+    const revenue = parseFloat(document.getElementById('monthly-revenue').value) || 0;
+    const hours = parseFloat(document.getElementById('manual-hours').value) || 0;
+    const rate = parseFloat(document.getElementById('hourly-rate').value) || 0;
+    
+    if (revenue && hours && rate) {
+        const monthlySavings = hours * rate * 0.7; // 70% time savings assumption
+        const annualSavings = monthlySavings * 12;
+        const investmentCost = 3000; // Estimated automation setup cost
+        const roi = ((annualSavings - investmentCost) / investmentCost) * 100;
+        
+        document.getElementById('potential-savings').textContent = `$${monthlySavings.toLocaleString()}`;
+        document.getElementById('annual-roi').textContent = `${Math.round(roi)}%`;
+        document.getElementById('roi-results').style.display = 'block';
+    } else {
+        alert('Please fill in all fields to calculate ROI');
+    }
+}

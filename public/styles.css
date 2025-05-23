@@ -1057,3 +1057,349 @@ code {
     border: 1px solid rgba(255, 255, 255, 0.2);
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
 }
+
+/* MVP Strategic Features Styling */
+.analytics-dashboard, .onboarding-workflows, .roi-dashboard {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+.dashboard-header, .workflow-header, .roi-header {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.dashboard-header h2, .workflow-header h2, .roi-header h2 {
+    background: linear-gradient(135deg, #2D5BFF 0%, #00C896 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 0.5rem;
+    font-size: 2.5rem;
+    font-weight: 700;
+}
+
+.metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+    margin-bottom: 3rem;
+}
+
+.metric-card {
+    background: linear-gradient(145deg, #FFFFFF 0%, #F8FAFC 100%);
+    padding: 2rem;
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    border: 1px solid rgba(226, 232, 240, 0.6);
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    transition: transform 0.3s ease;
+}
+
+.metric-card:hover {
+    transform: translateY(-4px);
+}
+
+.metric-icon {
+    font-size: 2.5rem;
+    background: linear-gradient(135deg, rgba(45, 91, 255, 0.1) 0%, rgba(0, 200, 150, 0.1) 100%);
+    padding: 1rem;
+    border-radius: 12px;
+}
+
+.metric-data {
+    display: flex;
+    flex-direction: column;
+}
+
+.metric-value {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #2D5BFF;
+    line-height: 1;
+}
+
+.metric-label {
+    color: #64748B;
+    font-size: 0.9rem;
+    margin-top: 0.25rem;
+}
+
+.insights-section {
+    margin-bottom: 3rem;
+}
+
+.insights-section h3 {
+    color: #2D5BFF;
+    margin-bottom: 1.5rem;
+    font-size: 1.5rem;
+}
+
+.insights-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.insight-item {
+    background: rgba(45, 91, 255, 0.05);
+    padding: 1.5rem;
+    border-radius: 12px;
+    border-left: 4px solid #2D5BFF;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.insight-icon {
+    font-size: 1.5rem;
+}
+
+.insight-text {
+    color: #1A1B23;
+    font-weight: 500;
+}
+
+.workflow-templates {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    margin-bottom: 3rem;
+}
+
+.template-card {
+    background: linear-gradient(145deg, #FFFFFF 0%, #F8FAFC 100%);
+    padding: 2.5rem;
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    border: 1px solid rgba(226, 232, 240, 0.6);
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+.template-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 12px 30px rgba(45, 91, 255, 0.15);
+}
+
+.template-icon {
+    font-size: 3rem;
+    margin-bottom: 1.5rem;
+    background: linear-gradient(135deg, rgba(45, 91, 255, 0.1) 0%, rgba(0, 200, 150, 0.1) 100%);
+    padding: 1.5rem;
+    border-radius: 20px;
+    display: inline-block;
+}
+
+.template-card h3 {
+    color: #2D5BFF;
+    margin-bottom: 1rem;
+    font-size: 1.25rem;
+}
+
+.template-card p {
+    color: #64748B;
+    margin-bottom: 2rem;
+    line-height: 1.6;
+}
+
+.active-workflows {
+    background: linear-gradient(145deg, #FFFFFF 0%, #F8FAFC 100%);
+    padding: 2.5rem;
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    border: 1px solid rgba(226, 232, 240, 0.6);
+    margin-bottom: 3rem;
+}
+
+.active-workflows h3 {
+    color: #2D5BFF;
+    margin-bottom: 1.5rem;
+}
+
+.workflow-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+    background: rgba(45, 91, 255, 0.05);
+    border-radius: 8px;
+    margin-bottom: 0.5rem;
+}
+
+.workflow-status {
+    font-size: 1.2rem;
+}
+
+.workflow-name {
+    font-weight: 600;
+    color: #1A1B23;
+    flex: 1;
+}
+
+.workflow-action {
+    color: #64748B;
+    font-size: 0.9rem;
+}
+
+.roi-overview {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 2rem;
+    margin-bottom: 3rem;
+}
+
+.roi-card.primary {
+    background: linear-gradient(135deg, #2D5BFF 0%, #00C896 100%);
+    color: white;
+    padding: 3rem;
+    border-radius: 20px;
+    text-align: center;
+    box-shadow: 0 8px 30px rgba(45, 91, 255, 0.3);
+}
+
+.roi-card.primary h3 {
+    margin-bottom: 1rem;
+    opacity: 0.9;
+}
+
+.roi-value {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+}
+
+.roi-percentage {
+    font-size: 3rem;
+    font-weight: 800;
+}
+
+.roi-trend {
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+.roi-breakdown {
+    background: linear-gradient(145deg, #FFFFFF 0%, #F8FAFC 100%);
+    padding: 2.5rem;
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    border: 1px solid rgba(226, 232, 240, 0.6);
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.breakdown-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 0;
+    border-bottom: 1px solid rgba(226, 232, 240, 0.5);
+}
+
+.breakdown-item:last-child {
+    border-bottom: none;
+}
+
+.breakdown-label {
+    color: #64748B;
+    font-weight: 500;
+}
+
+.breakdown-value {
+    color: #2D5BFF;
+    font-weight: 700;
+    font-size: 1.1rem;
+}
+
+.roi-calculator {
+    background: linear-gradient(145deg, #FFFFFF 0%, #F8FAFC 100%);
+    padding: 2.5rem;
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    border: 1px solid rgba(226, 232, 240, 0.6);
+    margin-bottom: 3rem;
+}
+
+.roi-calculator h3 {
+    color: #2D5BFF;
+    margin-bottom: 2rem;
+}
+
+.calculator-form {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.form-row {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.form-row label {
+    font-weight: 600;
+    color: #1A1B23;
+}
+
+.roi-results {
+    background: rgba(0, 200, 150, 0.1);
+    padding: 2rem;
+    border-radius: 12px;
+    border: 1px solid rgba(0, 200, 150, 0.2);
+    margin-top: 2rem;
+}
+
+.result-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.result-item:last-child {
+    margin-bottom: 0;
+}
+
+.result-label {
+    font-weight: 600;
+    color: #1A1B23;
+}
+
+.result-value {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #00C896;
+}
+
+.dashboard-actions, .workflow-actions, .roi-actions {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 2rem;
+}
+
+@media (max-width: 768px) {
+    .metrics-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .workflow-templates {
+        grid-template-columns: 1fr;
+    }
+    
+    .roi-overview {
+        grid-template-columns: 1fr;
+    }
+    
+    .calculator-form {
+        grid-template-columns: 1fr;
+    }
+}
