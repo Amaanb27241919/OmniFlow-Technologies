@@ -908,7 +908,7 @@ function showOpsManagerDashboard() {
                         <span class="gradient-text">OmniCore</span> Operations Center
                     </h1>
                     <p class="hero-subtitle">Advanced Management Dashboard - Ops Manager Access</p>
-                    <p class="brand-accent">Managing 47 Active SMB Clients</p>
+                    <p class="brand-accent">Building Your SMB Automation Empire • Ready for Growth</p>
                 </div>
                 <div style="display: flex; gap: 15px; margin-top: 20px;">
                     <button onclick="showSMBOwnerDashboard()" class="btn-secondary">👥 Client View</button>
@@ -919,37 +919,37 @@ function showOpsManagerDashboard() {
             <div class="dashboard-grid" style="margin-top: 30px;">
                 <div class="feature enhanced-feature-card" style="border-left: 4px solid #4299e1;">
                     <div class="feature-icon enhanced-feature-icon">👥</div>
-                    <h3>Client Management</h3>
-                    <p>47 active clients • 38 active this month • 5 new this week</p>
-                    <button class="feature-button enhanced-button" onclick="showClientManagement()">Manage Clients</button>
+                    <h3>Client Acquisition</h3>
+                    <p>0 clients • Platform ready • Lead generation active</p>
+                    <button class="feature-button enhanced-button" onclick="showClientManagement()">Start Growing</button>
                 </div>
                 
                 <div class="feature enhanced-feature-card" style="border-left: 4px solid #48bb78;">
                     <div class="feature-icon enhanced-feature-icon">⚡</div>
-                    <h3>System Automations</h3>
-                    <p>186 total automations • 94.2% success rate • 2.3s avg processing</p>
-                    <button class="feature-button enhanced-button" onclick="showSystemAutomations()">View All</button>
+                    <h3>System Preparation</h3>
+                    <p>Templates ready • AI systems operational • Demo workflows built</p>
+                    <button class="feature-button enhanced-button" onclick="showSystemAutomations()">View Templates</button>
                 </div>
                 
                 <div class="feature enhanced-feature-card" style="border-left: 4px solid #ed8936;">
                     <div class="feature-icon enhanced-feature-icon">📊</div>
-                    <h3>Platform Analytics</h3>
-                    <p>$47,800 monthly revenue • 245% avg client ROI • 23.5% growth</p>
-                    <button class="feature-button enhanced-button" onclick="showPlatformAnalytics()">Deep Dive</button>
+                    <h3>Revenue Pipeline</h3>
+                    <p>$0 current • Growth projections ready • ROI tracking prepared</p>
+                    <button class="feature-button enhanced-button" onclick="showPlatformAnalytics()">Track Growth</button>
                 </div>
                 
                 <div class="feature enhanced-feature-card" style="border-left: 4px solid #9f7aea;">
                     <div class="feature-icon enhanced-feature-icon">🎧</div>
-                    <h3>Support Center</h3>
-                    <p>3 open tickets • 12 resolved today • 0.5h avg response time</p>
-                    <button class="feature-button enhanced-button" onclick="showSupportCenter()">Support Queue</button>
+                    <h3>Support System</h3>
+                    <p>Ready for clients • Knowledge base prepared • Response templates built</p>
+                    <button class="feature-button enhanced-button" onclick="showSupportCenter()">Setup Support</button>
                 </div>
                 
                 <div class="feature enhanced-feature-card" style="border-left: 4px solid #38b2ac;">
                     <div class="feature-icon enhanced-feature-icon">🔧</div>
-                    <h3>Template Management</h3>
-                    <p>23 workflow templates • Deploy across clients • Version control</p>
-                    <button class="feature-button enhanced-button" onclick="showTemplateManager()">Manage Templates</button>
+                    <h3>Workflow Templates</h3>
+                    <p>Ready-to-deploy templates • Proven strategies • Scalable solutions</p>
+                    <button class="feature-button enhanced-button" onclick="showTemplateManager()">Deploy Templates</button>
                 </div>
                 
                 <div class="feature enhanced-feature-card" style="border-left: 4px solid #e53e3e;">
