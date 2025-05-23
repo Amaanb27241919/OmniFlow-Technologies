@@ -872,6 +872,320 @@ function startWelcomeTour() {
     }
 }
 
+// Role-based dashboard system
+let currentUserRole = 'smb_owner';
+let userPermissions = [];
+
+// Check if current user is Ops Manager (you)
+function isOpsManager() {
+    return currentUser === 'admin' || currentUser === 'ops_manager' || currentUser === 'manager';
+}
+
+// Enhanced dashboard switcher
+function switchDashboardView() {
+    if (isOpsManager()) {
+        showOpsManagerDashboard();
+    } else {
+        showSMBOwnerDashboard();
+    }
+}
+
+function showOpsManagerDashboard() {
+    const main = document.querySelector('main');
+    if (!main) return;
+    
+    main.innerHTML = `
+        <div id="ops-manager-dashboard" class="ops-dashboard">
+            <div class="hero-section" style="background: linear-gradient(135deg, #1a202c 0%, #2d3748 100%); color: white;">
+                <div class="hero-content">
+                    <h1 class="hero-title">
+                        <span class="gradient-text">OmniCore</span> Operations Center
+                    </h1>
+                    <p class="hero-subtitle">Advanced Management Dashboard - Ops Manager Access</p>
+                    <p class="brand-accent">Managing 47 Active SMB Clients</p>
+                </div>
+                <div style="display: flex; gap: 15px; margin-top: 20px;">
+                    <button onclick="showSMBOwnerDashboard()" class="btn-secondary">👥 Client View</button>
+                    <button onclick="showSystemMonitoring()" class="btn-primary">📊 Live Monitoring</button>
+                </div>
+            </div>
+
+            <div class="dashboard-grid" style="margin-top: 30px;">
+                <div class="feature enhanced-feature-card" style="border-left: 4px solid #4299e1;">
+                    <div class="feature-icon enhanced-feature-icon">👥</div>
+                    <h3>Client Management</h3>
+                    <p>47 active clients • 38 active this month • 5 new this week</p>
+                    <button class="feature-button enhanced-button" onclick="showClientManagement()">Manage Clients</button>
+                </div>
+                
+                <div class="feature enhanced-feature-card" style="border-left: 4px solid #48bb78;">
+                    <div class="feature-icon enhanced-feature-icon">⚡</div>
+                    <h3>System Automations</h3>
+                    <p>186 total automations • 94.2% success rate • 2.3s avg processing</p>
+                    <button class="feature-button enhanced-button" onclick="showSystemAutomations()">View All</button>
+                </div>
+                
+                <div class="feature enhanced-feature-card" style="border-left: 4px solid #ed8936;">
+                    <div class="feature-icon enhanced-feature-icon">📊</div>
+                    <h3>Platform Analytics</h3>
+                    <p>$47,800 monthly revenue • 245% avg client ROI • 23.5% growth</p>
+                    <button class="feature-button enhanced-button" onclick="showPlatformAnalytics()">Deep Dive</button>
+                </div>
+                
+                <div class="feature enhanced-feature-card" style="border-left: 4px solid #9f7aea;">
+                    <div class="feature-icon enhanced-feature-icon">🎧</div>
+                    <h3>Support Center</h3>
+                    <p>3 open tickets • 12 resolved today • 0.5h avg response time</p>
+                    <button class="feature-button enhanced-button" onclick="showSupportCenter()">Support Queue</button>
+                </div>
+                
+                <div class="feature enhanced-feature-card" style="border-left: 4px solid #38b2ac;">
+                    <div class="feature-icon enhanced-feature-icon">🔧</div>
+                    <h3>Template Management</h3>
+                    <p>23 workflow templates • Deploy across clients • Version control</p>
+                    <button class="feature-button enhanced-button" onclick="showTemplateManager()">Manage Templates</button>
+                </div>
+                
+                <div class="feature enhanced-feature-card" style="border-left: 4px solid #e53e3e;">
+                    <div class="feature-icon enhanced-feature-icon">⚙️</div>
+                    <h3>System Administration</h3>
+                    <p>User roles • System settings • Bulk operations • Monitoring</p>
+                    <button class="feature-button enhanced-button" onclick="showSystemAdmin()">Admin Panel</button>
+                </div>
+            </div>
+        </div>
+    `;
+}
+
+function showSMBOwnerDashboard() {
+    // Show the regular simplified dashboard for SMB owners
+    const main = document.querySelector('main');
+    if (!main) return;
+    
+    // Reload the standard SMB owner dashboard
+    window.location.reload();
+}
+
+// Ops Manager Administrative Functions
+function showClientManagement() {
+    const main = document.querySelector('main');
+    main.innerHTML = `
+        <div class="admin-panel">
+            <div class="admin-header">
+                <h2>👥 Client Management Center</h2>
+                <p>Manage all SMB client accounts and their automation performance</p>
+                <button onclick="showOpsManagerDashboard()" class="btn-secondary">← Back to Ops Dashboard</button>
+            </div>
+            <div class="client-overview">
+                <div class="client-stats">
+                    <div class="stat-card">
+                        <h3>47</h3>
+                        <p>Total Clients</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3>38</h3>
+                        <p>Active This Month</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3>5</h3>
+                        <p>New This Week</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3>245%</h3>
+                        <p>Avg ROI</p>
+                    </div>
+                </div>
+                <div class="client-list">
+                    <h3>Top Performing Clients</h3>
+                    <div class="client-item">
+                        <strong>TechStart Solutions</strong> - 12 automations, 340% ROI
+                        <button onclick="manageClient('techstart')" class="btn-sm">Manage</button>
+                    </div>
+                    <div class="client-item">
+                        <strong>Local Bakery Co</strong> - 8 automations, 280% ROI
+                        <button onclick="manageClient('bakery')" class="btn-sm">Manage</button>
+                    </div>
+                    <div class="client-item">
+                        <strong>Marketing Plus</strong> - 15 automations, 420% ROI
+                        <button onclick="manageClient('marketing')" class="btn-sm">Manage</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
+}
+
+function showSystemAutomations() {
+    const main = document.querySelector('main');
+    main.innerHTML = `
+        <div class="admin-panel">
+            <div class="admin-header">
+                <h2>⚡ System Automations Dashboard</h2>
+                <p>Monitor all client automations across the platform</p>
+                <button onclick="showOpsManagerDashboard()" class="btn-secondary">← Back to Ops Dashboard</button>
+            </div>
+            <div class="automation-metrics">
+                <div class="metric-grid">
+                    <div class="metric-card">
+                        <span class="metric-number">186</span>
+                        <span class="metric-label">Total Automations</span>
+                    </div>
+                    <div class="metric-card">
+                        <span class="metric-number">94.2%</span>
+                        <span class="metric-label">Success Rate</span>
+                    </div>
+                    <div class="metric-card">
+                        <span class="metric-number">2.3s</span>
+                        <span class="metric-label">Avg Processing</span>
+                    </div>
+                    <div class="metric-card">
+                        <span class="metric-number">3,891</span>
+                        <span class="metric-label">Runs Today</span>
+                    </div>
+                </div>
+                <div class="automation-list">
+                    <h3>Recent Automation Activity</h3>
+                    <div class="activity-item">
+                        <span class="activity-time">2 min ago</span>
+                        <span class="activity-client">TechStart Solutions</span>
+                        <span class="activity-action">Email automation completed</span>
+                        <span class="activity-status success">✅ Success</span>
+                    </div>
+                    <div class="activity-item">
+                        <span class="activity-time">5 min ago</span>
+                        <span class="activity-client">Local Bakery Co</span>
+                        <span class="activity-action">Content generation started</span>
+                        <span class="activity-status running">🔄 Running</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
+}
+
+function showPlatformAnalytics() {
+    const main = document.querySelector('main');
+    main.innerHTML = `
+        <div class="admin-panel">
+            <div class="admin-header">
+                <h2>📊 Platform Analytics</h2>
+                <p>Deep dive into platform performance and business metrics</p>
+                <button onclick="showOpsManagerDashboard()" class="btn-secondary">← Back to Ops Dashboard</button>
+            </div>
+            <div class="analytics-dashboard">
+                <div class="revenue-section">
+                    <h3>Revenue Performance</h3>
+                    <div class="revenue-grid">
+                        <div class="revenue-card">
+                            <h4>$47,800</h4>
+                            <p>Monthly Revenue</p>
+                            <span class="trend positive">+23.5%</span>
+                        </div>
+                        <div class="revenue-card">
+                            <h4>$1,015</h4>
+                            <p>Avg Client Value</p>
+                            <span class="trend positive">+15.2%</span>
+                        </div>
+                        <div class="revenue-card">
+                            <h4>245%</h4>
+                            <p>Avg Client ROI</p>
+                            <span class="trend positive">Industry Leading</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="usage-metrics">
+                    <h3>Platform Usage</h3>
+                    <p>💬 1,247 Chat interactions this month</p>
+                    <p>⚡ 3,891 Automation runs this week</p>
+                    <p>📋 89 Business audits completed</p>
+                    <p>🔧 23 Custom templates created</p>
+                </div>
+            </div>
+        </div>
+    `;
+}
+
+function showSupportCenter() {
+    const main = document.querySelector('main');
+    main.innerHTML = `
+        <div class="admin-panel">
+            <div class="admin-header">
+                <h2>🎧 Support Center</h2>
+                <p>Manage client support tickets and system issues</p>
+                <button onclick="showOpsManagerDashboard()" class="btn-secondary">← Back to Ops Dashboard</button>
+            </div>
+            <div class="support-dashboard">
+                <div class="support-stats">
+                    <div class="support-stat">
+                        <span class="stat-number">3</span>
+                        <span class="stat-label">Open Tickets</span>
+                    </div>
+                    <div class="support-stat">
+                        <span class="stat-number">12</span>
+                        <span class="stat-label">Resolved Today</span>
+                    </div>
+                    <div class="support-stat">
+                        <span class="stat-number">0.5h</span>
+                        <span class="stat-label">Avg Response</span>
+                    </div>
+                </div>
+                <div class="ticket-queue">
+                    <h3>Priority Tickets</h3>
+                    <div class="ticket-item high">
+                        <span class="ticket-id">#T001</span>
+                        <span class="ticket-client">TechStart Solutions</span>
+                        <span class="ticket-issue">Email automation not triggering</span>
+                        <button class="btn-sm">Resolve</button>
+                    </div>
+                    <div class="ticket-item medium">
+                        <span class="ticket-id">#T002</span>
+                        <span class="ticket-client">Local Bakery Co</span>
+                        <span class="ticket-issue">Help with social media workflow</span>
+                        <button class="btn-sm">Assist</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
+}
+
+// Check user role on login and show appropriate dashboard
+function updateUserInterface() {
+    if (currentUser) {
+        // Check if user is Ops Manager
+        if (isOpsManager()) {
+            // Show Ops Manager notification
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: linear-gradient(135deg, #1a202c 0%, #2d3748 100%);
+                color: white;
+                padding: 15px 20px;
+                border-radius: 12px;
+                box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+                z-index: 10000;
+                border-left: 4px solid #4299e1;
+            `;
+            notification.innerHTML = `
+                <div style="font-weight: 600; margin-bottom: 5px;">🎯 Ops Manager Access</div>
+                <div style="font-size: 14px; opacity: 0.9;">Advanced dashboard available</div>
+                <button onclick="showOpsManagerDashboard(); this.parentElement.remove();" style="margin-top: 8px; padding: 4px 8px; background: #4299e1; color: white; border: none; border-radius: 4px; cursor: pointer;">Switch to Ops View</button>
+            `;
+            document.body.appendChild(notification);
+            
+            // Auto-remove after 10 seconds
+            setTimeout(() => {
+                if (notification.parentElement) notification.remove();
+            }, 10000);
+        }
+        
+        // Update UI elements for logged-in user
+        // ... existing code ...
+    }
+}
+
 // Analytics & Insights Dashboard
 function showAnalyticsDashboard() {
     const mainContent = document.querySelector('main');

@@ -216,6 +216,36 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Register enhanced automation capabilities
   registerEnhancedAutomation(app);
 
+  // Role-based access route
+  app.post('/api/user-role', async (req, res) => {
+    try {
+      const { username } = req.body;
+      
+      // Define your admin credentials here
+      const isOpsManager = username === 'admin' || username === 'ops_manager' || username === 'manager';
+      
+      const roleConfig = {
+        role: isOpsManager ? 'ops_manager' : 'smb_owner',
+        permissions: isOpsManager ? [
+          'view_all_clients',
+          'system_analytics', 
+          'manage_workflows',
+          'support_access',
+          'bulk_operations'
+        ] : [
+          'basic_automation',
+          'own_analytics',
+          'chat_access'
+        ],
+        dashboardType: isOpsManager ? 'admin' : 'client'
+      };
+      
+      res.json(roleConfig);
+    } catch (error) {
+      res.status(500).json({ error: 'Failed to determine user role' });
+    }
+  });
+
   // AI-powered quick actions endpoint
   app.post('/api/quick-actions', async (req, res) => {
     try {
