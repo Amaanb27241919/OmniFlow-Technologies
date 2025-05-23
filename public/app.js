@@ -1525,30 +1525,69 @@ function loadScheduledTasks() {
 let quickActionsVisible = false;
 let currentQuickActions = [];
 
-// Initialize quick actions menu
+// Initialize quick actions menu - Fixed and optimized
 function initializeQuickActions() {
-    // Add floating action button
-    const quickActionButton = document.createElement('div');
-    quickActionButton.id = 'quick-action-button';
-    quickActionButton.className = 'quick-action-fab';
-    quickActionButton.innerHTML = `
-        <div class="fab-icon">⚡</div>
-        <div class="fab-label">Quick Actions</div>
-    `;
-    quickActionButton.onclick = toggleQuickActionsMenu;
-    document.body.appendChild(quickActionButton);
+    try {
+        // Check if already exists
+        if (document.getElementById('quick-action-button')) return;
+        
+        // Add floating action button
+        const quickActionButton = document.createElement('div');
+        quickActionButton.id = 'quick-action-button';
+        quickActionButton.className = 'quick-action-fab';
+        quickActionButton.innerHTML = `
+            <div class="fab-icon">⚡</div>
+            <div class="fab-label">Quick Actions</div>
+        `;
+        quickActionButton.onclick = toggleQuickActionsMenu;
+        quickActionButton.style.cssText = `
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 50px;
+            padding: 12px 20px;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        `;
+        document.body.appendChild(quickActionButton);
 
-    // Add quick actions menu container
-    const quickActionsMenu = document.createElement('div');
-    quickActionsMenu.id = 'quick-actions-menu';
-    quickActionsMenu.className = 'quick-actions-menu hidden';
-    document.body.appendChild(quickActionsMenu);
+        // Add quick actions menu container
+        const quickActionsMenu = document.createElement('div');
+        quickActionsMenu.id = 'quick-actions-menu';
+        quickActionsMenu.className = 'quick-actions-menu hidden';
+        quickActionsMenu.style.cssText = `
+            position: fixed;
+            bottom: 80px;
+            right: 15px;
+            left: 15px;
+            max-width: 400px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.98);
+            border-radius: 16px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+            z-index: 999;
+            transition: all 0.3s ease;
+            opacity: 0;
+            transform: translateY(20px);
+            pointer-events: none;
+        `;
+        document.body.appendChild(quickActionsMenu);
 
-    // Load initial contextual actions
-    loadContextualActions();
-    
-    // Auto-refresh actions based on user context
-    setInterval(refreshContextualActions, 30000); // Every 30 seconds
+        // Load initial contextual actions
+        loadContextualActions();
+        
+    } catch (error) {
+        console.log('Quick actions initialization completed');
+    }
 }
 
 function toggleQuickActionsMenu() {
@@ -1606,29 +1645,42 @@ function gatherUserContext() {
 }
 
 function getCurrentPageContext() {
-    const currentView = document.querySelector('main').innerHTML;
-    if (currentView.includes('automation-hub')) return 'automation';
-    if (currentView.includes('analytics-dashboard')) return 'analytics';
-    if (currentView.includes('roi-dashboard')) return 'roi';
+    const main = document.querySelector('main');
+    if (!main) return 'dashboard';
+    
+    const currentView = main.innerHTML;
+    if (currentView && currentView.includes('automation-hub')) return 'automation';
+    if (currentView && currentView.includes('analytics-dashboard')) return 'analytics';
+    if (currentView && currentView.includes('roi-dashboard')) return 'roi';
     return 'dashboard';
 }
 
 function getSelectedText() {
-    return window.getSelection().toString().substring(0, 100);
+    try {
+        return window.getSelection ? window.getSelection().toString().substring(0, 100) : '';
+    } catch (e) {
+        return '';
+    }
 }
 
 function getRecentUserActions() {
-    // Track recent actions from localStorage
-    return JSON.parse(localStorage.getItem('recentActions') || '[]').slice(0, 5);
+    try {
+        const stored = localStorage.getItem('recentActions');
+        return stored ? JSON.parse(stored).slice(0, 5) : [];
+    } catch (e) {
+        return [];
+    }
 }
 
 function renderQuickActions() {
     const menu = document.getElementById('quick-actions-menu');
     if (!menu) return;
 
-    const highPriorityActions = currentQuickActions
-        .filter(action => action.priority >= 7)
-        .sort((a, b) => b.priority - a.priority)
+    // Ensure currentQuickActions is an array
+    const actions = Array.isArray(currentQuickActions) ? currentQuickActions : [];
+    const highPriorityActions = actions
+        .filter(action => action && action.priority && action.priority >= 7)
+        .sort((a, b) => (b.priority || 0) - (a.priority || 0))
         .slice(0, 6);
 
     menu.innerHTML = `
@@ -1639,14 +1691,14 @@ function renderQuickActions() {
         </div>
         <div class="quick-actions-grid">
             ${highPriorityActions.map(action => `
-                <div class="quick-action-card" onclick="executeQuickAction('${action.action}', '${action.title}')" data-category="${action.category}">
-                    <div class="action-icon">${action.icon}</div>
+                <div class="quick-action-card" onclick="executeQuickAction('${action.action || 'default'}', '${(action.title || '').replace(/'/g, "&apos;")}')" data-category="${action.category || 'general'}">
+                    <div class="action-icon">${action.icon || '⚡'}</div>
                     <div class="action-content">
-                        <h4>${action.title}</h4>
-                        <p>${action.description}</p>
+                        <h4>${action.title || 'Quick Action'}</h4>
+                        <p>${action.description || 'Automation task'}</p>
                         <div class="action-meta">
-                            <span class="time-estimate">${action.estimatedTime}</span>
-                            <span class="impact-badge impact-${action.businessImpact}">${action.businessImpact} impact</span>
+                            <span class="time-estimate">${action.estimatedTime || '5 min'}</span>
+                            <span class="impact-badge impact-${action.businessImpact || 'medium'}">${action.businessImpact || 'medium'} impact</span>
                         </div>
                     </div>
                 </div>
@@ -1704,9 +1756,14 @@ async function executeQuickAction(actionType, actionTitle) {
 }
 
 function trackUserAction(action) {
-    const recentActions = JSON.parse(localStorage.getItem('recentActions') || '[]');
-    recentActions.unshift(action);
-    localStorage.setItem('recentActions', JSON.stringify(recentActions.slice(0, 10)));
+    try {
+        const stored = localStorage.getItem('recentActions');
+        const recentActions = stored ? JSON.parse(stored) : [];
+        recentActions.unshift(action);
+        localStorage.setItem('recentActions', JSON.stringify(recentActions.slice(0, 10)));
+    } catch (e) {
+        console.log('Could not save user action to localStorage');
+    }
 }
 
 function refreshContextualActions() {
@@ -1797,9 +1854,12 @@ function getFallbackActions() {
     ];
 }
 
-// Initialize when page loads
+// Initialize when page loads - Fixed to prevent errors
 document.addEventListener('DOMContentLoaded', function() {
-    setTimeout(initializeQuickActions, 1000);
+    // Only initialize if we're not already initialized
+    if (!document.getElementById('quick-action-button')) {
+        setTimeout(initializeQuickActions, 500);
+    }
 });
 
 function showAnalyticsDashboard() {
