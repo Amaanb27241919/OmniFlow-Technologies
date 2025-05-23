@@ -69,11 +69,12 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.use(express.static('public'));
   
   // Authentication endpoint
-  app.post('/api/auth/login', async (req, res) => {
+  app.post('/api/login', async (req, res) => {
     try {
-      const { username, password } = req.body;
+      const { email, password } = req.body;
+      const username = email; // Accept email or username
       
-      // Simple authentication check - you can enhance this later
+      // Authentication check for both admin and clients
       if (username === 'admin' && password === 'admin') {
         res.json({ 
           success: true, 
@@ -81,10 +82,18 @@ export async function registerRoutes(app: Express): Promise<Server> {
           username: 'admin',
           role: 'ops_manager'
         });
+      } else if (password && password.length >= 6) {
+        // Allow any email with password 6+ characters for client access
+        res.json({ 
+          success: true, 
+          token: 'client-token', 
+          username: username,
+          role: 'client'
+        });
       } else {
-        res.status(401).json({ 
+        res.json({ 
           success: false, 
-          message: 'Invalid credentials' 
+          message: 'Invalid credentials. Password must be at least 6 characters.' 
         });
       }
     } catch (error) {
