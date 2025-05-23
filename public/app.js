@@ -1159,6 +1159,120 @@ function showDashboard() {
     }
 }
 
+// User Authentication Functions
+let currentUser = null;
+let authToken = null;
+
+function showLoginForm() {
+    document.getElementById('login-modal').style.display = 'block';
+}
+
+function showRegisterForm() {
+    document.getElementById('register-modal').style.display = 'block';
+}
+
+function closeModal() {
+    document.getElementById('login-modal').style.display = 'none';
+    document.getElementById('register-modal').style.display = 'none';
+}
+
+function logout() {
+    currentUser = null;
+    authToken = null;
+    localStorage.removeItem('authToken');
+    localStorage.removeItem('username');
+    updateUserInterface();
+}
+
+function updateUserInterface() {
+    const userControls = document.getElementById('user-controls');
+    const userInfo = document.getElementById('user-info');
+    const usernameDisplay = document.getElementById('username-display');
+    
+    if (currentUser) {
+        userControls.style.display = 'none';
+        userInfo.style.display = 'flex';
+        usernameDisplay.textContent = `Welcome, ${currentUser}!`;
+    } else {
+        userControls.style.display = 'flex';
+        userInfo.style.display = 'none';
+    }
+}
+
+// Login form handler
+document.addEventListener('DOMContentLoaded', function() {
+    // Check for existing session
+    const savedToken = localStorage.getItem('authToken');
+    const savedUsername = localStorage.getItem('username');
+    if (savedToken && savedUsername) {
+        authToken = savedToken;
+        currentUser = savedUsername;
+        updateUserInterface();
+    }
+
+    // Login form
+    document.getElementById('login-form').addEventListener('submit', async function(e) {
+        e.preventDefault();
+        const username = document.getElementById('login-username').value;
+        const password = document.getElementById('login-password').value;
+        
+        try {
+            const response = await fetch('/api/auth/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ username, password })
+            });
+            
+            const data = await response.json();
+            
+            if (response.ok) {
+                authToken = data.token;
+                currentUser = data.username;
+                localStorage.setItem('authToken', authToken);
+                localStorage.setItem('username', currentUser);
+                updateUserInterface();
+                closeModal();
+                alert('Login successful!');
+            } else {
+                alert(data.message || 'Login failed');
+            }
+        } catch (error) {
+            alert('Login error: ' + error.message);
+        }
+    });
+    
+    // Register form
+    document.getElementById('register-form').addEventListener('submit', async function(e) {
+        e.preventDefault();
+        const username = document.getElementById('register-username').value;
+        const password = document.getElementById('register-password').value;
+        
+        try {
+            const response = await fetch('/api/auth/register', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ username, password })
+            });
+            
+            const data = await response.json();
+            
+            if (response.ok) {
+                alert('Registration successful! Please log in.');
+                closeModal();
+                showLoginForm();
+            } else {
+                alert(data.message || 'Registration failed');
+            }
+        } catch (error) {
+            alert('Registration error: ' + error.message);
+        }
+    });
+});
+
 // Add missing navigation functions
 function showAutomationHub() {
     console.log('Showing automation hub');

@@ -37,6 +37,14 @@
                         <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"></path>
                     </svg>
                 </button>
+                <div class="user-controls" id="user-controls">
+                    <button class="btn-secondary" onclick="showLoginForm()">Login</button>
+                    <button class="btn-secondary" onclick="showRegisterForm()">Sign Up</button>
+                </div>
+                <div class="user-info" id="user-info" style="display: none;">
+                    <span id="username-display"></span>
+                    <button class="btn-secondary" onclick="logout()">Logout</button>
+                </div>
             </div>
         </header>
 
@@ -151,6 +159,48 @@
             </button>
         </div>
         <div class="history-items" id="history-items"></div>
+    </div>
+
+    <!-- Login Modal -->
+    <div id="login-modal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <h3>Login to OmniCore</h3>
+            <form id="login-form">
+                <div class="form-group">
+                    <label>Username:</label>
+                    <input type="text" id="login-username" required>
+                </div>
+                <div class="form-group">
+                    <label>Password:</label>
+                    <input type="password" id="login-password" required>
+                </div>
+                <div class="form-buttons">
+                    <button type="submit" class="btn-primary">Login</button>
+                    <button type="button" class="btn-secondary" onclick="closeModal()">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Register Modal -->
+    <div id="register-modal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <h3>Sign Up for OmniCore</h3>
+            <form id="register-form">
+                <div class="form-group">
+                    <label>Username:</label>
+                    <input type="text" id="register-username" required>
+                </div>
+                <div class="form-group">
+                    <label>Password:</label>
+                    <input type="password" id="register-password" required>
+                </div>
+                <div class="form-buttons">
+                    <button type="submit" class="btn-primary">Sign Up</button>
+                    <button type="button" class="btn-secondary" onclick="closeModal()">Cancel</button>
+                </div>
+            </form>
+        </div>
     </div>
 
     <script src="app.js"></script>
