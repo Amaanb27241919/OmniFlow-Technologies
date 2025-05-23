@@ -38,6 +38,7 @@
                     </svg>
                 </button>
                 <div class="user-controls" id="user-controls">
+                    <button class="btn-secondary" onclick="testOpsManagerAccess()" style="font-size: 0.85rem;">Admin View</button>
                     <button class="btn-secondary" onclick="showLoginForm()">Login</button>
                     <button class="btn-secondary" onclick="showRegisterForm()">Sign Up</button>
                 </div>
@@ -50,8 +51,14 @@
 
         <main>
             <div class="welcome-message" id="welcome-message">
-                <h2 class="enhanced-welcome-title">Welcome to OmniCore</h2>
-                <p class="enhanced-description">Your AI Command Center for Building Automated Client Workflows</p>
+                <h2 class="enhanced-welcome-title">Transform Your Business with AI Automation</h2>
+                <p class="enhanced-description">Get instant insights and automated workflow recommendations tailored to your business</p>
+                
+                <div class="cta-section" style="background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%); padding: 30px; border-radius: 12px; color: white; margin: 30px 0; text-align: center;">
+                    <h3 style="margin: 0 0 15px 0; font-size: 1.5rem;">📊 Free Business Audit</h3>
+                    <p style="margin: 0 0 20px 0; opacity: 0.9;">Discover automation opportunities in your business in just 5 minutes</p>
+                    <button onclick="window.location.href='/audit'" class="btn-primary" style="background: white; color: #4f46e5; font-weight: 600; padding: 12px 30px;">Start Your Free Audit Now</button>
+                </div>
                 
                 <div class="features-container">
                     <div class="feature enhanced-feature-card">
@@ -74,7 +81,7 @@
                         </div>
                         <h3>Business Audit Tool</h3>
                         <p>Analyze your operation and get tailored workflow automation recommendations</p>
-                        <button class="feature-button enhanced-button-secondary" data-mode="audit" onclick="window.location.href='/audit-form'">Launch Tool</button>
+                        <button class="feature-button enhanced-button-secondary" data-mode="audit" onclick="window.location.href='/audit'">Start Free Audit</button>
                     </div>
                     <div class="feature enhanced-feature-card">
                         <div class="feature-icon enhanced-feature-icon">

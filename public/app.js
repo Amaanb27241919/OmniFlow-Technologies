@@ -887,6 +887,12 @@ function testOpsManagerAccess() {
     showOpsManagerDashboard();
 }
 
+// Switch back to client view
+function showClientView() {
+    currentUser = null; // Reset to public view
+    window.location.reload(); // Reload to show client landing page
+}
+
 // Enhanced dashboard switcher
 function switchDashboardView() {
     if (isOpsManager()) {
@@ -911,7 +917,7 @@ function showOpsManagerDashboard() {
                     <p class="brand-accent">Building Your SMB Automation Empire • Ready for Growth</p>
                 </div>
                 <div style="display: flex; gap: 15px; margin-top: 20px;">
-                    <button onclick="showSMBOwnerDashboard()" class="btn-secondary">👥 Client View</button>
+                    <button onclick="showClientView()" class="btn-secondary">👥 Client View</button>
                     <button onclick="showSystemMonitoring()" class="btn-primary">📊 Live Monitoring</button>
                 </div>
             </div>
