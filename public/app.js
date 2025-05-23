@@ -1141,6 +1141,7 @@ function activateFeature(featureName) {
 }
 
 function showDashboard() {
+    console.log('Showing dashboard');
     // Hide all sections safely (check if elements exist first)
     const sections = ['chat-interface', 'automation-hub', 'task-logs', 'analytics-dashboard', 'onboarding-workflows', 'roi-dashboard'];
     
@@ -1156,4 +1157,14 @@ function showDashboard() {
     if (dashboard) {
         dashboard.style.display = 'block';
     }
+}
+
+// Add missing showAutomationHub function
+function showAutomationHub() {
+    console.log('Showing automation hub');
+    const dashboard = document.getElementById('dashboard');
+    const automationHub = document.getElementById('automation-hub');
+    
+    if (dashboard) dashboard.style.display = 'none';
+    if (automationHub) automationHub.style.display = 'block';
 }
