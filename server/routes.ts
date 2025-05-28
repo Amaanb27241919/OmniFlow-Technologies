@@ -674,6 +674,62 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
   
+  // AI Chat API endpoint
+  app.post('/api/chat', async (req, res) => {
+    try {
+      const { message } = req.body;
+      
+      if (!message) {
+        return res.status(400).json({
+          success: false,
+          error: 'Message is required'
+        });
+      }
+
+      // Import OpenAI for chat functionality
+      const OpenAI = require('openai');
+      const openai = new OpenAI({
+        apiKey: process.env.OPENAI_API_KEY
+      });
+
+      const systemPrompt = `You are an expert AI business automation consultant for OmniCore. You help small businesses implement AI automation. Provide practical, actionable advice focused on:
+
+- Business automation strategy and implementation
+- AI tool recommendations and integration  
+- Workflow optimization and process improvement
+- ROI calculation and business growth strategies
+- Content creation and marketing automation
+- Customer relationship management automation
+- Data analysis and business insights
+
+Keep responses helpful, professional, and focused on business value. When suggesting automation tools or strategies, explain the benefits and potential ROI.`;
+
+      const completion = await openai.chat.completions.create({
+        model: "gpt-4o",
+        messages: [
+          { role: "system", content: systemPrompt },
+          { role: "user", content: message }
+        ],
+        max_tokens: 1000,
+        temperature: 0.7
+      });
+
+      const response = completion.choices[0]?.message?.content || 'I apologize, but I could not generate a response. Please try again.';
+
+      res.json({
+        success: true,
+        response: response
+      });
+
+    } catch (error) {
+      console.error('Chat error:', error);
+      res.status(500).json({
+        success: false,
+        error: 'Failed to process chat message'
+      });
+    }
+  });
+
   // Mount OmniCore routes
   app.use('/api', omniCoreRoutes);
   
