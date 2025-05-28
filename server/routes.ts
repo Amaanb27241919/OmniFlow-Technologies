@@ -674,7 +674,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
   
-  // AI Chat API endpoint with feature flag integration
+  // AI Chat API endpoint with advanced routing and analytics
   app.post('/api/chat', async (req, res) => {
     try {
       const { message, userId } = req.body;
@@ -686,8 +686,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
         });
       }
 
-      // Import feature flag system
+      // Import advanced systems
       const { featureFlagManager } = await import('./lib/featureFlags');
+      const { multiModelRouter } = await import('./lib/multiModelRouter');
+      const { analyticsEngine } = await import('./lib/analyticsEngine');
       
       // Use session or default user for demo
       const currentUserId = userId || req.session?.user?.id || 'demo-user';
@@ -708,35 +710,17 @@ export async function registerRoutes(app: Express): Promise<Server> {
         });
       }
 
-      // Import OpenAI for chat functionality
-      const OpenAI = require('openai');
-      const openai = new OpenAI({
-        apiKey: process.env.OPENAI_API_KEY
+      // Track chat event for analytics
+      analyticsEngine.trackEvent(currentUserId, 'chat_message', {
+        messageLength: message.length,
+        timestamp: new Date()
       });
 
-      const systemPrompt = `You are an expert AI business automation consultant for OmniCore. You help small businesses implement AI automation. Provide practical, actionable advice focused on:
-
-- Business automation strategy and implementation
-- AI tool recommendations and integration  
-- Workflow optimization and process improvement
-- ROI calculation and business growth strategies
-- Content creation and marketing automation
-- Customer relationship management automation
-- Data analysis and business insights
-
-Keep responses helpful, professional, and focused on business value. When suggesting automation tools or strategies, explain the benefits and potential ROI.`;
-
-      const completion = await openai.chat.completions.create({
-        model: "gpt-4o",
-        messages: [
-          { role: "system", content: systemPrompt },
-          { role: "user", content: message }
-        ],
-        max_tokens: 1000,
-        temperature: 0.7
-      });
-
-      const response = completion.choices[0]?.message?.content || 'I apologize, but I could not generate a response. Please try again.';
+      // Get user tier for optimal model routing
+      const userUsage = featureFlagManager.getUserUsage(currentUserId);
+      
+      // Route to optimal AI model based on query and user tier
+      const modelResponse = await multiModelRouter.routeQuery(message, userUsage.tier);
 
       // Increment usage counter
       featureFlagManager.incrementUsage(currentUserId, 'chat');
@@ -747,11 +731,13 @@ Keep responses helpful, professional, and focused on business value. When sugges
 
       res.json({
         success: true,
-        response: response,
+        response: modelResponse.response,
+        model: modelResponse.model,
         usage: {
           remaining: updatedAccess.remaining,
           limit: updatedAccess.limit
         },
+        cost: modelResponse.cost,
         upgradeSuggestion: upgradeSuggestion.shouldUpgrade ? upgradeSuggestion : null
       });
 
@@ -761,6 +747,138 @@ Keep responses helpful, professional, and focused on business value. When sugges
         success: false,
         error: 'Failed to process chat message'
       });
+    }
+  });
+
+  // Analytics Dashboard API
+  app.get('/api/analytics/overview', async (req, res) => {
+    try {
+      const { analyticsEngine } = await import('./lib/analyticsEngine');
+      
+      const metrics = analyticsEngine.getConversionMetrics();
+      const usage = analyticsEngine.getUsageMetrics();
+      const insights = analyticsEngine.generateBusinessInsights();
+      const trends = analyticsEngine.getTrendAnalysis(30);
+      
+      res.json({
+        success: true,
+        data: {
+          metrics,
+          usage,
+          insights,
+          trends
+        }
+      });
+    } catch (error) {
+      console.error('Analytics error:', error);
+      res.status(500).json({ success: false, error: 'Failed to get analytics' });
+    }
+  });
+
+  // Client Insights API
+  app.get('/api/analytics/clients', async (req, res) => {
+    try {
+      const { analyticsEngine } = await import('./lib/analyticsEngine');
+      const clientInsights = analyticsEngine.generateClientInsights();
+      
+      res.json({
+        success: true,
+        data: clientInsights
+      });
+    } catch (error) {
+      console.error('Client insights error:', error);
+      res.status(500).json({ success: false, error: 'Failed to get client insights' });
+    }
+  });
+
+  // Referral System APIs
+  app.get('/api/referrals/code/:userId', async (req, res) => {
+    try {
+      const { referralSystem } = await import('./lib/referralRewards');
+      const { userId } = req.params;
+      
+      const content = referralSystem.generateReferralContent(userId);
+      const stats = referralSystem.getReferralStats(userId);
+      
+      res.json({
+        success: true,
+        data: { content, stats }
+      });
+    } catch (error) {
+      console.error('Referral code error:', error);
+      res.status(500).json({ success: false, error: 'Failed to get referral code' });
+    }
+  });
+
+  app.post('/api/referrals/signup', async (req, res) => {
+    try {
+      const { referralSystem } = await import('./lib/referralRewards');
+      const { referralCode, newUserId } = req.body;
+      
+      const result = referralSystem.processReferralSignup(referralCode, newUserId);
+      
+      res.json({
+        success: result.success,
+        message: result.message,
+        reward: result.reward
+      });
+    } catch (error) {
+      console.error('Referral signup error:', error);
+      res.status(500).json({ success: false, error: 'Failed to process referral' });
+    }
+  });
+
+  app.get('/api/referrals/leaderboard', async (req, res) => {
+    try {
+      const { referralSystem } = await import('./lib/referralRewards');
+      const leaderboard = referralSystem.getLeaderboard(10);
+      
+      res.json({
+        success: true,
+        data: leaderboard
+      });
+    } catch (error) {
+      console.error('Leaderboard error:', error);
+      res.status(500).json({ success: false, error: 'Failed to get leaderboard' });
+    }
+  });
+
+  // Tier upgrade endpoint with referral rewards
+  app.post('/api/upgrade-tier', async (req, res) => {
+    try {
+      const { featureFlagManager } = await import('./lib/featureFlags');
+      const { referralSystem } = await import('./lib/referralRewards');
+      const { analyticsEngine } = await import('./lib/analyticsEngine');
+      
+      const { userId, newTier } = req.body;
+      
+      // Upgrade user tier
+      const upgradeSuccess = featureFlagManager.upgradeUserTier(userId, newTier);
+      
+      if (upgradeSuccess) {
+        // Process referral reward if applicable
+        const referralReward = referralSystem.processConversionReward(userId, newTier);
+        
+        // Track conversion event
+        analyticsEngine.trackEvent(userId, 'tier_upgrade', {
+          newTier,
+          timestamp: new Date()
+        });
+        
+        res.json({
+          success: true,
+          message: 'Tier upgraded successfully',
+          referralReward
+        });
+      } else {
+        res.status(400).json({
+          success: false,
+          error: 'Invalid tier or upgrade failed'
+        });
+      }
+    } catch (error) {
+      console.error('Tier upgrade error:', error);
+      res.status(500).json({ success: false, error: 'Failed to upgrade tier' });
     }
   });
 
