@@ -1638,6 +1638,8 @@ function activateFeature(featureName) {
 
 function showDashboard() {
     console.log('Showing dashboard');
+    const userRole = localStorage.getItem('userRole');
+    
     // Hide all sections safely (check if elements exist first)
     const sections = ['chat-interface', 'automation-hub', 'task-logs', 'analytics-dashboard', 'onboarding-workflows', 'roi-dashboard'];
     
@@ -1648,10 +1650,17 @@ function showDashboard() {
         }
     });
     
-    // Show dashboard
-    const dashboard = document.getElementById('dashboard');
-    if (dashboard) {
-        dashboard.style.display = 'block';
+    // Navigate to appropriate dashboard based on user role
+    if (userRole === 'admin') {
+        // Check current view and maintain it
+        const clientView = document.querySelector('#client-welcome-message');
+        if (clientView) {
+            showClientDashboard();
+        } else {
+            showOpsManagerDashboard();
+        }
+    } else {
+        showClientDashboard();
     }
 }
 
@@ -2158,17 +2167,33 @@ function clearChatHistory() {
 
 // Fixed dashboard navigation function
 function goBackToDashboard() {
-    // Hide chat interface
-    const chatInterface = document.getElementById('chat-interface');
-    if (chatInterface) chatInterface.style.display = 'none';
+    const userRole = localStorage.getItem('userRole');
     
-    // Show dashboard
-    const dashboard = document.getElementById('dashboard');
-    if (dashboard) {
-        dashboard.style.display = 'block';
+    // Hide any active interfaces
+    const chatInterface = document.getElementById('chat-interface');
+    const automationHub = document.getElementById('automation-hub');
+    const taskLogs = document.getElementById('task-logs');
+    
+    if (chatInterface) chatInterface.style.display = 'none';
+    if (automationHub) automationHub.style.display = 'none';
+    if (taskLogs) taskLogs.style.display = 'none';
+    
+    // Navigate back to appropriate dashboard based on user role
+    if (userRole === 'admin') {
+        // Check if admin was viewing client dashboard
+        const adminView = document.querySelector('#admin-welcome-message');
+        const clientView = document.querySelector('#client-welcome-message');
+        
+        if (clientView && !adminView) {
+            // Admin was viewing client dashboard, return to it
+            showClientDashboard();
+        } else {
+            // Return to admin dashboard
+            showOpsManagerDashboard();
+        }
     } else {
-        // Reload the page to restore the original dashboard
-        window.location.reload();
+        // Regular client user
+        showClientDashboard();
     }
 }
 
