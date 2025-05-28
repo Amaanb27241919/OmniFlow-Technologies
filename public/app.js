@@ -1014,7 +1014,7 @@ function showClientDashboard() {
     }, 1000);
 }
 
-// Enhanced dashboard switcher
+// Enhanced dashboard switcher - Fixed
 function switchDashboardView() {
     const userRole = localStorage.getItem('userRole');
     
@@ -1024,16 +1024,24 @@ function switchDashboardView() {
         return;
     }
     
-    // Toggle between admin and client view
-    const currentView = document.querySelector('#admin-welcome-message');
-    if (currentView) {
+    console.log('Switching dashboard view...');
+    
+    // Check current view and switch accordingly
+    const adminView = document.querySelector('#admin-welcome-message');
+    const clientView = document.querySelector('#client-welcome-message');
+    
+    if (adminView) {
         // Currently showing admin view, switch to client
-        currentUser = 'client';
+        console.log('Switching from admin to client view');
         showClientDashboard();
-    } else {
+    } else if (clientView) {
         // Currently showing client view, switch to admin
-        currentUser = 'admin';
+        console.log('Switching from client to admin view');
         showOpsManagerDashboard();
+    } else {
+        // Default to client view if unclear
+        console.log('Default switch to client view');
+        showClientDashboard();
     }
 }
 
@@ -1058,7 +1066,7 @@ function showOpsManagerDashboard() {
             <div class="admin-status-section" style="background: linear-gradient(135deg, #1e293b 0%, #334155 100%); padding: 30px; border-radius: 12px; color: white; margin: 30px 0; text-align: center;">
                 <h3 style="margin: 0 0 15px 0; font-size: 1.5rem;">🚀 Platform Status</h3>
                 <p style="margin: 0 0 20px 0; opacity: 0.9;">Ready for growth • 0 clients • All systems operational</p>
-                <button onclick="switchDashboardView()" class="btn-primary" style="background: white; color: #1e293b; font-weight: 600; padding: 12px 30px;">Switch to Client View</button>
+                <button onclick="switchDashboardView()" class="btn-primary" style="background: white; color: #1e293b; font-weight: 600; padding: 12px 30px; border: none; border-radius: 8px; cursor: pointer;">Switch to Client View</button>
             </div>
             
             <div class="features-container">
