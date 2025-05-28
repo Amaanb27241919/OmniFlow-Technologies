@@ -1088,37 +1088,120 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // Service-to-SaaS Transition API
-  app.post('/api/transition/evaluate', async (req, res) => {
+  // OmniFlow Advisory Service Assessment
+  app.post('/api/omniflow/assess-client', async (req, res) => {
     try {
-      const { persistentMemory } = await import('./lib/persistentMemory');
-      const { userId, transitionData } = req.body;
+      const { omniflowPlatform } = await import('./lib/omniflowCore');
+      const { leadScoringEngine } = await import('./lib/leadScoringEngine');
       
-      const context = await persistentMemory.getUserContext(userId);
-      const insights = await persistentMemory.getContextualInsights(userId);
+      const { userId } = req.body;
       
-      // Determine optimal transition path
-      const transition = {
-        readiness: insights.automationReadiness,
-        recommendedPath: insights.automationReadiness > 70 ? 'saas_platform' : 'consulting_first',
-        suggestedTier: insights.automationReadiness > 85 ? 'enterprise' : 'pro',
-        estimatedValue: insights.potentialROI,
-        timeframe: insights.automationReadiness > 70 ? '2-4 weeks' : '2-3 months'
-      };
+      // Generate comprehensive client assessment
+      const [clientAssessment, leadScore] = await Promise.all([
+        omniflowPlatform.assessClientReadiness(userId),
+        leadScoringEngine.scoreProspect(userId)
+      ]);
       
       res.json({
         success: true,
         data: {
-          transition,
-          businessProfile: context.businessProfile,
-          automationJourney: context.automationJourney,
-          nextSteps: insights.recommendedNextSteps
+          clientStage: clientAssessment.currentStage,
+          recommendedService: clientAssessment.recommendedService,
+          transitionPath: clientAssessment.transitionPath,
+          timeToValue: clientAssessment.timeToValue,
+          leadScore: leadScore.overall,
+          conversionProbability: leadScore.conversionProbability,
+          predictedLTV: leadScore.predictedLTV,
+          nextBestAction: leadScore.nextBestAction,
+          recommendedActions: leadScore.recommendedActions
         }
       });
       
     } catch (error) {
+      console.error('Client assessment error:', error);
+      res.status(500).json({ success: false, error: 'Failed to assess client readiness' });
+    }
+  });
+
+  // Generate Service Proposal
+  app.post('/api/omniflow/generate-proposal', async (req, res) => {
+    try {
+      const { omniflowPlatform } = await import('./lib/omniflowCore');
+      const { userId, serviceType } = req.body;
+      
+      const proposal = await omniflowPlatform.generateProposal(userId, serviceType || 'advisory');
+      
+      res.json({
+        success: true,
+        data: proposal
+      });
+      
+    } catch (error) {
+      console.error('Proposal generation error:', error);
+      res.status(500).json({ success: false, error: 'Failed to generate proposal' });
+    }
+  });
+
+  // Service-to-SaaS Transition Evaluation
+  app.post('/api/omniflow/evaluate-transition', async (req, res) => {
+    try {
+      const { omniflowPlatform } = await import('./lib/omniflowCore');
+      const { userId, advisoryResults } = req.body;
+      
+      const transition = await omniflowPlatform.initiateServiceToSaaSTransition(userId, advisoryResults || {});
+      
+      res.json({
+        success: true,
+        data: transition
+      });
+      
+    } catch (error) {
       console.error('Transition evaluation error:', error);
-      res.status(500).json({ success: false, error: 'Failed to evaluate transition' });
+      res.status(500).json({ success: false, error: 'Failed to evaluate SaaS transition' });
+    }
+  });
+
+  // Lead Scoring Dashboard
+  app.get('/api/omniflow/lead-scores', async (req, res) => {
+    try {
+      const { leadScoringEngine } = await import('./lib/leadScoringEngine');
+      const { userId } = req.query;
+      
+      if (userId) {
+        // Get single lead score
+        const score = await leadScoringEngine.scoreProspect(userId as string);
+        res.json({ success: true, data: { [userId]: score } });
+      } else {
+        // Get top prospects
+        const topProspects = await leadScoringEngine.getTopProspects(10);
+        res.json({ success: true, data: topProspects });
+      }
+      
+    } catch (error) {
+      console.error('Lead scoring error:', error);
+      res.status(500).json({ success: false, error: 'Failed to get lead scores' });
+    }
+  });
+
+  // Compliance Reporting
+  app.get('/api/omniflow/compliance-report', async (req, res) => {
+    try {
+      const { complianceLogger } = await import('./lib/complianceLogger');
+      const { startDate, endDate } = req.query;
+      
+      const start = startDate ? new Date(startDate as string) : new Date(Date.now() - 30 * 24 * 60 * 60 * 1000);
+      const end = endDate ? new Date(endDate as string) : new Date();
+      
+      const report = await complianceLogger.getComplianceReport(start, end);
+      
+      res.json({
+        success: true,
+        data: report
+      });
+      
+    } catch (error) {
+      console.error('Compliance report error:', error);
+      res.status(500).json({ success: false, error: 'Failed to generate compliance report' });
     }
   });
 

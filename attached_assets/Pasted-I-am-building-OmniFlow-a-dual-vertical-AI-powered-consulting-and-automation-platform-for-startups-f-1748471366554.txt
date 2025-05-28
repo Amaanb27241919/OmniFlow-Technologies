@@ -1,0 +1,57 @@
+I am building OmniFlow—a dual-vertical AI-powered consulting and automation platform for startups, founders, and SMBs. The business consists of:
+
+OmniFlow Advisory: A live MVP consulting firm offering automated audits, workflow/process optimization, AI strategy, and retainer packages. Delivered via Bolt.new website, Tally forms, Notion CRM, and GPT-powered Zapier automations.
+
+OmniCore (in development): A modular SaaS backend for deployable business automation agents, intelligent task routing, and a scalable dashboard, using Node.js, VS Code, OpenAI API, Replit, and Supabase.
+
+Key strategic insights and priorities:
+
+Service-to-SaaS funnel: Start clients with personalized consulting, then transition them to a self-serve automation platform for retention and scalability.
+
+Modular automation blueprints: Productize common consulting flows (intake → audit → AI analysis → report → action) as reusable, customizable templates.
+
+Agent middleware: Route requests to the best AI model (OpenAI, Claude, DeepSeek, etc.) and enable persistent agent/user memory.
+
+Compliance-ready logging, versioning, and security.
+
+Tiered monetization: Fixed-fee audits, retainers, outcome-based pilots (Advisory); subscription tiers, API/agent marketplace, white-labeling (OmniCore).
+
+Target market: Solopreneurs, startups, SMBs, financial advisors, online brands, nonprofits, and agencies.
+
+Risk mitigation: Redundant tools, live demo/onboarding, async workflows, modular backups, and ethical AI practices.
+
+Industry best practices to incorporate:
+
+Embed AI expertise and prompt engineering across the team.
+
+Use AI for lead scoring, predictive analytics, and personalized engagement.
+
+Automate workflows, onboarding, and support with AI agents.
+
+Build for scalability, security, and compliance from the start.
+
+Shift consulting focus from technical execution to strategic, relationship-driven advisory.
+
+Instructions:
+
+Review and build on top of my existing Replit MVP (AI-powered landing, intake, dashboard).
+
+Propose and implement features that align with my strategic vision and industry best practices.
+
+For each feature, briefly justify its impact on SaaS consulting growth, scalability, or client experience.
+
+Suggest ways to iteratively test, validate, and refine features based on user feedback and analytics.
+
+Provide code snippets, architecture diagrams, or user flows where appropriate.
+
+Ask clarifying questions if more detail is needed before proceeding.
+
+Output a step-by-step roadmap, prioritized feature list, and sample implementation plans.
+
+Output format:
+
+Step-by-step roadmap with justifications
+
+Prioritized feature list with implementation notes
+
+Sample code, diagrams, or user stories as needed
