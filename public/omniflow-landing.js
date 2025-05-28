@@ -55,16 +55,15 @@ function startFreeAudit() {
     // Track the action
     trackUserAction('free_audit_started', { source: 'landing_page' });
     
-    // In a real implementation, this would open a modal or redirect to the audit form
-    // For now, redirect to the existing audit pipeline
-    window.location.href = '/app.html#audit';
+    // Redirect to the existing audit pipeline
+    window.location.href = 'app.html';
 }
 
 function viewPlatformDemo() {
     trackUserAction('platform_demo_requested', { source: 'hero_section' });
     
     // Show platform features
-    window.location.href = '/app.html#platform';
+    window.location.href = 'app.html';
 }
 
 function startAdvisoryConsultation() {
@@ -78,7 +77,14 @@ function explorePlatform() {
     trackUserAction('platform_exploration_started', { source: 'services_section' });
     
     // Show platform tiers and features
-    window.location.href = '/app.html#platform';
+    window.location.href = 'app.html';
+}
+
+function accessPlatform() {
+    trackUserAction('platform_access_requested', { source: 'navigation' });
+    
+    // Navigate to the main application
+    window.location.href = 'app.html';
 }
 
 function getDetailedROI() {
