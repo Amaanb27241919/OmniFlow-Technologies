@@ -1,0 +1,75 @@
+You have already created a basic MVP for OmniFlow Advisory/OmniCore, featuring an AI-powered landing page, intake form, and a simple client dashboard. Now, build on top of this foundation and transform it into a scalable, modular platform suitable for both pro bono and paying clients. Please implement the following:
+
+1. Modular Architecture & Scalability
+Refactor the backend into modular microservices (e.g., user management, automation engine, analytics, agent orchestration) using Docker containers.
+
+Add a service discovery mechanism and prepare for future Kubernetes deployment.
+
+Integrate a persistent database (PostgreSQL or Supabase) with multi-tenant support and JWT authentication.
+
+2. AI Agent Layer
+Implement a middleware layer that can route requests to different AI models (e.g., OpenAI GPT-4, Anthropic Claude, DeepSeek, or local LLMs).
+
+Allow for easy addition of new AI models and APIs in the future.
+
+Add a basic agent memory system (using Redis or Supabase) to store user interactions and context for personalized experiences.
+
+3. Automation Blueprint Library
+Create a library of plug-and-play automation templates (e.g., intake → audit → AI analysis → report → Zapier action).
+
+Allow users to browse, clone, and customize these blueprints from their dashboard.
+
+Enable feature flagging so advanced templates are visible but locked for pro bono users.
+
+4. Client Portal Enhancements
+Add real-time project tracking, notifications, and collaborative tools (e.g., commenting, file uploads).
+
+Integrate a feedback and support chat widget powered by an AI agent.
+
+Provide a usage analytics dashboard showing automation runs, ROI estimates, and upgrade prompts for premium features.
+
+5. Admin & Agent Ops Dashboard
+Build an admin panel for monitoring agent health, error logs, user activity, and conversion metrics.
+
+Include tools for managing automation templates, user roles, and feature access.
+
+Add AI-powered recommendations for upselling and user engagement.
+
+6. Monetization & Growth Features
+Integrate Stripe (in test mode) for future subscription management and payments.
+
+Implement tiered access: pro bono, professional, and enterprise, with clear upgrade paths.
+
+Add referral and affiliate program logic for viral growth.
+
+7. Security, Compliance, and Accessibility
+Ensure all user data is encrypted in transit and at rest.
+
+Add role-based access control and audit logging.
+
+Make the frontend WCAG 2.1 AA accessible and fully responsive.
+
+8. Developer & API Layer
+Expose a RESTful API for third-party integrations and future marketplace features.
+
+Include API documentation (Swagger/OpenAPI) and sample API keys for sandbox testing.
+
+9. Documentation & Onboarding
+Generate concise onboarding guides for both clients and admins.
+
+Include in-app tooltips and a searchable help center.
+
+Instructions:
+
+Use Next.js and Tailwind CSS for the frontend.
+
+Use Express.js (or NestJS) for the backend.
+
+Use Docker for containerization and prepare for future Kubernetes deployment.
+
+Prioritize clean code, modularity, and clear documentation.
+
+Provide sample test users (pro bono, pro, enterprise) for demo purposes.
+
+Goal:
+Deliver a robust, extensible MVP platform that can attract pro bono users, smoothly upgrade them to paid tiers, and scale to enterprise clients—while showcasing OmniFlow Advisory/OmniCore’s AI-driven consulting and automation strengths.

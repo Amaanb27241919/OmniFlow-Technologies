@@ -1,0 +1,150 @@
+version: '3.8'
+
+services:
+  # PostgreSQL Database
+  postgres:
+    image: postgres:15-alpine
+    container_name: omnicore-postgres
+    environment:
+      POSTGRES_DB: omnicore
+      POSTGRES_USER: omnicore
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-development_password}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./migrations:/docker-entrypoint-initdb.d
+    ports:
+      - "5432:5432"
+    networks:
+      - omnicore-network
+
+  # Redis for caching and agent memory
+  redis:
+    image: redis:7-alpine
+    container_name: omnicore-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - omnicore-network
+
+  # User Management Service
+  user-service:
+    build:
+      context: .
+      dockerfile: services/user-service/Dockerfile
+    container_name: omnicore-user-service
+    environment:
+      - DATABASE_URL=postgresql://omnicore:${POSTGRES_PASSWORD:-development_password}@postgres:5432/omnicore
+      - REDIS_URL=redis://redis:6379
+      - JWT_SECRET=${JWT_SECRET:-development_jwt_secret}
+      - NODE_ENV=${NODE_ENV:-development}
+    ports:
+      - "3001:3000"
+    depends_on:
+      - postgres
+      - redis
+    networks:
+      - omnicore-network
+
+  # AI Agent Orchestration Service
+  ai-service:
+    build:
+      context: .
+      dockerfile: services/ai-service/Dockerfile
+    container_name: omnicore-ai-service
+    environment:
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY}
+      - PERPLEXITY_API_KEY=${PERPLEXITY_API_KEY}
+      - REDIS_URL=redis://redis:6379
+      - NODE_ENV=${NODE_ENV:-development}
+    ports:
+      - "3002:3000"
+    depends_on:
+      - redis
+    networks:
+      - omnicore-network
+
+  # Automation Engine Service
+  automation-service:
+    build:
+      context: .
+      dockerfile: services/automation-service/Dockerfile
+    container_name: omnicore-automation-service
+    environment:
+      - DATABASE_URL=postgresql://omnicore:${POSTGRES_PASSWORD:-development_password}@postgres:5432/omnicore
+      - REDIS_URL=redis://redis:6379
+      - NODE_ENV=${NODE_ENV:-development}
+    ports:
+      - "3003:3000"
+    depends_on:
+      - postgres
+      - redis
+    networks:
+      - omnicore-network
+
+  # Analytics Service
+  analytics-service:
+    build:
+      context: .
+      dockerfile: services/analytics-service/Dockerfile
+    container_name: omnicore-analytics-service
+    environment:
+      - DATABASE_URL=postgresql://omnicore:${POSTGRES_PASSWORD:-development_password}@postgres:5432/omnicore
+      - REDIS_URL=redis://redis:6379
+      - NODE_ENV=${NODE_ENV:-development}
+    ports:
+      - "3004:3000"
+    depends_on:
+      - postgres
+      - redis
+    networks:
+      - omnicore-network
+
+  # API Gateway
+  api-gateway:
+    build:
+      context: .
+      dockerfile: services/api-gateway/Dockerfile
+    container_name: omnicore-api-gateway
+    environment:
+      - USER_SERVICE_URL=http://user-service:3000
+      - AI_SERVICE_URL=http://ai-service:3000
+      - AUTOMATION_SERVICE_URL=http://automation-service:3000
+      - ANALYTICS_SERVICE_URL=http://analytics-service:3000
+      - JWT_SECRET=${JWT_SECRET:-development_jwt_secret}
+      - NODE_ENV=${NODE_ENV:-development}
+    ports:
+      - "3000:3000"
+    depends_on:
+      - user-service
+      - ai-service
+      - automation-service
+      - analytics-service
+    networks:
+      - omnicore-network
+
+  # Frontend Application
+  frontend:
+    build:
+      context: .
+      dockerfile: client/Dockerfile
+    container_name: omnicore-frontend
+    environment:
+      - NEXT_PUBLIC_API_URL=http://localhost:3000
+      - NODE_ENV=${NODE_ENV:-development}
+    ports:
+      - "3005:3000"
+    depends_on:
+      - api-gateway
+    networks:
+      - omnicore-network
+
+volumes:
+  postgres_data:
+  redis_data:
+
+networks:
+  omnicore-network:
+    driver: bridge
