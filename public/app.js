@@ -1,14 +1,17 @@
-// Check login status first
+// Check login status first - only redirect if on app page
 const isLoggedIn = localStorage.getItem('isLoggedIn');
 const userRole = localStorage.getItem('userRole');
 let currentUser = null;
 
-if (isLoggedIn === 'true' && userRole) {
-    // User is logged in, set current user
-    currentUser = userRole === 'admin' ? 'admin' : 'client';
-} else {
-    // Not logged in, redirect to login
-    window.location.href = '/login';
+// Only check login for the main app page
+if (window.location.pathname === '/app' || window.location.pathname === '/app.html') {
+    if (isLoggedIn === 'true' && userRole) {
+        // User is logged in, set current user
+        currentUser = userRole === 'admin' ? 'admin' : 'client';
+    } else {
+        // Not logged in, redirect to login
+        window.location.href = '/login';
+    }
 }
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -917,41 +920,94 @@ function showClientView() {
     window.location.reload(); // Reload to show client landing page
 }
 
-// Client dashboard for paying customers - use the current beautiful layout
+// Client dashboard for paying customers - clean professional layout
 function showClientDashboard() {
     const main = document.querySelector('main');
     if (!main) return;
     
-    // Hide welcome message and show the existing dashboard layout
-    const welcomeMsg = document.getElementById('welcome-message');
-    const chatInterface = document.getElementById('chat-interface');
-    
-    if (welcomeMsg) {
-        welcomeMsg.style.display = 'block';
-        // Update the welcome message for logged-in clients
-        const titleElement = welcomeMsg.querySelector('.enhanced-welcome-title');
-        const descElement = welcomeMsg.querySelector('.enhanced-description');
-        const ctaSection = welcomeMsg.querySelector('.cta-section');
-        
-        if (titleElement) titleElement.textContent = 'Welcome to OmniCore';
-        if (descElement) descElement.textContent = 'Your Complete AI Automation Platform';
-        if (ctaSection) ctaSection.style.display = 'none'; // Hide the audit CTA for logged-in clients
-    }
-    
-    // Also hide any audit banners that might be showing
-    const auditBanner = document.querySelector('.audit-banner');
-    const auditCta = document.querySelector('.audit-cta');
-    const freeAuditSection = document.querySelector('[class*="audit"]');
-    
-    if (auditBanner) auditBanner.style.display = 'none';
-    if (auditCta) auditCta.style.display = 'none';
-    if (freeAuditSection && freeAuditSection.textContent.includes('Free Business Audit')) {
-        freeAuditSection.style.display = 'none';
-    }
-    
-    if (chatInterface) {
-        chatInterface.style.display = 'none';
-    }
+    main.innerHTML = `
+        <div class="welcome-message" id="client-welcome-message">
+            <h2 class="enhanced-welcome-title">Welcome to OmniCore</h2>
+            <p class="enhanced-description">Your Complete AI Automation Platform</p>
+            
+            <div class="client-status-section" style="background: linear-gradient(135deg, #1e293b 0%, #334155 100%); padding: 30px; border-radius: 12px; color: white; margin: 30px 0; text-align: center;">
+                <h3 style="margin: 0 0 15px 0; font-size: 1.5rem;">🚀 Your Automation Hub</h3>
+                <p style="margin: 0 0 20px 0; opacity: 0.9;">Ready to transform your business • All tools active</p>
+                ${localStorage.getItem('userRole') === 'admin' ? '<button onclick="switchDashboardView()" class="btn-primary" style="background: white; color: #1e293b; font-weight: 600; padding: 12px 30px;">Switch to Admin View</button>' : ''}
+            </div>
+            
+            <div class="features-container">
+                <div class="feature enhanced-feature-card">
+                    <div class="feature-icon enhanced-feature-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M9 11H1v3h8v3l3-3.5L9 11z"/>
+                            <path d="M22 12h-8"/>
+                            <path d="M16 8l4 4-4 4"/>
+                        </svg>
+                    </div>
+                    <div class="feature-content">
+                        <h3>AI Automation Hub</h3>
+                        <p>Process content, generate insights, and automate workflows</p>
+                        <button onclick="showAutomationHub()" class="feature-button enhanced-feature-button">
+                            Launch Hub
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="feature enhanced-feature-card">
+                    <div class="feature-icon enhanced-feature-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="10"/>
+                            <path d="M8 14s1.5 2 4 2 4-2 4-2"/>
+                            <line x1="9" y1="9" x2="9.01" y2="9"/>
+                            <line x1="15" y1="9" x2="15.01" y2="9"/>
+                        </svg>
+                    </div>
+                    <div class="feature-content">
+                        <h3>AI Assistant</h3>
+                        <p>Get instant help with business questions and automation</p>
+                        <button onclick="initializeChatFeature()" class="feature-button enhanced-feature-button">
+                            Start Chat
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="feature enhanced-feature-card">
+                    <div class="feature-icon enhanced-feature-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+                            <line x1="16" y1="2" x2="16" y2="6"/>
+                            <line x1="8" y1="2" x2="8" y2="6"/>
+                            <line x1="3" y1="10" x2="21" y2="10"/>
+                        </svg>
+                    </div>
+                    <div class="feature-content">
+                        <h3>Task History</h3>
+                        <p>Review completed automations and track performance</p>
+                        <button onclick="showTaskLogs()" class="feature-button enhanced-feature-button">
+                            View Logs
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="feature enhanced-feature-card">
+                    <div class="feature-icon enhanced-feature-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="18" y1="6" x2="6" y2="18"/>
+                            <line x1="6" y1="6" x2="18" y2="18"/>
+                        </svg>
+                    </div>
+                    <div class="feature-content">
+                        <h3>Quick Actions</h3>
+                        <p>AI-powered contextual recommendations</p>
+                        <div id="quick-actions-container" style="margin-top: 15px;">
+                            <div class="loading-spinner" style="text-align: center; color: #666;">Loading actions...</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
     
     // Load contextual quick actions for logged-in clients
     setTimeout(() => {
@@ -969,9 +1025,15 @@ function switchDashboardView() {
         return;
     }
     
-    if (isOpsManager()) {
+    // Toggle between admin and client view
+    const currentView = document.querySelector('#admin-welcome-message');
+    if (currentView) {
+        // Currently showing admin view, switch to client
+        currentUser = 'client';
         showClientDashboard();
     } else {
+        // Currently showing client view, switch to admin
+        currentUser = 'admin';
         showOpsManagerDashboard();
     }
 }
