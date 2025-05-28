@@ -18,7 +18,13 @@ document.addEventListener('DOMContentLoaded', () => {
     // If user is logged in, show appropriate dashboard
     if (isLoggedIn === 'true' && userRole) {
         if (userRole === 'admin') {
-            showOpsManagerDashboard();
+            // Check if admin was viewing client dashboard before reload
+            const lastView = localStorage.getItem('adminCurrentView');
+            if (lastView === 'client') {
+                showClientDashboard();
+            } else {
+                showOpsManagerDashboard();
+            }
         } else {
             showClientDashboard();
         }
@@ -1014,7 +1020,7 @@ function showClientDashboard() {
     }, 1000);
 }
 
-// Enhanced dashboard switcher - Fixed
+// Enhanced dashboard switcher - Fixed with memory
 function switchDashboardView() {
     const userRole = localStorage.getItem('userRole');
     
@@ -1033,14 +1039,17 @@ function switchDashboardView() {
     if (adminView) {
         // Currently showing admin view, switch to client
         console.log('Switching from admin to client view');
+        localStorage.setItem('adminCurrentView', 'client');
         showClientDashboard();
     } else if (clientView) {
         // Currently showing client view, switch to admin
         console.log('Switching from client to admin view');
+        localStorage.setItem('adminCurrentView', 'admin');
         showOpsManagerDashboard();
     } else {
         // Default to client view if unclear
         console.log('Default switch to client view');
+        localStorage.setItem('adminCurrentView', 'client');
         showClientDashboard();
     }
 }
