@@ -882,6 +882,101 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Enterprise Blueprint Library API
+  app.get('/api/blueprints', async (req, res) => {
+    try {
+      const AutomationBlueprintLibrary = require('./lib/automationBlueprints');
+      const blueprintLibrary = new AutomationBlueprintLibrary();
+      const { featureFlagManager } = await import('./lib/featureFlags');
+      
+      const userId = req.query.userId || 'demo-user';
+      const userUsage = featureFlagManager.getUserUsage(userId);
+      const blueprints = blueprintLibrary.getBlueprintsForTier(userUsage.tier);
+      
+      res.json({
+        success: true,
+        data: blueprints,
+        tier: userUsage.tier
+      });
+    } catch (error) {
+      console.error('Blueprints error:', error);
+      res.status(500).json({ success: false, error: 'Failed to load blueprints' });
+    }
+  });
+
+  // Enhanced Client Portal API
+  app.get('/api/portal/dashboard', async (req, res) => {
+    try {
+      const ClientPortalEnhancements = require('./lib/clientPortalEnhancements');
+      const portal = new ClientPortalEnhancements();
+      const userId = req.query.userId || 'demo-user';
+      
+      const dashboard = {
+        projects: [
+          portal.createProjectTracker(userId, {
+            name: 'Lead Qualification Automation',
+            type: 'Sales Automation',
+            estimatedROI: '$5,000/month'
+          })
+        ],
+        notifications: portal.getUserNotifications(userId),
+        usageAnalytics: portal.generateUsageAnalytics(userId),
+        supportChat: portal.initializeSupportChat(userId)
+      };
+      
+      res.json({
+        success: true,
+        data: dashboard
+      });
+    } catch (error) {
+      console.error('Portal error:', error);
+      res.status(500).json({ success: false, error: 'Failed to load portal' });
+    }
+  });
+
+  // Admin Dashboard API
+  app.get('/api/admin/overview', async (req, res) => {
+    try {
+      const AdminDashboard = require('./lib/adminDashboard');
+      const adminDash = new AdminDashboard();
+      
+      const overview = await adminDash.getPlatformOverview();
+      
+      res.json({
+        success: true,
+        data: overview
+      });
+    } catch (error) {
+      console.error('Admin dashboard error:', error);
+      res.status(500).json({ success: false, error: 'Failed to load admin data' });
+    }
+  });
+
+  // Enterprise API Management
+  app.get('/api/enterprise/api-keys', async (req, res) => {
+    try {
+      const EnterpriseAPI = require('./lib/enterpriseAPI');
+      const enterpriseAPI = new EnterpriseAPI();
+      const userId = req.query.userId || 'demo-user';
+      
+      // Generate a sample API key for demo
+      const apiKey = enterpriseAPI.generateAPIKey(userId, 'Default API Key', ['read', 'write']);
+      const documentation = enterpriseAPI.generateAPIDocumentation();
+      
+      res.json({
+        success: true,
+        data: {
+          apiKey,
+          documentation,
+          integrations: Array.from(enterpriseAPI.integrations.values())
+        }
+      });
+    } catch (error) {
+      console.error('Enterprise API error:', error);
+      res.status(500).json({ success: false, error: 'Failed to load API data' });
+    }
+  });
+
   // Mount OmniCore routes
   app.use('/api', omniCoreRoutes);
   

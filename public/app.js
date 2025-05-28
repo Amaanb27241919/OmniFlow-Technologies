@@ -3342,3 +3342,392 @@ function copyReferralLink() {
         alert('Referral link copied to clipboard!');
     }
 }
+
+// Automation Blueprints Library
+function showAutomationBlueprints() {
+    console.log('Showing automation blueprints');
+    const main = document.querySelector('main');
+    if (!main) return;
+    
+    main.innerHTML = `
+        <div class="blueprints-interface">
+            <div class="blueprints-header">
+                <h2>📋 Automation Blueprint Library</h2>
+                <p>Plug-and-play templates for instant business automation</p>
+                <button onclick="goBackToDashboard()" class="btn-secondary">← Back to Dashboard</button>
+            </div>
+            
+            <div class="blueprints-content">
+                <div class="blueprints-filters">
+                    <button class="filter-btn active" onclick="filterBlueprints('all')">All Templates</button>
+                    <button class="filter-btn" onclick="filterBlueprints('Sales & Marketing')">Sales & Marketing</button>
+                    <button class="filter-btn" onclick="filterBlueprints('Customer Success')">Customer Success</button>
+                    <button class="filter-btn" onclick="filterBlueprints('Finance & Operations')">Finance & Operations</button>
+                </div>
+                
+                <div class="blueprints-grid" id="blueprints-grid">
+                    <div class="loading-spinner">Loading automation templates...</div>
+                </div>
+            </div>
+        </div>
+    `;
+    
+    loadAutomationBlueprints();
+}
+
+async function loadAutomationBlueprints() {
+    try {
+        const userId = getCurrentUserId();
+        const response = await fetch(`/api/blueprints?userId=${userId}`);
+        const data = await response.json();
+        
+        if (data.success) {
+            displayBlueprints(data.data);
+        }
+    } catch (error) {
+        console.error('Error loading blueprints:', error);
+        document.getElementById('blueprints-grid').innerHTML = '<div class="error-message">Failed to load templates</div>';
+    }
+}
+
+function displayBlueprints(blueprints) {
+    const grid = document.getElementById('blueprints-grid');
+    if (!grid) return;
+    
+    let html = '';
+    
+    blueprints.forEach(blueprint => {
+        const lockClass = blueprint.locked ? 'locked' : '';
+        const lockIcon = blueprint.locked ? '🔒' : '';
+        
+        html += `
+            <div class="blueprint-card ${lockClass}" data-category="${blueprint.category}">
+                <div class="blueprint-header">
+                    <span class="blueprint-icon">${blueprint.icon}</span>
+                    <span class="blueprint-lock">${lockIcon}</span>
+                </div>
+                <h3 class="blueprint-title">${blueprint.name}</h3>
+                <p class="blueprint-description">${blueprint.description}</p>
+                <div class="blueprint-metrics">
+                    <div class="metric">
+                        <span class="metric-label">ROI:</span>
+                        <span class="metric-value">${blueprint.estimatedROI}</span>
+                    </div>
+                    <div class="metric">
+                        <span class="metric-label">Setup:</span>
+                        <span class="metric-value">${blueprint.timeToImplement}</span>
+                    </div>
+                    <div class="metric">
+                        <span class="metric-label">Level:</span>
+                        <span class="metric-value">${blueprint.complexity}</span>
+                    </div>
+                </div>
+                <div class="blueprint-actions">
+                    ${blueprint.locked ? 
+                        `<button class="blueprint-btn locked" onclick="showUpgradeModal('${blueprint.upgradeRequired}')">Upgrade to ${blueprint.upgradeRequired}</button>` :
+                        `<button class="blueprint-btn" onclick="useBlueprint('${blueprint.id}')">Use Template</button>`
+                    }
+                </div>
+            </div>
+        `;
+    });
+    
+    grid.innerHTML = html;
+}
+
+function filterBlueprints(category) {
+    const cards = document.querySelectorAll('.blueprint-card');
+    const filterBtns = document.querySelectorAll('.filter-btn');
+    
+    // Update active filter button
+    filterBtns.forEach(btn => btn.classList.remove('active'));
+    event.target.classList.add('active');
+    
+    // Filter cards
+    cards.forEach(card => {
+        if (category === 'all' || card.dataset.category === category) {
+            card.style.display = 'block';
+        } else {
+            card.style.display = 'none';
+        }
+    });
+}
+
+function useBlueprint(blueprintId) {
+    alert(`Setting up ${blueprintId} automation template. In production, this would launch the blueprint configuration wizard.`);
+}
+
+// Enhanced Client Portal
+function showEnhancedPortal() {
+    console.log('Showing enhanced client portal');
+    const main = document.querySelector('main');
+    if (!main) return;
+    
+    main.innerHTML = `
+        <div class="portal-interface">
+            <div class="portal-header">
+                <h2>📊 Enhanced Client Portal</h2>
+                <p>Real-time project tracking and collaboration tools</p>
+                <button onclick="goBackToDashboard()" class="btn-secondary">← Back to Dashboard</button>
+            </div>
+            
+            <div class="portal-content">
+                <div class="portal-grid">
+                    <div class="portal-card">
+                        <h3>🚀 Active Projects</h3>
+                        <div id="active-projects" class="portal-section">
+                            <div class="loading-spinner">Loading projects...</div>
+                        </div>
+                    </div>
+                    
+                    <div class="portal-card">
+                        <h3>🔔 Recent Notifications</h3>
+                        <div id="recent-notifications" class="portal-section">
+                            <div class="loading-spinner">Loading notifications...</div>
+                        </div>
+                    </div>
+                    
+                    <div class="portal-card">
+                        <h3>📈 Usage Analytics</h3>
+                        <div id="usage-analytics" class="portal-section">
+                            <div class="loading-spinner">Loading analytics...</div>
+                        </div>
+                    </div>
+                    
+                    <div class="portal-card">
+                        <h3>💬 Support Chat</h3>
+                        <div id="support-chat" class="portal-section">
+                            <div class="chat-widget">
+                                <div class="chat-status">
+                                    <span class="status-indicator online"></span>
+                                    <span>AI Assistant Online</span>
+                                </div>
+                                <button class="start-chat-btn" onclick="startSupportChat()">Start Conversation</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
+    
+    loadEnhancedPortalData();
+}
+
+async function loadEnhancedPortalData() {
+    try {
+        const userId = getCurrentUserId();
+        const response = await fetch(`/api/portal/dashboard?userId=${userId}`);
+        const data = await response.json();
+        
+        if (data.success) {
+            displayPortalData(data.data);
+        }
+    } catch (error) {
+        console.error('Error loading portal data:', error);
+    }
+}
+
+function displayPortalData(portalData) {
+    // Display active projects
+    const projectsContainer = document.getElementById('active-projects');
+    if (projectsContainer && portalData.projects) {
+        let projectsHtml = '';
+        portalData.projects.forEach(project => {
+            projectsHtml += `
+                <div class="project-item">
+                    <div class="project-header">
+                        <h4>${project.name}</h4>
+                        <span class="project-progress">${project.progress}% complete</span>
+                    </div>
+                    <div class="project-timeline">
+                        <span class="timeline-item">Started: ${new Date(project.timeline.startDate).toLocaleDateString()}</span>
+                        <span class="timeline-item">Due: ${new Date(project.timeline.estimatedCompletion).toLocaleDateString()}</span>
+                    </div>
+                    <div class="project-team">
+                        ${project.team.map(member => `<span class="team-member">${member.avatar} ${member.name}</span>`).join('')}
+                    </div>
+                </div>
+            `;
+        });
+        projectsContainer.innerHTML = projectsHtml;
+    }
+
+    // Display notifications
+    const notificationsContainer = document.getElementById('recent-notifications');
+    if (notificationsContainer && portalData.notifications) {
+        let notificationsHtml = '';
+        portalData.notifications.slice(0, 5).forEach(notification => {
+            notificationsHtml += `
+                <div class="notification-item ${notification.priority}">
+                    <span class="notification-icon">${notification.icon}</span>
+                    <div class="notification-content">
+                        <h5>${notification.title}</h5>
+                        <p>${notification.message}</p>
+                        <span class="notification-time">${new Date(notification.timestamp).toLocaleDateString()}</span>
+                    </div>
+                </div>
+            `;
+        });
+        notificationsContainer.innerHTML = notificationsHtml;
+    }
+
+    // Display usage analytics
+    const analyticsContainer = document.getElementById('usage-analytics');
+    if (analyticsContainer && portalData.usageAnalytics) {
+        const analytics = portalData.usageAnalytics;
+        analyticsContainer.innerHTML = `
+            <div class="analytics-summary">
+                <div class="analytics-metric">
+                    <span class="metric-number">${analytics.summary.automationsRun}</span>
+                    <span class="metric-label">Automations Run</span>
+                </div>
+                <div class="analytics-metric">
+                    <span class="metric-number">${analytics.summary.timeSaved}</span>
+                    <span class="metric-label">Time Saved</span>
+                </div>
+                <div class="analytics-metric">
+                    <span class="metric-number">${analytics.summary.costSavings}</span>
+                    <span class="metric-label">Cost Savings</span>
+                </div>
+            </div>
+        `;
+    }
+}
+
+function startSupportChat() {
+    alert('AI Support Chat would launch here. Enterprise feature with 24/7 intelligent assistance and human escalation.');
+}
+
+// Enterprise API Center
+function showEnterpriseAPI() {
+    console.log('Showing enterprise API center');
+    const main = document.querySelector('main');
+    if (!main) return;
+    
+    main.innerHTML = `
+        <div class="api-interface">
+            <div class="api-header">
+                <h2>🔧 Enterprise API Center</h2>
+                <p>Connect OmniCore to your existing tools and workflows</p>
+                <button onclick="goBackToDashboard()" class="btn-secondary">← Back to Dashboard</button>
+            </div>
+            
+            <div class="api-content">
+                <div class="api-grid">
+                    <div class="api-card">
+                        <h3>🔑 API Keys</h3>
+                        <div id="api-keys" class="api-section">
+                            <div class="loading-spinner">Loading API keys...</div>
+                        </div>
+                    </div>
+                    
+                    <div class="api-card">
+                        <h3>🔗 Integrations</h3>
+                        <div id="integrations" class="api-section">
+                            <div class="loading-spinner">Loading integrations...</div>
+                        </div>
+                    </div>
+                    
+                    <div class="api-card">
+                        <h3>📚 Documentation</h3>
+                        <div id="api-docs" class="api-section">
+                            <div class="docs-link">
+                                <a href="#" onclick="viewAPIDocumentation()">📖 View API Documentation</a>
+                                <p>Complete OpenAPI 3.0 specification with examples</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="api-card">
+                        <h3>🔗 Webhooks</h3>
+                        <div id="webhooks" class="api-section">
+                            <button class="create-webhook-btn" onclick="createWebhook()">+ Create Webhook</button>
+                            <p>Get real-time notifications for automation events</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
+    
+    loadEnterpriseAPIData();
+}
+
+async function loadEnterpriseAPIData() {
+    try {
+        const userId = getCurrentUserId();
+        const response = await fetch(`/api/enterprise/api-keys?userId=${userId}`);
+        const data = await response.json();
+        
+        if (data.success) {
+            displayAPIData(data.data);
+        }
+    } catch (error) {
+        console.error('Error loading API data:', error);
+    }
+}
+
+function displayAPIData(apiData) {
+    // Display API key
+    const apiKeysContainer = document.getElementById('api-keys');
+    if (apiKeysContainer && apiData.apiKey) {
+        apiKeysContainer.innerHTML = `
+            <div class="api-key-item">
+                <div class="api-key-info">
+                    <h4>${apiData.apiKey.name}</h4>
+                    <div class="api-key-value">
+                        <input type="password" value="${apiData.apiKey.key}" readonly id="api-key-input">
+                        <button onclick="toggleAPIKeyVisibility()" class="toggle-btn">👁️</button>
+                        <button onclick="copyAPIKey()" class="copy-btn">📋</button>
+                    </div>
+                    <p class="api-key-meta">Created: ${new Date(apiData.apiKey.createdAt).toLocaleDateString()}</p>
+                </div>
+            </div>
+        `;
+    }
+
+    // Display integrations
+    const integrationsContainer = document.getElementById('integrations');
+    if (integrationsContainer && apiData.integrations) {
+        let integrationsHtml = '';
+        apiData.integrations.forEach(integration => {
+            integrationsHtml += `
+                <div class="integration-item">
+                    <h4>${integration.name}</h4>
+                    <p>${integration.description}</p>
+                    <button class="integration-btn" onclick="setupIntegration('${integration.name}')">Setup Integration</button>
+                </div>
+            `;
+        });
+        integrationsContainer.innerHTML = integrationsHtml;
+    }
+}
+
+function toggleAPIKeyVisibility() {
+    const input = document.getElementById('api-key-input');
+    if (input.type === 'password') {
+        input.type = 'text';
+    } else {
+        input.type = 'password';
+    }
+}
+
+function copyAPIKey() {
+    const input = document.getElementById('api-key-input');
+    input.select();
+    document.execCommand('copy');
+    alert('API key copied to clipboard!');
+}
+
+function viewAPIDocumentation() {
+    alert('API Documentation would open here. Complete OpenAPI 3.0 spec with interactive examples and code samples.');
+}
+
+function createWebhook() {
+    alert('Webhook creation wizard would launch here. Configure real-time notifications for automation events.');
+}
+
+function setupIntegration(integrationName) {
+    alert(`${integrationName} integration setup would launch here. OAuth flow or API key configuration for seamless connectivity.`);
+}
