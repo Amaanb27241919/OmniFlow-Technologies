@@ -999,9 +999,9 @@ function showClientDashboard() {
                     <div class="feature-content">
                         <h3>Quick Actions</h3>
                         <p>AI-powered contextual recommendations</p>
-                        <div id="quick-actions-container" style="margin-top: 15px;">
-                            <div class="loading-spinner" style="text-align: center; color: #666;">Loading actions...</div>
-                        </div>
+                        <button onclick="showAllQuickActions()" class="feature-button enhanced-feature-button">
+                            View Actions
+                        </button>
                     </div>
                 </div>
             </div>
