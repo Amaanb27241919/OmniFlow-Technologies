@@ -2755,13 +2755,16 @@ async function sendChatMessage() {
     const typingIndicator = addTypingIndicator();
     
     try {
-        // Send to AI backend
+        // Send to AI backend with user ID
         const response = await fetch('/api/chat', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ message: message })
+            body: JSON.stringify({ 
+                message: message,
+                userId: getCurrentUserId()
+            })
         });
         
         const data = await response.json();
@@ -2771,6 +2774,17 @@ async function sendChatMessage() {
         
         if (data.success) {
             addMessageToChat('assistant', data.response);
+            
+            // Update usage display
+            updateUsageDisplay(data.usage);
+            
+            // Show upgrade suggestion if needed
+            if (data.upgradeSuggestion) {
+                showUpgradePrompt(data.upgradeSuggestion);
+            }
+        } else if (data.upgradeRequired) {
+            // Handle rate limiting
+            showRateLimitMessage(data);
         } else {
             addMessageToChat('assistant', 'I apologize, but I encountered an issue processing your request. Please try again.');
         }
@@ -2778,6 +2792,144 @@ async function sendChatMessage() {
         typingIndicator.remove();
         addMessageToChat('assistant', 'I\'m having trouble connecting right now. Please check your connection and try again.');
     }
+}
+
+function getCurrentUserId() {
+    // Use stored user ID or create a demo user
+    const userRole = localStorage.getItem('userRole');
+    const storedUserId = localStorage.getItem('userId');
+    
+    if (storedUserId) {
+        return storedUserId;
+    }
+    
+    // Generate a unique demo user ID
+    const demoUserId = userRole === 'admin' ? 'admin-demo' : 'client-demo';
+    localStorage.setItem('userId', demoUserId);
+    return demoUserId;
+}
+
+function updateUsageDisplay(usage) {
+    // Add or update usage indicator in chat header
+    let usageIndicator = document.getElementById('usage-indicator');
+    
+    if (!usageIndicator) {
+        const chatHeader = document.querySelector('.chat-header');
+        usageIndicator = document.createElement('div');
+        usageIndicator.id = 'usage-indicator';
+        usageIndicator.className = 'usage-indicator';
+        chatHeader.appendChild(usageIndicator);
+    }
+    
+    if (usage.limit === -1) {
+        usageIndicator.innerHTML = `<span class="usage-unlimited">✨ Unlimited Chats</span>`;
+    } else {
+        const percentage = ((usage.limit - usage.remaining) / usage.limit) * 100;
+        const color = percentage > 80 ? '#e74c3c' : percentage > 60 ? '#f39c12' : '#27ae60';
+        
+        usageIndicator.innerHTML = `
+            <div class="usage-info">
+                <span class="usage-text">${usage.remaining} of ${usage.limit} chats remaining</span>
+                <div class="usage-bar">
+                    <div class="usage-progress" style="width: ${percentage}%; background-color: ${color};"></div>
+                </div>
+            </div>
+        `;
+    }
+}
+
+function showUpgradePrompt(suggestion) {
+    // Show non-intrusive upgrade suggestion
+    const upgradePrompt = document.createElement('div');
+    upgradePrompt.className = 'upgrade-prompt';
+    upgradePrompt.innerHTML = `
+        <div class="upgrade-content">
+            <span class="upgrade-icon">🚀</span>
+            <span class="upgrade-text">${suggestion.reason}</span>
+            <button class="upgrade-btn" onclick="showUpgradeModal('${suggestion.suggestedTier}')">Upgrade Now</button>
+            <button class="dismiss-btn" onclick="this.parentElement.parentElement.remove()">×</button>
+        </div>
+    `;
+    
+    const chatContainer = document.getElementById('chat-container');
+    chatContainer.appendChild(upgradePrompt);
+    
+    // Auto-remove after 10 seconds
+    setTimeout(() => {
+        if (upgradePrompt.parentElement) {
+            upgradePrompt.remove();
+        }
+    }, 10000);
+}
+
+function showRateLimitMessage(data) {
+    const rateLimitMessage = `
+        <div class="rate-limit-notice">
+            <h4>🚫 Chat Limit Reached</h4>
+            <p>You've reached your monthly limit of ${data.limit} chats on the ${data.tier} tier.</p>
+            <button class="upgrade-btn" onclick="showUpgradeModal('starter')">Upgrade for More Chats</button>
+        </div>
+    `;
+    
+    addMessageToChat('system', rateLimitMessage);
+}
+
+function showUpgradeModal(suggestedTier) {
+    const modal = document.createElement('div');
+    modal.className = 'upgrade-modal';
+    modal.innerHTML = `
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>🚀 Upgrade Your Plan</h3>
+                <button class="close-btn" onclick="this.closest('.upgrade-modal').remove()">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="tier-comparison">
+                    <div class="tier-card current">
+                        <h4>Pro Bono</h4>
+                        <div class="tier-price">Free</div>
+                        <ul>
+                            <li>10 chats/month</li>
+                            <li>3 automations</li>
+                            <li>Community support</li>
+                        </ul>
+                    </div>
+                    <div class="tier-card recommended">
+                        <h4>Starter</h4>
+                        <div class="tier-price">$97/month</div>
+                        <ul>
+                            <li>100 chats/month</li>
+                            <li>10 automations</li>
+                            <li>API access</li>
+                            <li>Advanced analytics</li>
+                            <li>Data export</li>
+                        </ul>
+                        <button class="select-tier-btn" onclick="upgradeTier('starter')">Choose Starter</button>
+                    </div>
+                    <div class="tier-card">
+                        <h4>Professional</h4>
+                        <div class="tier-price">$197/month</div>
+                        <ul>
+                            <li>500 chats/month</li>
+                            <li>50 automations</li>
+                            <li>Priority support</li>
+                            <li>White label</li>
+                            <li>Custom integrations</li>
+                        </ul>
+                        <button class="select-tier-btn" onclick="upgradeTier('professional')">Choose Professional</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
+    
+    document.body.appendChild(modal);
+}
+
+function upgradeTier(tier) {
+    // In production, this would integrate with Stripe
+    alert(`Upgrade to ${tier} tier initiated! In production, this would redirect to secure payment processing.`);
+    document.querySelector('.upgrade-modal').remove();
 }
 
 function askSuggestedQuestion(question) {

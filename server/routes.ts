@@ -674,15 +674,37 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
   
-  // AI Chat API endpoint
+  // AI Chat API endpoint with feature flag integration
   app.post('/api/chat', async (req, res) => {
     try {
-      const { message } = req.body;
+      const { message, userId } = req.body;
       
       if (!message) {
         return res.status(400).json({
           success: false,
           error: 'Message is required'
+        });
+      }
+
+      // Import feature flag system
+      const { featureFlagManager } = await import('./lib/featureFlags');
+      
+      // Use session or default user for demo
+      const currentUserId = userId || req.session?.user?.id || 'demo-user';
+      
+      // Check if user can use chat feature
+      const chatAccess = featureFlagManager.canUseFeature(currentUserId, 'chat');
+      
+      if (!chatAccess.allowed) {
+        const userUsage = featureFlagManager.getUserUsage(currentUserId);
+        const tierInfo = featureFlagManager.getTierInfo(userUsage.tier);
+        
+        return res.status(429).json({
+          success: false,
+          error: 'Chat limit reached',
+          limit: chatAccess.limit,
+          tier: tierInfo?.name,
+          upgradeRequired: true
         });
       }
 
@@ -716,9 +738,21 @@ Keep responses helpful, professional, and focused on business value. When sugges
 
       const response = completion.choices[0]?.message?.content || 'I apologize, but I could not generate a response. Please try again.';
 
+      // Increment usage counter
+      featureFlagManager.incrementUsage(currentUserId, 'chat');
+      
+      // Get updated usage info
+      const updatedAccess = featureFlagManager.canUseFeature(currentUserId, 'chat');
+      const upgradeSuggestion = featureFlagManager.getUpgradeSuggestions(currentUserId);
+
       res.json({
         success: true,
-        response: response
+        response: response,
+        usage: {
+          remaining: updatedAccess.remaining,
+          limit: updatedAccess.limit
+        },
+        upgradeSuggestion: upgradeSuggestion.shouldUpgrade ? upgradeSuggestion : null
       });
 
     } catch (error) {
