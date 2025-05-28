@@ -2194,17 +2194,13 @@ function goBackToDashboard() {
     if (automationHub) automationHub.style.display = 'none';
     if (taskLogs) taskLogs.style.display = 'none';
     
-    // Navigate back to appropriate dashboard based on user role
+    // Navigate back to appropriate dashboard based on user role and last view
     if (userRole === 'admin') {
-        // Check if admin was viewing client dashboard
-        const adminView = document.querySelector('#admin-welcome-message');
-        const clientView = document.querySelector('#client-welcome-message');
-        
-        if (clientView && !adminView) {
-            // Admin was viewing client dashboard, return to it
+        // Check admin's last view preference
+        const lastView = localStorage.getItem('adminCurrentView');
+        if (lastView === 'client') {
             showClientDashboard();
         } else {
-            // Return to admin dashboard
             showOpsManagerDashboard();
         }
     } else {
