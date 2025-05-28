@@ -952,6 +952,176 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Integrated Automation Pipeline API
+  app.post('/api/automation/pipeline/start', async (req, res) => {
+    try {
+      const { automationPipeline } = await import('./lib/automationPipeline');
+      const { blueprintId, businessData } = req.body;
+      const userId = req.body.userId || `user_${Date.now()}`;
+      
+      const executionId = await automationPipeline.startPipeline(userId, blueprintId, businessData);
+      
+      res.json({
+        success: true,
+        data: {
+          executionId,
+          status: 'started',
+          estimatedCompletion: '45 minutes'
+        }
+      });
+    } catch (error) {
+      console.error('Pipeline start error:', error);
+      res.status(500).json({ success: false, error: 'Failed to start automation pipeline' });
+    }
+  });
+
+  app.get('/api/automation/pipeline/:executionId/status', async (req, res) => {
+    try {
+      const { automationPipeline } = await import('./lib/automationPipeline');
+      const { executionId } = req.params;
+      
+      const execution = await automationPipeline.getExecutionStatus(executionId);
+      if (!execution) {
+        return res.status(404).json({ success: false, error: 'Execution not found' });
+      }
+      
+      res.json({
+        success: true,
+        data: {
+          status: execution.status,
+          currentStage: execution.currentStage,
+          completedStages: Array.from(execution.results.keys()),
+          estimatedROI: execution.estimatedROI,
+          startedAt: execution.startedAt,
+          completedAt: execution.completedAt
+        }
+      });
+    } catch (error) {
+      console.error('Pipeline status error:', error);
+      res.status(500).json({ success: false, error: 'Failed to get pipeline status' });
+    }
+  });
+
+  app.get('/api/automation/pipeline/:executionId/results', async (req, res) => {
+    try {
+      const { automationPipeline } = await import('./lib/automationPipeline');
+      const { executionId } = req.params;
+      
+      const results = await automationPipeline.getExecutionResults(executionId);
+      if (!results) {
+        return res.status(404).json({ success: false, error: 'Results not found' });
+      }
+      
+      res.json({
+        success: true,
+        data: results
+      });
+    } catch (error) {
+      console.error('Pipeline results error:', error);
+      res.status(500).json({ success: false, error: 'Failed to get pipeline results' });
+    }
+  });
+
+  // Enhanced Chat with Agent Router and Memory
+  app.post('/api/chat/enhanced', async (req, res) => {
+    try {
+      const { agentRouter } = await import('./lib/agentRouter');
+      const { persistentMemory } = await import('./lib/persistentMemory');
+      const { featureFlagManager } = await import('./lib/featureFlags');
+      
+      const { message, userId } = req.body;
+      const userUsage = featureFlagManager.getUserUsage(userId);
+      
+      // Check usage limits
+      if (!featureFlagManager.canUseFeature(userId, 'chat')) {
+        return res.json({
+          success: false,
+          error: 'Usage limit reached',
+          upgradeRequired: true,
+          suggestedTier: userUsage.tier === 'pro_bono' ? 'pro' : 'enterprise'
+        });
+      }
+      
+      // Enhance query with context
+      const enhancedQuery = await persistentMemory.enhanceQuery(userId, message);
+      
+      // Route to optimal AI model
+      const response = await agentRouter.routeRequest({
+        query: enhancedQuery,
+        userTier: userUsage.tier,
+        context: 'business_consultation'
+      });
+      
+      // Record conversation
+      await persistentMemory.addConversation(userId, {
+        timestamp: new Date(),
+        query: message,
+        response: response.content,
+        model: response.model,
+        confidence: response.confidence
+      });
+      
+      // Track usage
+      featureFlagManager.trackUsage(userId, 'chat');
+      
+      // Get contextual insights
+      const insights = await persistentMemory.getContextualInsights(userId);
+      
+      res.json({
+        success: true,
+        data: {
+          response: response.content,
+          model: response.model,
+          cost: response.cost,
+          insights: {
+            automationReadiness: insights.automationReadiness,
+            recommendedNextSteps: insights.recommendedNextSteps,
+            potentialROI: insights.potentialROI
+          },
+          usage: featureFlagManager.getUserUsage(userId)
+        }
+      });
+      
+    } catch (error) {
+      console.error('Enhanced chat error:', error);
+      res.status(500).json({ success: false, error: 'Failed to process chat message' });
+    }
+  });
+
+  // Service-to-SaaS Transition API
+  app.post('/api/transition/evaluate', async (req, res) => {
+    try {
+      const { persistentMemory } = await import('./lib/persistentMemory');
+      const { userId, transitionData } = req.body;
+      
+      const context = await persistentMemory.getUserContext(userId);
+      const insights = await persistentMemory.getContextualInsights(userId);
+      
+      // Determine optimal transition path
+      const transition = {
+        readiness: insights.automationReadiness,
+        recommendedPath: insights.automationReadiness > 70 ? 'saas_platform' : 'consulting_first',
+        suggestedTier: insights.automationReadiness > 85 ? 'enterprise' : 'pro',
+        estimatedValue: insights.potentialROI,
+        timeframe: insights.automationReadiness > 70 ? '2-4 weeks' : '2-3 months'
+      };
+      
+      res.json({
+        success: true,
+        data: {
+          transition,
+          businessProfile: context.businessProfile,
+          automationJourney: context.automationJourney,
+          nextSteps: insights.recommendedNextSteps
+        }
+      });
+      
+    } catch (error) {
+      console.error('Transition evaluation error:', error);
+      res.status(500).json({ success: false, error: 'Failed to evaluate transition' });
+    }
+  });
+
   // Enterprise API Management
   app.get('/api/enterprise/api-keys', async (req, res) => {
     try {

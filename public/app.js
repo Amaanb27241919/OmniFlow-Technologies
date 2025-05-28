@@ -3731,3 +3731,392 @@ function createWebhook() {
 function setupIntegration(integrationName) {
     alert(`${integrationName} integration setup would launch here. OAuth flow or API key configuration for seamless connectivity.`);
 }
+
+// OmniFlow Advisory - Service-to-SaaS Pipeline Interface
+function showServiceToSaaSPipeline() {
+    console.log('Showing service-to-SaaS pipeline');
+    const main = document.querySelector('main');
+    if (!main) return;
+    
+    main.innerHTML = `
+        <div class="pipeline-interface">
+            <div class="pipeline-header">
+                <h2>🚀 OmniFlow Advisory Pipeline</h2>
+                <p>Intelligent automation consulting that scales to self-service SaaS</p>
+                <button onclick="goBackToDashboard()" class="btn-secondary">← Back to Dashboard</button>
+            </div>
+            
+            <div class="pipeline-content">
+                <div class="pipeline-stages">
+                    <div class="stage active" data-stage="intake">
+                        <div class="stage-number">1</div>
+                        <h3>Business Intake</h3>
+                        <p>Comprehensive business assessment</p>
+                    </div>
+                    <div class="stage" data-stage="audit">
+                        <div class="stage-number">2</div>
+                        <h3>Process Audit</h3>
+                        <p>Identify automation opportunities</p>
+                    </div>
+                    <div class="stage" data-stage="analysis">
+                        <div class="stage-number">3</div>
+                        <h3>AI Analysis</h3>
+                        <p>Deep ROI and strategy analysis</p>
+                    </div>
+                    <div class="stage" data-stage="report">
+                        <div class="stage-number">4</div>
+                        <h3>Strategy Report</h3>
+                        <p>Comprehensive implementation plan</p>
+                    </div>
+                    <div class="stage" data-stage="action">
+                        <div class="stage-number">5</div>
+                        <h3>Implementation</h3>
+                        <p>Consulting or SaaS transition</p>
+                    </div>
+                </div>
+                
+                <div class="pipeline-form">
+                    <div class="form-section active" id="intake-form">
+                        <h3>Start Your Automation Journey</h3>
+                        <form onsubmit="startAutomationPipeline(event)">
+                            <div class="form-group">
+                                <label>Business Name</label>
+                                <input type="text" name="businessName" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Industry</label>
+                                <select name="industry" required>
+                                    <option value="">Select Industry</option>
+                                    <option value="technology">Technology</option>
+                                    <option value="consulting">Consulting</option>
+                                    <option value="ecommerce">E-commerce</option>
+                                    <option value="manufacturing">Manufacturing</option>
+                                    <option value="healthcare">Healthcare</option>
+                                    <option value="finance">Finance</option>
+                                    <option value="other">Other</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Company Size</label>
+                                <select name="size" required>
+                                    <option value="">Select Size</option>
+                                    <option value="startup">Startup (1-10 employees)</option>
+                                    <option value="small">Small (11-50 employees)</option>
+                                    <option value="medium">Medium (51-200 employees)</option>
+                                    <option value="large">Large (200+ employees)</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Primary Business Challenges (select all that apply)</label>
+                                <div class="checkbox-group">
+                                    <label><input type="checkbox" name="challenges" value="manual_processes"> Manual processes taking too much time</label>
+                                    <label><input type="checkbox" name="challenges" value="lead_management"> Lead qualification and management</label>
+                                    <label><input type="checkbox" name="challenges" value="customer_onboarding"> Customer onboarding complexity</label>
+                                    <label><input type="checkbox" name="challenges" value="reporting"> Reporting and analytics</label>
+                                    <label><input type="checkbox" name="challenges" value="communication"> Internal communication inefficiencies</label>
+                                    <label><input type="checkbox" name="challenges" value="scaling"> Difficulty scaling operations</label>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>Current Tools (comma-separated)</label>
+                                <input type="text" name="currentTools" placeholder="e.g., HubSpot, Slack, QuickBooks">
+                            </div>
+                            <div class="form-group">
+                                <label>Automation Goals</label>
+                                <div class="checkbox-group">
+                                    <label><input type="checkbox" name="goals" value="save_time"> Save time on routine tasks</label>
+                                    <label><input type="checkbox" name="goals" value="reduce_costs"> Reduce operational costs</label>
+                                    <label><input type="checkbox" name="goals" value="improve_accuracy"> Improve process accuracy</label>
+                                    <label><input type="checkbox" name="goals" value="scale_business"> Scale business operations</label>
+                                    <label><input type="checkbox" name="goals" value="better_insights"> Get better business insights</label>
+                                </div>
+                            </div>
+                            <button type="submit" class="pipeline-submit-btn">Start Automation Analysis</button>
+                        </form>
+                    </div>
+                    
+                    <div class="form-section" id="pipeline-progress" style="display: none;">
+                        <h3>Pipeline Progress</h3>
+                        <div class="progress-container">
+                            <div class="progress-bar">
+                                <div class="progress-fill" id="progress-fill"></div>
+                            </div>
+                            <div class="progress-text" id="progress-text">Initializing...</div>
+                        </div>
+                        <div class="pipeline-status" id="pipeline-status">
+                            <p>Your automation analysis is in progress. This typically takes 45 minutes.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="form-section" id="pipeline-results" style="display: none;">
+                        <h3>Your Automation Strategy</h3>
+                        <div class="results-container" id="results-container">
+                            <!-- Results will be populated here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
+}
+
+async function startAutomationPipeline(event) {
+    event.preventDefault();
+    
+    const formData = new FormData(event.target);
+    const businessData = {
+        businessProfile: {
+            businessName: formData.get('businessName'),
+            industry: formData.get('industry'),
+            size: formData.get('size'),
+            challenges: formData.getAll('challenges'),
+            goals: formData.getAll('goals'),
+            currentTools: formData.get('currentTools')?.split(',').map(t => t.trim()) || []
+        }
+    };
+    
+    try {
+        // Hide form and show progress
+        document.getElementById('intake-form').style.display = 'none';
+        document.getElementById('pipeline-progress').style.display = 'block';
+        
+        // Start the automation pipeline
+        const response = await fetch('/api/automation/pipeline/start', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                blueprintId: 'comprehensive_automation_audit',
+                businessData,
+                userId: getCurrentUserId()
+            })
+        });
+        
+        const result = await response.json();
+        
+        if (result.success) {
+            // Monitor pipeline progress
+            monitorPipelineProgress(result.data.executionId);
+        } else {
+            alert('Failed to start automation pipeline. Please try again.');
+        }
+        
+    } catch (error) {
+        console.error('Pipeline start error:', error);
+        alert('Failed to start automation pipeline. Please try again.');
+    }
+}
+
+async function monitorPipelineProgress(executionId) {
+    const progressFill = document.getElementById('progress-fill');
+    const progressText = document.getElementById('progress-text');
+    const pipelineStatus = document.getElementById('pipeline-status');
+    
+    const stages = ['intake', 'audit', 'analysis', 'report', 'action'];
+    let currentStageIndex = 0;
+    
+    const checkProgress = async () => {
+        try {
+            const response = await fetch(`/api/automation/pipeline/${executionId}/status`);
+            const status = await response.json();
+            
+            if (status.success) {
+                const data = status.data;
+                currentStageIndex = Math.max(stages.indexOf(data.currentStage), currentStageIndex);
+                
+                // Update progress bar
+                const progress = ((currentStageIndex + 1) / stages.length) * 100;
+                progressFill.style.width = `${progress}%`;
+                
+                // Update stage indicators
+                document.querySelectorAll('.stage').forEach((stage, index) => {
+                    if (index <= currentStageIndex) {
+                        stage.classList.add('completed');
+                    }
+                    if (index === currentStageIndex) {
+                        stage.classList.add('active');
+                    }
+                });
+                
+                // Update status text
+                progressText.textContent = `Stage ${currentStageIndex + 1}/5: ${stages[currentStageIndex].charAt(0).toUpperCase() + stages[currentStageIndex].slice(1)}`;
+                
+                if (data.status === 'completed') {
+                    progressText.textContent = 'Analysis Complete!';
+                    await loadPipelineResults(executionId);
+                    return;
+                } else if (data.status === 'failed') {
+                    progressText.textContent = 'Analysis failed. Please contact support.';
+                    return;
+                }
+            }
+            
+            // Continue monitoring
+            setTimeout(checkProgress, 3000);
+            
+        } catch (error) {
+            console.error('Progress monitoring error:', error);
+            setTimeout(checkProgress, 5000);
+        }
+    };
+    
+    checkProgress();
+}
+
+async function loadPipelineResults(executionId) {
+    try {
+        const response = await fetch(`/api/automation/pipeline/${executionId}/results`);
+        const results = await response.json();
+        
+        if (results.success) {
+            displayPipelineResults(results.data);
+        }
+    } catch (error) {
+        console.error('Results loading error:', error);
+    }
+}
+
+function displayPipelineResults(results) {
+    document.getElementById('pipeline-progress').style.display = 'none';
+    document.getElementById('pipeline-results').style.display = 'block';
+    
+    const container = document.getElementById('results-container');
+    
+    let html = '';
+    
+    if (results.analysis) {
+        html += `
+            <div class="result-section">
+                <h4>🎯 ROI Projections</h4>
+                <div class="roi-highlight">
+                    <span class="roi-amount">${results.analysis.roi_projections?.total || '$25,000/year'}</span>
+                    <span class="roi-label">Estimated Annual Savings</span>
+                </div>
+                <p>Payback period: ${results.analysis.roi_projections?.payback_period || '3-6 months'}</p>
+            </div>
+        `;
+    }
+    
+    if (results.report) {
+        html += `
+            <div class="result-section">
+                <h4>📊 Executive Summary</h4>
+                <div class="executive-summary">
+                    ${results.report.executive_summary || 'Comprehensive automation strategy developed based on your business profile.'}
+                </div>
+            </div>
+            
+            <div class="result-section">
+                <h4>✅ Next Steps</h4>
+                <ul class="action-items">
+                    ${(results.report.action_items || [
+                        'Review automation recommendations',
+                        'Schedule implementation consultation',
+                        'Begin with highest-impact automation'
+                    ]).map(item => `<li>${item}</li>`).join('')}
+                </ul>
+            </div>
+        `;
+    }
+    
+    html += `
+        <div class="result-section">
+            <h4>🚀 Ready for Next Phase?</h4>
+            <div class="transition-options">
+                <button onclick="scheduleConsultation()" class="consultation-btn">
+                    📞 Schedule Consultation
+                    <span>Work with our automation experts</span>
+                </button>
+                <button onclick="exploreSaasPlatform()" class="saas-btn">
+                    ⚡ Explore OmniCore Platform
+                    <span>Self-service automation tools</span>
+                </button>
+            </div>
+        </div>
+    `;
+    
+    container.innerHTML = html;
+}
+
+function scheduleConsultation() {
+    alert('Consultation scheduling would open here. This transitions users to OmniFlow Advisory services.');
+}
+
+function exploreSaasPlatform() {
+    alert('This would transition users to the OmniCore SaaS platform with appropriate tier recommendations.');
+}
+
+// Enhanced Chat with Context and Memory
+async function sendEnhancedChatMessage() {
+    const chatInput = document.getElementById('chat-input');
+    const message = chatInput.value.trim();
+    if (!message) return;
+
+    const userId = getCurrentUserId();
+    addMessageToChat('You', message);
+    chatInput.value = '';
+    
+    addTypingIndicator();
+
+    try {
+        const response = await fetch('/api/chat/enhanced', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ message, userId })
+        });
+
+        const data = await response.json();
+        
+        document.querySelector('.typing-indicator')?.remove();
+
+        if (data.success) {
+            addMessageToChat('OmniFlow Assistant', data.data.response);
+            
+            // Show contextual insights if available
+            if (data.data.insights) {
+                showContextualInsights(data.data.insights);
+            }
+            
+            // Update usage display
+            if (data.data.usage) {
+                updateUsageDisplay(data.data.usage);
+            }
+        } else {
+            if (data.upgradeRequired) {
+                showUpgradePrompt(data);
+            } else {
+                addMessageToChat('System', 'Sorry, I encountered an error. Please try again.');
+            }
+        }
+    } catch (error) {
+        console.error('Enhanced chat error:', error);
+        document.querySelector('.typing-indicator')?.remove();
+        addMessageToChat('System', 'Connection error. Please check your internet and try again.');
+    }
+}
+
+function showContextualInsights(insights) {
+    const chatMessages = document.getElementById('chat-messages');
+    
+    const insightsHtml = `
+        <div class="insights-card">
+            <h4>💡 Automation Insights</h4>
+            <div class="insight-item">
+                <span class="insight-label">Automation Readiness:</span>
+                <span class="insight-value">${insights.automationReadiness}%</span>
+            </div>
+            <div class="insight-item">
+                <span class="insight-label">Potential ROI:</span>
+                <span class="insight-value">${insights.potentialROI}</span>
+            </div>
+            <div class="next-steps">
+                <h5>Recommended Next Steps:</h5>
+                <ul>
+                    ${insights.recommendedNextSteps.map(step => `<li>${step}</li>`).join('')}
+                </ul>
+            </div>
+        </div>
+    `;
+    
+    chatMessages.insertAdjacentHTML('beforeend', insightsHtml);
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+}
