@@ -2991,3 +2991,354 @@ function goBackToDashboard() {
         showClientDashboard();
     }
 }
+
+// Advanced Analytics Dashboard
+function showAdvancedAnalytics() {
+    console.log('Showing advanced analytics dashboard');
+    const main = document.querySelector('main');
+    if (!main) return;
+    
+    main.innerHTML = `
+        <div class="analytics-interface">
+            <div class="analytics-header">
+                <h2>📊 Advanced Analytics Dashboard</h2>
+                <p>Enterprise-grade analytics with conversion tracking and client insights</p>
+                <button onclick="goBackToDashboard()" class="btn-secondary">← Back to Dashboard</button>
+            </div>
+            
+            <div class="analytics-content">
+                <div class="analytics-grid">
+                    <div class="analytics-card">
+                        <h3>🎯 Conversion Metrics</h3>
+                        <div id="conversion-metrics" class="metrics-content">
+                            <div class="loading-spinner">Loading conversion data...</div>
+                        </div>
+                    </div>
+                    
+                    <div class="analytics-card">
+                        <h3>📈 Usage Analytics</h3>
+                        <div id="usage-metrics" class="metrics-content">
+                            <div class="loading-spinner">Loading usage data...</div>
+                        </div>
+                    </div>
+                    
+                    <div class="analytics-card">
+                        <h3>🧠 AI Insights</h3>
+                        <div id="ai-insights" class="metrics-content">
+                            <div class="loading-spinner">Loading AI insights...</div>
+                        </div>
+                    </div>
+                    
+                    <div class="analytics-card">
+                        <h3>👥 Client Insights</h3>
+                        <div id="client-insights" class="metrics-content">
+                            <div class="loading-spinner">Loading client data...</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
+    
+    // Load analytics data
+    loadAdvancedAnalytics();
+}
+
+async function loadAdvancedAnalytics() {
+    try {
+        const response = await fetch('/api/analytics/overview');
+        const data = await response.json();
+        
+        if (data.success) {
+            displayConversionMetrics(data.data.metrics);
+            displayUsageMetrics(data.data.usage);
+            displayAIInsights(data.data.insights);
+        }
+        
+        // Load client insights
+        const clientResponse = await fetch('/api/analytics/clients');
+        const clientData = await clientResponse.json();
+        
+        if (clientData.success) {
+            displayClientInsights(clientData.data);
+        }
+    } catch (error) {
+        console.error('Error loading analytics:', error);
+    }
+}
+
+function displayConversionMetrics(metrics) {
+    const container = document.getElementById('conversion-metrics');
+    if (!container) return;
+    
+    container.innerHTML = `
+        <div class="metric-row">
+            <span class="metric-label">Total Users:</span>
+            <span class="metric-value">${metrics.totalUsers}</span>
+        </div>
+        <div class="metric-row">
+            <span class="metric-label">Conversion Rate:</span>
+            <span class="metric-value">${metrics.conversionRate.toFixed(1)}%</span>
+        </div>
+        <div class="metric-row">
+            <span class="metric-label">Pro Bono Users:</span>
+            <span class="metric-value">${metrics.proBonoUsers}</span>
+        </div>
+        <div class="metric-row">
+            <span class="metric-label">Paid Users:</span>
+            <span class="metric-value">${metrics.starterUsers + metrics.professionalUsers + metrics.enterpriseUsers}</span>
+        </div>
+    `;
+}
+
+function displayUsageMetrics(usage) {
+    const container = document.getElementById('usage-metrics');
+    if (!container) return;
+    
+    container.innerHTML = `
+        <div class="metric-row">
+            <span class="metric-label">Total Chats:</span>
+            <span class="metric-value">${usage.totalChats}</span>
+        </div>
+        <div class="metric-row">
+            <span class="metric-label">Avg Chats/User:</span>
+            <span class="metric-value">${usage.avgChatsPerUser.toFixed(1)}</span>
+        </div>
+        <div class="metric-row">
+            <span class="metric-label">Revenue/User:</span>
+            <span class="metric-value">$${usage.revenuePerUser.toFixed(2)}</span>
+        </div>
+        <div class="metric-row">
+            <span class="metric-label">Cost/User:</span>
+            <span class="metric-value">$${usage.costPerUser.toFixed(2)}</span>
+        </div>
+    `;
+}
+
+function displayAIInsights(insights) {
+    const container = document.getElementById('ai-insights');
+    if (!container) return;
+    
+    let html = '';
+    
+    if (insights.insights.length > 0) {
+        html += '<h4>✨ Key Insights</h4>';
+        insights.insights.forEach(insight => {
+            html += `<div class="insight-item positive">✅ ${insight}</div>`;
+        });
+    }
+    
+    if (insights.alerts.length > 0) {
+        html += '<h4>⚠️ Alerts</h4>';
+        insights.alerts.forEach(alert => {
+            html += `<div class="insight-item alert">⚠️ ${alert}</div>`;
+        });
+    }
+    
+    if (insights.opportunities.length > 0) {
+        html += '<h4>🚀 Opportunities</h4>';
+        insights.opportunities.forEach(opportunity => {
+            html += `<div class="insight-item opportunity">🚀 ${opportunity}</div>`;
+        });
+    }
+    
+    container.innerHTML = html || '<div class="insight-item">No insights available yet.</div>';
+}
+
+function displayClientInsights(clients) {
+    const container = document.getElementById('client-insights');
+    if (!container) return;
+    
+    let html = '<div class="client-insights-list">';
+    
+    clients.slice(0, 5).forEach(client => {
+        const conversionColor = client.conversionProbability > 70 ? 'high' : 
+                              client.conversionProbability > 40 ? 'medium' : 'low';
+        
+        html += `
+            <div class="client-insight-item">
+                <div class="client-info">
+                    <strong>${client.userId}</strong> (${client.tier})
+                    <span class="conversion-probability ${conversionColor}">
+                        ${client.conversionProbability.toFixed(0)}% conversion probability
+                    </span>
+                </div>
+                <div class="client-stats">
+                    ${client.totalChats} chats • Last active: ${new Date(client.lastActive).toLocaleDateString()}
+                </div>
+            </div>
+        `;
+    });
+    
+    html += '</div>';
+    container.innerHTML = html;
+}
+
+// Referral Center
+function showReferralCenter() {
+    console.log('Showing referral center');
+    const main = document.querySelector('main');
+    if (!main) return;
+    
+    main.innerHTML = `
+        <div class="referral-interface">
+            <div class="referral-header">
+                <h2>🎁 Referral Rewards Center</h2>
+                <p>Earn credits and bonuses by referring new users to OmniCore</p>
+                <button onclick="goBackToDashboard()" class="btn-secondary">← Back to Dashboard</button>
+            </div>
+            
+            <div class="referral-content">
+                <div class="referral-grid">
+                    <div class="referral-card">
+                        <h3>📊 Your Stats</h3>
+                        <div id="referral-stats" class="referral-stats">
+                            <div class="loading-spinner">Loading your referral stats...</div>
+                        </div>
+                    </div>
+                    
+                    <div class="referral-card">
+                        <h3>🔗 Share Your Link</h3>
+                        <div id="referral-share" class="referral-share">
+                            <div class="loading-spinner">Generating your referral link...</div>
+                        </div>
+                    </div>
+                    
+                    <div class="referral-card">
+                        <h3>🏆 Leaderboard</h3>
+                        <div id="referral-leaderboard" class="referral-leaderboard">
+                            <div class="loading-spinner">Loading leaderboard...</div>
+                        </div>
+                    </div>
+                    
+                    <div class="referral-card">
+                        <h3>💰 Reward Structure</h3>
+                        <div class="reward-structure">
+                            <div class="reward-item">
+                                <span class="reward-icon">👋</span>
+                                <span class="reward-text">$25 for each new signup</span>
+                            </div>
+                            <div class="reward-item">
+                                <span class="reward-icon">🚀</span>
+                                <span class="reward-text">$50 for Starter conversions</span>
+                            </div>
+                            <div class="reward-item">
+                                <span class="reward-icon">⭐</span>
+                                <span class="reward-text">$100 for Professional conversions</span>
+                            </div>
+                            <div class="reward-item">
+                                <span class="reward-icon">💎</span>
+                                <span class="reward-text">$200 for Enterprise conversions</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
+    
+    // Load referral data
+    loadReferralData();
+}
+
+async function loadReferralData() {
+    const userId = getCurrentUserId();
+    
+    try {
+        // Load referral stats and content
+        const response = await fetch(`/api/referrals/code/${userId}`);
+        const data = await response.json();
+        
+        if (data.success) {
+            displayReferralStats(data.data.stats);
+            displayReferralShare(data.data.content);
+        }
+        
+        // Load leaderboard
+        const leaderboardResponse = await fetch('/api/referrals/leaderboard');
+        const leaderboardData = await leaderboardResponse.json();
+        
+        if (leaderboardData.success) {
+            displayReferralLeaderboard(leaderboardData.data);
+        }
+    } catch (error) {
+        console.error('Error loading referral data:', error);
+    }
+}
+
+function displayReferralStats(stats) {
+    const container = document.getElementById('referral-stats');
+    if (!container) return;
+    
+    container.innerHTML = `
+        <div class="stat-row">
+            <span class="stat-label">Total Referrals:</span>
+            <span class="stat-value">${stats.totalReferrals}</span>
+        </div>
+        <div class="stat-row">
+            <span class="stat-label">Successful Conversions:</span>
+            <span class="stat-value">${stats.successfulConversions}</span>
+        </div>
+        <div class="stat-row">
+            <span class="stat-label">Total Rewards Earned:</span>
+            <span class="stat-value">$${stats.totalRewardsEarned}</span>
+        </div>
+        <div class="stat-row">
+            <span class="stat-label">Conversion Rate:</span>
+            <span class="stat-value">${stats.conversionRate.toFixed(1)}%</span>
+        </div>
+    `;
+}
+
+function displayReferralShare(content) {
+    const container = document.getElementById('referral-share');
+    if (!container) return;
+    
+    container.innerHTML = `
+        <div class="share-content">
+            <div class="referral-link-section">
+                <label>Your Referral Link:</label>
+                <div class="link-input-group">
+                    <input type="text" value="${content.shareableLink}" readonly class="referral-link-input" id="referral-link">
+                    <button onclick="copyReferralLink()" class="copy-btn">Copy</button>
+                </div>
+            </div>
+            
+            <div class="share-buttons">
+                <button onclick="shareEmail()" class="share-btn email">📧 Email</button>
+                <button onclick="shareSocial()" class="share-btn social">📱 Social</button>
+                <button onclick="showShareContent()" class="share-btn content">📝 Copy Content</button>
+            </div>
+        </div>
+    `;
+}
+
+function displayReferralLeaderboard(leaderboard) {
+    const container = document.getElementById('referral-leaderboard');
+    if (!container) return;
+    
+    let html = '<div class="leaderboard-list">';
+    
+    leaderboard.slice(0, 5).forEach((user, index) => {
+        const medal = index === 0 ? '🥇' : index === 1 ? '🥈' : index === 2 ? '🥉' : '🏅';
+        html += `
+            <div class="leaderboard-item">
+                <span class="rank">${medal} #${index + 1}</span>
+                <span class="user-id">${user.userId}</span>
+                <span class="rewards">$${user.totalRewards}</span>
+            </div>
+        `;
+    });
+    
+    html += '</div>';
+    container.innerHTML = html;
+}
+
+function copyReferralLink() {
+    const linkInput = document.getElementById('referral-link');
+    if (linkInput) {
+        linkInput.select();
+        document.execCommand('copy');
+        alert('Referral link copied to clipboard!');
+    }
+}
