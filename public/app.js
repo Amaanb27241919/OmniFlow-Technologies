@@ -2664,3 +2664,178 @@ function showOnboardingWorkflows() {
     if (dashboard) dashboard.style.display = 'none';
     if (onboardingSection) onboardingSection.style.display = 'block';
 }
+
+// Advanced AI Chat System
+function initializeChatFeature() {
+    console.log('Initializing AI chat feature');
+    const main = document.querySelector('main');
+    if (!main) return;
+    
+    main.innerHTML = `
+        <div class="chat-interface" id="chat-interface">
+            <div class="chat-header">
+                <h2>🤖 AI Business Assistant</h2>
+                <p>Get intelligent help with automation, strategy, and business questions</p>
+                <button onclick="goBackToDashboard()" class="btn-secondary">← Back to Dashboard</button>
+            </div>
+            
+            <div class="chat-container" id="chat-container">
+                <div class="chat-messages" id="chat-messages">
+                    <div class="message assistant-message">
+                        <div class="message-content">
+                            <strong>AI Assistant:</strong> Hello! I'm your AI business assistant. I can help you with:
+                            <ul>
+                                <li>🎯 Business strategy and automation planning</li>
+                                <li>📊 Data analysis and insights</li>
+                                <li>✍️ Content creation and copywriting</li>
+                                <li>🔄 Workflow optimization</li>
+                                <li>💡 Creative problem solving</li>
+                            </ul>
+                            What would you like to work on today?
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="chat-input-area">
+                    <div class="chat-input-container">
+                        <textarea 
+                            id="chat-input" 
+                            placeholder="Ask me anything about your business, automation, or strategy..."
+                            rows="3"
+                        ></textarea>
+                        <button id="send-chat" onclick="sendChatMessage()" class="send-button">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <line x1="22" y1="2" x2="11" y2="13"></line>
+                                <polygon points="22,2 15,22 11,13 2,9"></polygon>
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="suggested-questions">
+                        <button onclick="askSuggestedQuestion('How can I automate my customer follow-up process?')" class="suggestion-btn">
+                            Automate Customer Follow-up
+                        </button>
+                        <button onclick="askSuggestedQuestion('What are the best AI tools for my industry?')" class="suggestion-btn">
+                            Best AI Tools
+                        </button>
+                        <button onclick="askSuggestedQuestion('How do I calculate ROI on automation investments?')" class="suggestion-btn">
+                            Calculate ROI
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
+    
+    // Add enter key support
+    const chatInput = document.getElementById('chat-input');
+    if (chatInput) {
+        chatInput.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                sendChatMessage();
+            }
+        });
+    }
+}
+
+async function sendChatMessage() {
+    const chatInput = document.getElementById('chat-input');
+    const chatMessages = document.getElementById('chat-messages');
+    
+    if (!chatInput || !chatMessages) return;
+    
+    const message = chatInput.value.trim();
+    if (!message) return;
+    
+    // Add user message
+    addMessageToChat('user', message);
+    chatInput.value = '';
+    
+    // Show typing indicator
+    const typingIndicator = addTypingIndicator();
+    
+    try {
+        // Send to AI backend
+        const response = await fetch('/api/chat', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ message: message })
+        });
+        
+        const data = await response.json();
+        
+        // Remove typing indicator
+        typingIndicator.remove();
+        
+        if (data.success) {
+            addMessageToChat('assistant', data.response);
+        } else {
+            addMessageToChat('assistant', 'I apologize, but I encountered an issue processing your request. Please try again.');
+        }
+    } catch (error) {
+        typingIndicator.remove();
+        addMessageToChat('assistant', 'I\'m having trouble connecting right now. Please check your connection and try again.');
+    }
+}
+
+function askSuggestedQuestion(question) {
+    const chatInput = document.getElementById('chat-input');
+    if (chatInput) {
+        chatInput.value = question;
+        sendChatMessage();
+    }
+}
+
+function addMessageToChat(sender, content) {
+    const chatMessages = document.getElementById('chat-messages');
+    if (!chatMessages) return;
+    
+    const messageDiv = document.createElement('div');
+    messageDiv.className = `message ${sender}-message`;
+    
+    const senderLabel = sender === 'user' ? 'You' : 'AI Assistant';
+    messageDiv.innerHTML = `
+        <div class="message-content">
+            <strong>${senderLabel}:</strong> ${content}
+        </div>
+    `;
+    
+    chatMessages.appendChild(messageDiv);
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+}
+
+function addTypingIndicator() {
+    const chatMessages = document.getElementById('chat-messages');
+    if (!chatMessages) return;
+    
+    const typingDiv = document.createElement('div');
+    typingDiv.className = 'message assistant-message typing';
+    typingDiv.innerHTML = `
+        <div class="message-content">
+            <strong>AI Assistant:</strong> <span class="typing-dots">Thinking...</span>
+        </div>
+    `;
+    
+    chatMessages.appendChild(typingDiv);
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+    
+    return typingDiv;
+}
+
+function goBackToDashboard() {
+    // Check user role and show appropriate dashboard
+    const userRole = localStorage.getItem('userRole');
+    const lastView = localStorage.getItem('adminCurrentView');
+    
+    if (userRole === 'admin') {
+        if (lastView === 'client') {
+            showClientDashboard();
+        } else {
+            showOpsManagerDashboard();
+        }
+    } else {
+        showClientDashboard();
+    }
+}
