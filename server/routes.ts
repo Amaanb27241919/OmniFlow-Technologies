@@ -16,6 +16,7 @@ import cron from "node-cron";
 import fs from "fs/promises";
 import path from "path";
 import { registerEnhancedAutomation } from "./enhanced-automation";
+import { marketingEngine } from "./lib/marketingAutomation";
 
 // Enhanced task and user management from your existing backend
 interface EnhancedTask {
@@ -1735,6 +1736,98 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error) {
       console.error("Error generating task data:", error);
       res.status(500).json({ message: "Failed to generate task data" });
+    }
+  });
+
+  // Marketing Automation & Lead Capture Endpoints
+  
+  // Capture leads from landing page contact forms
+  app.post('/api/leads/capture', async (req, res) => {
+    try {
+      const leadData = req.body;
+      
+      // Add lead to marketing automation system
+      const lead = await marketingEngine.addLead({
+        email: leadData.email,
+        businessName: leadData.businessName,
+        contactName: leadData.contactName,
+        phone: leadData.phone,
+        companySize: leadData.companySize,
+        challenge: leadData.challenge,
+        source: leadData.serviceType === 'advisory' ? 'consultation_request' : 'platform_trial',
+        status: 'new'
+      });
+
+      // Also save to existing leads file for compatibility
+      const existingLeads = await readJsonFile('./leads.json', []);
+      existingLeads.push({
+        ...leadData,
+        id: Date.now(),
+        timestamp: new Date().toISOString(),
+        score: lead.score,
+        tags: lead.tags
+      });
+      await writeJsonFile('./leads.json', existingLeads);
+
+      res.json({ 
+        success: true, 
+        leadId: lead.id,
+        message: 'Lead captured and nurturing sequence started' 
+      });
+    } catch (error) {
+      console.error('Error capturing lead:', error);
+      res.status(500).json({ error: 'Failed to capture lead' });
+    }
+  });
+
+  // Track user interactions for lead scoring
+  app.post('/api/leads/track-interaction', async (req, res) => {
+    try {
+      const { leadId, type, metadata } = req.body;
+      
+      await marketingEngine.recordInteraction(leadId, {
+        type,
+        timestamp: new Date(),
+        metadata
+      });
+
+      res.json({ success: true });
+    } catch (error) {
+      console.error('Error tracking interaction:', error);
+      res.status(500).json({ error: 'Failed to track interaction' });
+    }
+  });
+
+  // Get lead analytics for admin dashboard
+  app.get('/api/marketing/analytics', async (req, res) => {
+    try {
+      const analytics = marketingEngine.getConversionAnalytics();
+      const highValueLeads = marketingEngine.getHighValueLeads();
+      const followupNeeded = marketingEngine.getLeadsNeedingFollowup();
+
+      res.json({
+        analytics,
+        highValueLeads: highValueLeads.slice(0, 10),
+        followupNeeded: followupNeeded.slice(0, 5)
+      });
+    } catch (error) {
+      console.error('Error getting analytics:', error);
+      res.status(500).json({ error: 'Failed to get analytics' });
+    }
+  });
+
+  // Update lead status
+  app.put('/api/leads/:leadId/status', async (req, res) => {
+    try {
+      const { leadId } = req.params;
+      const { status } = req.body;
+      
+      await marketingEngine.updateLeadStatus(leadId, status);
+      
+      res.json({ success: true });
+    } catch (error) {
+      console.error('Error updating lead status:', error);
+      res.status(500).json({ error: 'Failed to update lead status' });
     }
   });
 

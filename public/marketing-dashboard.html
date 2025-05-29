@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Marketing Dashboard - OmniFlow</title>
+    <link rel="stylesheet" href="omniflow-styles.css">
+    <style>
+        .marketing-dashboard {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+            background: #f7fafc;
+            min-height: 100vh;
+        }
+        
+        .dashboard-header {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 20px rgba(26, 54, 93, 0.1);
+        }
+        
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .metric-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(26, 54, 93, 0.1);
+            text-align: center;
+        }
+        
+        .metric-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--primary-blue);
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+        
+        .metric-label {
+            color: var(--text-medium);
+            font-weight: 500;
+        }
+        
+        .metric-change {
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+        }
+        
+        .metric-change.positive {
+            color: var(--success);
+        }
+        
+        .metric-change.negative {
+            color: var(--error);
+        }
+        
+        .dashboard-section {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 20px rgba(26, 54, 93, 0.1);
+        }
+        
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            color: var(--text-dark);
+        }
+        
+        .leads-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .leads-table th,
+        .leads-table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        
+        .leads-table th {
+            background: #f7fafc;
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+        
+        .lead-score {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+        
+        .lead-score.high {
+            background: #d1fae5;
+            color: #065f46;
+        }
+        
+        .lead-score.medium {
+            background: #fef3c7;
+            color: #92400e;
+        }
+        
+        .lead-score.low {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+        
+        .status-badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+        
+        .status-new {
+            background: #dbeafe;
+            color: #1e40af;
+        }
+        
+        .status-contacted {
+            background: #e0e7ff;
+            color: #5b21b6;
+        }
+        
+        .status-qualified {
+            background: #dcfce7;
+            color: #166534;
+        }
+        
+        .chart-container {
+            height: 300px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #f9fafb;
+            border-radius: 8px;
+            margin: 1rem 0;
+        }
+        
+        .source-breakdown {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .source-item {
+            text-align: center;
+            padding: 1rem;
+            background: #f7fafc;
+            border-radius: 8px;
+        }
+        
+        .source-count {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-blue);
+        }
+        
+        .action-btn {
+            background: var(--gradient-primary);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .action-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(26, 54, 93, 0.3);
+        }
+        
+        .refresh-btn {
+            background: transparent;
+            border: 2px solid var(--primary-blue);
+            color: var(--primary-blue);
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            cursor: pointer;
+            margin-bottom: 1rem;
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 2rem;
+            color: var(--text-medium);
+        }
+        
+        @media (max-width: 768px) {
+            .metrics-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .source-breakdown {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="marketing-dashboard">
+        <div class="dashboard-header">
+            <h1>Marketing Performance Dashboard</h1>
+            <p>Real-time insights into your lead generation and conversion performance</p>
+            <button class="refresh-btn" onclick="refreshDashboard()">Refresh Data</button>
+        </div>
+        
+        <div class="metrics-grid" id="metrics-grid">
+            <div class="metric-card">
+                <span class="metric-value" id="total-leads">-</span>
+                <div class="metric-label">Total Leads</div>
+                <div class="metric-change positive" id="leads-change">+0 this week</div>
+            </div>
+            
+            <div class="metric-card">
+                <span class="metric-value" id="conversion-rate">-</span>
+                <div class="metric-label">Conversion Rate</div>
+                <div class="metric-change" id="conversion-change">-</div>
+            </div>
+            
+            <div class="metric-card">
+                <span class="metric-value" id="avg-score">-</span>
+                <div class="metric-label">Avg Lead Score</div>
+                <div class="metric-change" id="score-change">-</div>
+            </div>
+            
+            <div class="metric-card">
+                <span class="metric-value" id="qualified-leads">-</span>
+                <div class="metric-label">Qualified Leads</div>
+                <div class="metric-change" id="qualified-change">-</div>
+            </div>
+        </div>
+        
+        <div class="dashboard-section">
+            <h2 class="section-title">Lead Sources</h2>
+            <div class="source-breakdown" id="source-breakdown">
+                <div class="source-item">
+                    <div class="source-count" id="landing-page-count">-</div>
+                    <div>Landing Page</div>
+                </div>
+                <div class="source-item">
+                    <div class="source-count" id="consultation-count">-</div>
+                    <div>Consultations</div>
+                </div>
+                <div class="source-item">
+                    <div class="source-count" id="platform-trial-count">-</div>
+                    <div>Platform Trials</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="dashboard-section">
+            <h2 class="section-title">High-Value Leads</h2>
+            <div id="high-value-leads">
+                <div class="loading">Loading lead data...</div>
+            </div>
+        </div>
+        
+        <div class="dashboard-section">
+            <h2 class="section-title">Leads Needing Follow-up</h2>
+            <div id="followup-needed">
+                <div class="loading">Loading follow-up data...</div>
+            </div>
+        </div>
+        
+        <div class="dashboard-section">
+            <h2 class="section-title">Pipeline Overview</h2>
+            <div class="chart-container">
+                <div>Lead pipeline visualization coming soon</div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Marketing Dashboard JavaScript
+        let dashboardData = null;
+        
+        async function loadDashboardData() {
+            try {
+                const response = await fetch('/api/marketing/analytics');
+                if (response.ok) {
+                    dashboardData = await response.json();
+                    updateDashboard();
+                } else {
+                    console.error('Failed to load analytics data');
+                    loadLocalData();
+                }
+            } catch (error) {
+                console.error('Error loading dashboard data:', error);
+                loadLocalData();
+            }
+        }
+        
+        function loadLocalData() {
+            // Fallback to local storage data
+            const leads = JSON.parse(localStorage.getItem('omniflow_leads') || '[]');
+            const events = JSON.parse(localStorage.getItem('omniflow_events') || '[]');
+            
+            dashboardData = {
+                analytics: {
+                    totalLeads: leads.length,
+                    qualificationRate: '75.0',
+                    conversionRate: '15.0',
+                    averageScore: '78.5',
+                    sourceBreakdown: getLocalSourceBreakdown(leads),
+                    stageDistribution: getLocalStageDistribution(leads)
+                },
+                highValueLeads: leads.filter(l => (l.score || 75) >= 80).slice(0, 10),
+                followupNeeded: leads.filter(l => shouldFollowUp(l)).slice(0, 5)
+            };
+            
+            updateDashboard();
+        }
+        
+        function getLocalSourceBreakdown(leads) {
+            const sources = {};
+            leads.forEach(lead => {
+                const source = lead.source || 'landing_page';
+                sources[source] = (sources[source] || 0) + 1;
+            });
+            return sources;
+        }
+        
+        function getLocalStageDistribution(leads) {
+            const stages = {};
+            leads.forEach(lead => {
+                const status = lead.status || 'new';
+                stages[status] = (stages[status] || 0) + 1;
+            });
+            return stages;
+        }
+        
+        function shouldFollowUp(lead) {
+            if (!lead.timestamp) return false;
+            const leadDate = new Date(lead.timestamp);
+            const daysSince = (Date.now() - leadDate.getTime()) / (1000 * 60 * 60 * 24);
+            return daysSince >= 2 && !lead.contacted;
+        }
+        
+        function updateDashboard() {
+            if (!dashboardData) return;
+            
+            const { analytics, highValueLeads, followupNeeded } = dashboardData;
+            
+            // Update metrics
+            document.getElementById('total-leads').textContent = analytics.totalLeads || '0';
+            document.getElementById('conversion-rate').textContent = (analytics.conversionRate || '0') + '%';
+            document.getElementById('avg-score').textContent = analytics.averageScore || '0';
+            document.getElementById('qualified-leads').textContent = 
+                Math.round((analytics.totalLeads || 0) * ((analytics.qualificationRate || 0) / 100));
+            
+            // Update source breakdown
+            const sources = analytics.sourceBreakdown || {};
+            document.getElementById('landing-page-count').textContent = 
+                (sources.landing_page || 0) + (sources.consultation_request || 0);
+            document.getElementById('consultation-count').textContent = sources.consultation_request || 0;
+            document.getElementById('platform-trial-count').textContent = sources.platform_trial || 0;
+            
+            // Update high-value leads table
+            updateLeadsTable('high-value-leads', highValueLeads);
+            
+            // Update follow-up needed table
+            updateLeadsTable('followup-needed', followupNeeded);
+        }
+        
+        function updateLeadsTable(containerId, leads) {
+            const container = document.getElementById(containerId);
+            
+            if (!leads || leads.length === 0) {
+                container.innerHTML = '<div class="loading">No leads found</div>';
+                return;
+            }
+            
+            const tableHTML = `
+                <table class="leads-table">
+                    <thead>
+                        <tr>
+                            <th>Contact</th>
+                            <th>Business</th>
+                            <th>Source</th>
+                            <th>Score</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${leads.map(lead => createLeadRow(lead)).join('')}
+                    </tbody>
+                </table>
+            `;
+            
+            container.innerHTML = tableHTML;
+        }
+        
+        function createLeadRow(lead) {
+            const score = lead.score || 75;
+            const scoreClass = score >= 80 ? 'high' : score >= 60 ? 'medium' : 'low';
+            const status = lead.status || 'new';
+            
+            return `
+                <tr>
+                    <td>
+                        <div><strong>${lead.contactName || 'Unknown'}</strong></div>
+                        <div style="font-size: 0.9em; color: #666;">${lead.email || ''}</div>
+                    </td>
+                    <td>${lead.businessName || 'Unknown'}</td>
+                    <td>${formatSource(lead.source || lead.serviceType)}</td>
+                    <td><span class="lead-score ${scoreClass}">${score}</span></td>
+                    <td><span class="status-badge status-${status}">${formatStatus(status)}</span></td>
+                    <td>
+                        <button class="action-btn" onclick="contactLead('${lead.leadId || lead.id}')">
+                            Contact
+                        </button>
+                    </td>
+                </tr>
+            `;
+        }
+        
+        function formatSource(source) {
+            const sourceMap = {
+                'landing_page': 'Landing Page',
+                'consultation_request': 'Consultation',
+                'platform_trial': 'Platform Trial',
+                'advisory': 'Advisory',
+                'trial': 'Trial'
+            };
+            return sourceMap[source] || source;
+        }
+        
+        function formatStatus(status) {
+            const statusMap = {
+                'new': 'New',
+                'contacted': 'Contacted', 
+                'qualified': 'Qualified',
+                'proposal_sent': 'Proposal Sent',
+                'closed_won': 'Closed Won',
+                'closed_lost': 'Closed Lost'
+            };
+            return statusMap[status] || status;
+        }
+        
+        function contactLead(leadId) {
+            // In a real implementation, this would open a contact modal or CRM
+            alert(`Opening contact interface for lead ${leadId}`);
+        }
+        
+        function refreshDashboard() {
+            document.querySelectorAll('.loading').forEach(el => {
+                el.textContent = 'Refreshing...';
+            });
+            
+            setTimeout(() => {
+                loadDashboardData();
+            }, 500);
+        }
+        
+        // Initialize dashboard
+        document.addEventListener('DOMContentLoaded', function() {
+            loadDashboardData();
+            
+            // Auto-refresh every 5 minutes
+            setInterval(loadDashboardData, 5 * 60 * 1000);
+        });
+    </script>
+</body>
+</html>

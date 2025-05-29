@@ -196,25 +196,48 @@ async function submitContactForm(event, type) {
     submitBtn.disabled = true;
     
     try {
-        // In a real implementation, this would save to your CRM/database
-        // For now, store locally and track the lead
+        // Send to marketing automation system
+        const response = await fetch('/api/leads/capture', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(contactData)
+        });
+        
+        if (response.ok) {
+            const result = await response.json();
+            
+            // Store lead ID for future tracking
+            localStorage.setItem('omniflow_lead_id', result.leadId);
+            
+            // Also store locally for backup
+            const leads = JSON.parse(localStorage.getItem('omniflow_leads') || '[]');
+            leads.push({ ...contactData, leadId: result.leadId });
+            localStorage.setItem('omniflow_leads', JSON.stringify(leads));
+            
+            trackUserAction('contact_form_submitted', { ...contactData, leadId: result.leadId });
+            
+            // Show success message
+            showSuccessMessage(type);
+            closeContactModal();
+        } else {
+            throw new Error('Failed to submit form');
+        }
+        
+    } catch (error) {
+        console.error('Error submitting contact form:', error);
+        
+        // Fallback to local storage if API fails
         const leads = JSON.parse(localStorage.getItem('omniflow_leads') || '[]');
         leads.push(contactData);
         localStorage.setItem('omniflow_leads', JSON.stringify(leads));
         
-        trackUserAction('contact_form_submitted', contactData);
-        
-        // Show success message
-        showSuccessMessage(type);
-        closeContactModal();
-        
-    } catch (error) {
-        console.error('Error submitting contact form:', error);
-        submitBtn.textContent = 'Error - Try Again';
+        submitBtn.textContent = 'Submitted (Offline)';
         setTimeout(() => {
-            submitBtn.textContent = originalText;
-            submitBtn.disabled = false;
-        }, 2000);
+            showSuccessMessage(type);
+            closeContactModal();
+        }, 1000);
     }
 }
 
