@@ -43,7 +43,7 @@ app.use((req, res, next) => {
   
   // Add landing page route BEFORE other routes and Vite
   app.get('/', (req, res) => {
-    res.sendFile('landing.html', { root: 'public' });
+    res.sendFile('index.html', { root: 'public' });
   });
   
   const server = await registerRoutes(app);
