@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OmniCore - AI Command Center for Consultants</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="app-container">
+        <header>
+            <div class="logo">
+                <a href="/" class="logo-link">
+                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M6 8l6-6 6 6H6z" fill="#1E3A8A"></path>
+                        <path d="M12 22l-6-6h12l-6 6z" fill="#1E3A8A"></path>
+                        <path d="M2 12l4-4h12l4 4-4 4H6l-4-4z" fill="#94A3B8"></path>
+                    </svg>
+                    <h1>OmniCore</h1>
+                    <span class="logo-tag">by OmniFlow Advisory</span>
+                </a>
+            </div>
+            <div class="nav-buttons">
+                <div class="user-controls" id="user-controls">
+                    <button class="btn-secondary" onclick="showLoginForm()">Login</button>
+                    <button class="btn-secondary" onclick="showRegisterForm()">Sign Up</button>
+                </div>
+                <div class="user-info" id="user-info" style="display: none;">
+                    <span id="username-display"></span>
+                    <button class="btn-secondary" onclick="testOpsManagerAccess()" style="font-size: 0.85rem; margin-right: 10px;">Admin Dashboard</button>
+                    <button class="btn-secondary" onclick="logout()">Logout</button>
+                </div>
+            </div>
+        </header>
+
+        <main>
+            <div class="welcome-message" id="welcome-message">
+                <h2 class="enhanced-welcome-title">Transform Your Business with AI Automation</h2>
+                <p class="enhanced-description">Get instant insights and automated workflow recommendations tailored to your business</p>
+                
+                <div class="features-container">
+                    <div class="feature-card" onclick="showAutomationHub()">
+                        <div class="feature-icon">🤖</div>
+                        <h3>Automation Hub</h3>
+                        <p>Create intelligent workflows and automate repetitive tasks with AI-powered recommendations</p>
+                        <div class="feature-badge">Most Popular</div>
+                    </div>
+
+                    <div class="feature-card" onclick="initializeChatFeature()">
+                        <div class="feature-icon">💬</div>
+                        <h3>AI Business Assistant</h3>
+                        <p>Get instant answers and strategic insights from your personal AI consultant</p>
+                        <div class="feature-stats">24/7 Available</div>
+                    </div>
+
+                    <div class="feature-card" onclick="showAnalyticsDashboard()">
+                        <div class="feature-icon">📊</div>
+                        <h3>Analytics Dashboard</h3>
+                        <p>Track performance metrics, ROI, and automation efficiency in real-time</p>
+                        <div class="feature-stats">Real-time Data</div>
+                    </div>
+
+                    <div class="feature-card" onclick="showAutomationBlueprints()">
+                        <div class="feature-icon">📋</div>
+                        <h3>Automation Blueprints</h3>
+                        <p>Ready-to-use workflow templates for common business processes</p>
+                        <div class="feature-stats">50+ Templates</div>
+                    </div>
+
+                    <div class="feature-card" onclick="showReferralCenter()">
+                        <div class="feature-icon">🎯</div>
+                        <h3>Referral Center</h3>
+                        <p>Earn rewards by referring other businesses to our automation platform</p>
+                        <div class="feature-badge">Earn Rewards</div>
+                    </div>
+
+                    <div class="feature-card" onclick="showEnterpriseAPI()">
+                        <div class="feature-icon">🔌</div>
+                        <h3>Enterprise API</h3>
+                        <p>Integrate our AI automation capabilities directly into your existing systems</p>
+                        <div class="feature-stats">Enterprise</div>
+                    </div>
+                </div>
+
+                <div class="quick-actions-container">
+                    <h3>Quick Actions</h3>
+                    <div class="quick-actions-grid">
+                        <button class="quick-action-btn" onclick="showAutomationHub()">
+                            <span class="action-icon">⚡</span>
+                            <span>Start Automation</span>
+                        </button>
+                        <button class="quick-action-btn" onclick="initializeChatFeature()">
+                            <span class="action-icon">🗨️</span>
+                            <span>Ask AI Assistant</span>
+                        </button>
+                        <button class="quick-action-btn" onclick="showAnalyticsDashboard()">
+                            <span class="action-icon">📈</span>
+                            <span>View Analytics</span>
+                        </button>
+                        <button class="quick-action-btn" onclick="showAutomationBlueprints()">
+                            <span class="action-icon">📚</span>
+                            <span>Browse Templates</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- All existing content sections -->
+            <div class="content-section" id="dashboard" style="display: none;">
+                <!-- Dashboard content loaded by app.js -->
+            </div>
+
+            <div class="content-section" id="automation-hub" style="display: none;">
+                <!-- Automation hub content loaded by app.js -->
+            </div>
+
+            <div class="content-section" id="chat-interface" style="display: none;">
+                <!-- Chat interface content loaded by app.js -->
+            </div>
+
+            <div class="content-section" id="analytics-dashboard" style="display: none;">
+                <!-- Analytics dashboard content loaded by app.js -->
+            </div>
+
+            <div class="content-section" id="automation-blueprints" style="display: none;">
+                <!-- Blueprints content loaded by app.js -->
+            </div>
+
+            <div class="content-section" id="referral-center" style="display: none;">
+                <!-- Referral center content loaded by app.js -->
+            </div>
+
+            <div class="content-section" id="enterprise-api" style="display: none;">
+                <!-- Enterprise API content loaded by app.js -->
+            </div>
+
+            <div class="content-section" id="admin-dashboard" style="display: none;">
+                <!-- Admin dashboard content loaded by app.js -->
+            </div>
+        </main>
+
+        <!-- Modal Container -->
+        <div id="modal-container"></div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
