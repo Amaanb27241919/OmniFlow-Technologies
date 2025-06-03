@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OmniFlow - Business Automation Pitch Deck</title>
+    <link rel="stylesheet" href="omniflow-styles.css">
+    <style>
+        .pitch-deck {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+        }
+        
+        .slide {
+            min-height: 100vh;
+            padding: 4rem 2rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        
+        .slide h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--primary-blue);
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+        
+        .slide h2 {
+            font-size: 2.5rem;
+            font-weight: 600;
+            color: var(--text-dark);
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+        
+        .slide h3 {
+            font-size: 2rem;
+            font-weight: 600;
+            color: var(--primary-blue);
+            margin-bottom: 1.5rem;
+        }
+        
+        .slide-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .problem-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+        
+        .stat-box {
+            background: #fee2e2;
+            padding: 2rem;
+            border-radius: 12px;
+            text-align: center;
+        }
+        
+        .stat-number {
+            font-size: 3rem;
+            font-weight: 700;
+            color: #dc2626;
+            display: block;
+        }
+        
+        .stat-label {
+            font-size: 1.1rem;
+            color: #7f1d1d;
+            margin-top: 0.5rem;
+        }
+        
+        .solution-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+        
+        .solution-card {
+            background: var(--light-blue);
+            padding: 2rem;
+            border-radius: 12px;
+            border-left: 4px solid var(--primary-blue);
+        }
+        
+        .solution-card h4 {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--primary-blue);
+            margin-bottom: 1rem;
+        }
+        
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        
+        .tool-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(26, 54, 93, 0.1);
+        }
+        
+        .tool-icon {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+        
+        .results-before-after {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            margin: 3rem 0;
+        }
+        
+        .before-box {
+            background: #fee2e2;
+            padding: 2rem;
+            border-radius: 12px;
+        }
+        
+        .after-box {
+            background: #dcfce7;
+            padding: 2rem;
+            border-radius: 12px;
+        }
+        
+        .pricing-table {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+        
+        .pricing-card {
+            background: white;
+            border: 2px solid var(--primary-blue);
+            border-radius: 12px;
+            padding: 2rem;
+            text-align: center;
+            position: relative;
+        }
+        
+        .pricing-card.featured {
+            background: var(--primary-blue);
+            color: white;
+            transform: scale(1.05);
+        }
+        
+        .price {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin: 1rem 0;
+        }
+        
+        .pricing-features {
+            list-style: none;
+            padding: 0;
+            margin: 1.5rem 0;
+        }
+        
+        .pricing-features li {
+            padding: 0.5rem 0;
+            border-bottom: 1px solid rgba(255,255,255,0.2);
+        }
+        
+        .cta-section {
+            text-align: center;
+            background: var(--gradient-primary);
+            color: white;
+            padding: 4rem 2rem;
+            border-radius: 12px;
+            margin: 3rem 0;
+        }
+        
+        .cta-button {
+            background: white;
+            color: var(--primary-blue);
+            padding: 1rem 3rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            cursor: pointer;
+            margin: 1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+        }
+        
+        .navigation {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            display: flex;
+            gap: 1rem;
+            z-index: 1000;
+        }
+        
+        .nav-btn {
+            background: var(--primary-blue);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+        
+        .nav-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+        
+        @media (max-width: 768px) {
+            .slide h1 { font-size: 2rem; }
+            .slide h2 { font-size: 1.8rem; }
+            .problem-stats, .solution-grid, .tools-grid, .pricing-table {
+                grid-template-columns: 1fr;
+            }
+            .results-before-after {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="pitch-deck">
+        <!-- Slide 1: Title -->
+        <div class="slide" id="slide-1">
+            <div class="slide-content">
+                <h1>OmniFlow</h1>
+                <h2>Stop Drowning in Manual Tasks</h2>
+                <p style="font-size: 1.5rem; text-align: center; color: var(--text-medium); margin: 2rem 0;">
+                    We automate your biggest time drains so you can focus on growing your business
+                </p>
+                <div style="text-align: center; margin-top: 3rem;">
+                    <span style="font-size: 1.2rem; color: var(--primary-blue); font-weight: 600;">
+                        Save $25,000+ annually • Reclaim 40+ hours per week • See results in 2-6 weeks
+                    </span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 2: The Problem -->
+        <div class="slide" id="slide-2">
+            <div class="slide-content">
+                <h2>Your Team is Stuck in Manual Mode</h2>
+                <div class="problem-stats">
+                    <div class="stat-box">
+                        <span class="stat-number">40+</span>
+                        <div class="stat-label">Hours per week on repetitive tasks</div>
+                    </div>
+                    <div class="stat-box">
+                        <span class="stat-number">73%</span>
+                        <div class="stat-label">Of small business owners feel overwhelmed</div>
+                    </div>
+                    <div class="stat-box">
+                        <span class="stat-number">$50K</span>
+                        <div class="stat-label">Average annual cost of inefficiency</div>
+                    </div>
+                </div>
+                <div style="text-align: center; margin-top: 3rem;">
+                    <h3>Common Pain Points:</h3>
+                    <ul style="list-style: none; font-size: 1.2rem; line-height: 2;">
+                        <li>• Manually qualifying leads and following up</li>
+                        <li>• Copy-pasting data between systems</li>
+                        <li>• Responding to the same customer questions repeatedly</li>
+                        <li>• Creating reports and sending updates manually</li>
+                        <li>• Scheduling and managing appointments</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 3: Our Solution -->
+        <div class="slide" id="slide-3">
+            <div class="slide-content">
+                <h2>We Build Smart Bots That Work 24/7</h2>
+                <div class="solution-grid">
+                    <div class="solution-card">
+                        <h4>Customer Service Bots</h4>
+                        <p>Handle 80% of customer inquiries instantly using Chatbase and GPT Trainer. Your customers get answers immediately, your team handles only complex cases.</p>
+                    </div>
+                    <div class="solution-card">
+                        <h4>Lead Qualification Bots</h4>
+                        <p>Automatically score, qualify, and route leads to your sales team. Never miss a hot prospect again.</p>
+                    </div>
+                    <div class="solution-card">
+                        <h4>Data Processing Bots</h4>
+                        <p>Extract data from emails, forms, and documents. Automatically update your CRM and generate reports.</p>
+                    </div>
+                    <div class="solution-card">
+                        <h4>Workflow Automation</h4>
+                        <p>Connect your existing tools with smart triggers. When X happens, automatically do Y and Z.</p>
+                    </div>
+                </div>
+                <div style="text-align: center; margin-top: 2rem;">
+                    <h3>Powered by Proven Tools:</h3>
+                    <div class="tools-grid">
+                        <div class="tool-card">
+                            <div class="tool-icon">🤖</div>
+                            <div>Chatbase</div>
+                        </div>
+                        <div class="tool-card">
+                            <div class="tool-icon">🧠</div>
+                            <div>GPT Trainer</div>
+                        </div>
+                        <div class="tool-card">
+                            <div class="tool-icon">⚡</div>
+                            <div>Manus.AI</div>
+                        </div>
+                        <div class="tool-card">
+                            <div class="tool-icon">🔗</div>
+                            <div>Zapier/Make</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 4: Real Results -->
+        <div class="slide" id="slide-4">
+            <div class="slide-content">
+                <h2>Real Results from Real Businesses</h2>
+                <div class="results-before-after">
+                    <div class="before-box">
+                        <h3 style="color: #dc2626;">BEFORE</h3>
+                        <ul style="line-height: 1.8;">
+                            <li>• 3-day response time to leads</li>
+                            <li>• 15% lead conversion rate</li>
+                            <li>• 40 hours/week on manual tasks</li>
+                            <li>• 20% customer support satisfaction</li>
+                            <li>• Missing 60% of follow-up opportunities</li>
+                        </ul>
+                    </div>
+                    <div class="after-box">
+                        <h3 style="color: #16a34a;">AFTER</h3>
+                        <ul style="line-height: 1.8;">
+                            <li>• 2-minute response time to leads</li>
+                            <li>• 42% lead conversion rate</li>
+                            <li>• 8 hours/week on manual tasks</li>
+                            <li>• 95% customer support satisfaction</li>
+                            <li>• Automated follow-up sequences</li>
+                        </ul>
+                    </div>
+                </div>
+                <div style="text-align: center; background: var(--light-blue); padding: 2rem; border-radius: 12px; margin-top: 3rem;">
+                    <h3 style="color: var(--primary-blue);">Result: $85,000 Annual Savings</h3>
+                    <p style="font-size: 1.2rem;">32 hours per week freed up • 180% increase in lead conversion • 90% reduction in response time</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 5: How It Works -->
+        <div class="slide" id="slide-5">
+            <div class="slide-content">
+                <h2>Simple 4-Step Process</h2>
+                <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 2rem; margin: 3rem 0;">
+                    <div style="text-align: center;">
+                        <div style="background: var(--primary-blue); color: white; width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; font-weight: 700; margin: 0 auto 1rem;">1</div>
+                        <h4>Free Audit</h4>
+                        <p>We analyze your business and identify the biggest automation opportunities</p>
+                    </div>
+                    <div style="text-align: center;">
+                        <div style="background: var(--primary-blue); color: white; width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; font-weight: 700; margin: 0 auto 1rem;">2</div>
+                        <h4>Custom Strategy</h4>
+                        <p>We create a tailored automation plan with clear ROI projections</p>
+                    </div>
+                    <div style="text-align: center;">
+                        <div style="background: var(--primary-blue); color: white; width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; font-weight: 700; margin: 0 auto 1rem;">3</div>
+                        <h4>Build & Deploy</h4>
+                        <p>We build your custom bots and automation workflows</p>
+                    </div>
+                    <div style="text-align: center;">
+                        <div style="background: var(--primary-blue); color: white; width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; font-weight: 700; margin: 0 auto 1rem;">4</div>
+                        <h4>Optimize & Scale</h4>
+                        <p>We monitor, optimize, and add new automations as you grow</p>
+                    </div>
+                </div>
+                <div style="text-align: center; margin-top: 3rem;">
+                    <h3 style="color: var(--primary-blue);">Timeline: 2-6 weeks from start to savings</h3>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 6: Investment Options -->
+        <div class="slide" id="slide-6">
+            <div class="slide-content">
+                <h2>Investment Options</h2>
+                <div class="pricing-table">
+                    <div class="pricing-card">
+                        <h3>Business Audit</h3>
+                        <div class="price">$2,500</div>
+                        <ul class="pricing-features">
+                            <li>Complete automation analysis</li>
+                            <li>ROI projections</li>
+                            <li>Implementation roadmap</li>
+                            <li>Quick wins identification</li>
+                        </ul>
+                        <p style="font-size: 0.9rem; color: #666;">Perfect for: Testing the waters</p>
+                    </div>
+                    <div class="pricing-card featured">
+                        <h3>Pilot Project</h3>
+                        <div class="price">$10,000</div>
+                        <ul class="pricing-features">
+                            <li>Full audit included</li>
+                            <li>1-2 automation implementations</li>
+                            <li>Custom bot development</li>
+                            <li>4-6 week delivery</li>
+                            <li>Guaranteed ROI</li>
+                        </ul>
+                        <p style="font-size: 0.9rem;">Perfect for: Seeing real results</p>
+                    </div>
+                    <div class="pricing-card">
+                        <h3>Ongoing Partnership</h3>
+                        <div class="price">$5,000/mo</div>
+                        <ul class="pricing-features">
+                            <li>Monthly automation additions</li>
+                            <li>24/7 monitoring & support</li>
+                            <li>Continuous optimization</li>
+                            <li>Priority implementation</li>
+                        </ul>
+                        <p style="font-size: 0.9rem; color: #666;">Perfect for: Scaling operations</p>
+                    </div>
+                </div>
+                <div style="text-align: center; margin-top: 2rem;">
+                    <p style="font-size: 1.1rem; color: var(--primary-blue); font-weight: 600;">
+                        Average payback period: 3-6 months
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 7: Call to Action -->
+        <div class="slide" id="slide-7">
+            <div class="slide-content">
+                <div class="cta-section">
+                    <h2>Ready to Reclaim Your Time?</h2>
+                    <p style="font-size: 1.3rem; margin: 2rem 0;">
+                        Start with a free automation audit and see exactly how much time and money you can save
+                    </p>
+                    <div>
+                        <button class="cta-button" onclick="window.location.href='/'">
+                            Get Your Free $2,500 Audit
+                        </button>
+                        <button class="cta-button" onclick="window.location.href='mailto:hello@omniflow.com'">
+                            Schedule a Call
+                        </button>
+                    </div>
+                    <p style="font-size: 1rem; margin-top: 2rem; opacity: 0.9;">
+                        No commitment required • Results guaranteed • Implementation in 2-6 weeks
+                    </p>
+                </div>
+                <div style="text-align: center; margin-top: 3rem;">
+                    <h3>Contact Information</h3>
+                    <p style="font-size: 1.1rem; line-height: 1.8;">
+                        Email: hello@omniflow.com<br>
+                        Website: omniflow.com<br>
+                        LinkedIn: /company/omniflow
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <div class="navigation">
+        <button class="nav-btn" onclick="previousSlide()" id="prevBtn">Previous</button>
+        <span id="slideIndicator" style="color: var(--primary-blue); font-weight: 600; margin: 0 1rem;">1 / 7</span>
+        <button class="nav-btn" onclick="nextSlide()" id="nextBtn">Next</button>
+    </div>
+
+    <script>
+        let currentSlide = 1;
+        const totalSlides = 7;
+
+        function showSlide(n) {
+            if (n > totalSlides) currentSlide = totalSlides;
+            if (n < 1) currentSlide = 1;
+            
+            document.getElementById(`slide-${currentSlide}`).scrollIntoView({
+                behavior: 'smooth'
+            });
+            
+            document.getElementById('slideIndicator').textContent = `${currentSlide} / ${totalSlides}`;
+            document.getElementById('prevBtn').disabled = currentSlide === 1;
+            document.getElementById('nextBtn').disabled = currentSlide === totalSlides;
+        }
+
+        function nextSlide() {
+            currentSlide++;
+            showSlide(currentSlide);
+        }
+
+        function previousSlide() {
+            currentSlide--;
+            showSlide(currentSlide);
+        }
+
+        // Keyboard navigation
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'ArrowRight' || e.key === ' ') {
+                e.preventDefault();
+                nextSlide();
+            } else if (e.key === 'ArrowLeft') {
+                e.preventDefault();
+                previousSlide();
+            }
+        });
+
+        // Initialize
+        showSlide(1);
+    </script>
+</body>
+</html>
