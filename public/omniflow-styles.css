@@ -5,6 +5,15 @@
     box-sizing: border-box;
 }
 
+html {
+    scroll-behavior: smooth;
+}
+
+/* Navigation anchor offset for fixed header */
+section {
+    scroll-margin-top: 80px;
+}
+
 :root {
     --primary-blue: #1a365d;
     --accent-blue: #2d5580;
