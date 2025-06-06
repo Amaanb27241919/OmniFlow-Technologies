@@ -32,7 +32,7 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
     }
     
-    // DOM Elements
+    // DOM Elements - check if they exist before accessing
     const promptForm = document.getElementById('prompt-form');
     const promptInput = document.getElementById('prompt-input');
     const submitBtn = document.getElementById('submit-btn');
@@ -46,6 +46,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const suggestionButtons = document.querySelectorAll('.suggestion');
     const featureButtons = document.querySelectorAll('.feature-button');
     const chatInterface = document.getElementById('chat-interface');
+    
+    // Return early if we're not on the app page
+    if (!promptForm || !chatContainer) {
+        return;
+    }
 
     // State variables
     let conversationHistory = [];
