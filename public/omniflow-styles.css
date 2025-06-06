@@ -1015,3 +1015,35 @@ body {
     font-weight: 500;
     border: 1px solid rgba(59, 130, 246, 0.3);
 }
+
+/* Coming Soon Styling */
+.tier-item.coming-soon {
+    background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+    border: 2px dashed var(--primary-blue);
+    text-align: center;
+    padding: 2rem;
+    grid-column: 1 / -1;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.tier-status {
+    display: inline-block;
+    background: var(--primary-blue);
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+}
+
+.tier-item.coming-soon h4 {
+    color: var(--text-dark);
+    margin-bottom: 1rem;
+}
+
+.tier-item.coming-soon p {
+    color: var(--text-medium);
+    line-height: 1.6;
+}
