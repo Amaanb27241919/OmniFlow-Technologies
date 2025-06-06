@@ -1741,8 +1741,10 @@ document.addEventListener('DOMContentLoaded', function() {
         updateUserInterface();
     }
 
-    // Login form
-    document.getElementById('login-form').addEventListener('submit', async function(e) {
+    // Login form - only add listener if form exists
+    const loginForm = document.getElementById('login-form');
+    if (loginForm) {
+        loginForm.addEventListener('submit', async function(e) {
         e.preventDefault();
         const username = document.getElementById('login-username').value;
         const password = document.getElementById('login-password').value;
@@ -1816,10 +1818,13 @@ document.addEventListener('DOMContentLoaded', function() {
         } catch (error) {
             alert('Login error: ' + error.message);
         }
-    });
+        });
+    }
     
-    // Register form
-    document.getElementById('register-form').addEventListener('submit', async function(e) {
+    // Register form - only add listener if form exists
+    const registerForm = document.getElementById('register-form');
+    if (registerForm) {
+        registerForm.addEventListener('submit', async function(e) {
         e.preventDefault();
         const username = document.getElementById('register-username').value;
         const password = document.getElementById('register-password').value;
@@ -1845,8 +1850,9 @@ document.addEventListener('DOMContentLoaded', function() {
         } catch (error) {
             alert('Registration error: ' + error.message);
         }
-    });
-});
+        });
+    }
+}
 
 // Add missing navigation functions
 function showAutomationHub() {

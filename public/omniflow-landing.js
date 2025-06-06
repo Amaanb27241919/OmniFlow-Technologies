@@ -55,8 +55,8 @@ function startFreeAudit() {
     // Track the action
     trackUserAction('free_audit_started', { source: 'landing_page' });
     
-    // Redirect to the existing audit pipeline
-    window.location.href = 'app.html';
+    // Show contact form for discovery call scheduling
+    showContactModal('discovery');
 }
 
 function viewPlatformDemo() {
