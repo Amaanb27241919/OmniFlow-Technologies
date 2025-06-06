@@ -62,8 +62,8 @@ function startFreeAudit() {
 function viewPlatformDemo() {
     trackUserAction('platform_demo_requested', { source: 'hero_section' });
     
-    // Show platform features
-    window.location.href = 'app.html';
+    // Show contact form for platform demo
+    showContactModal('demo');
 }
 
 function startAdvisoryConsultation() {
@@ -76,15 +76,15 @@ function startAdvisoryConsultation() {
 function explorePlatform() {
     trackUserAction('platform_exploration_started', { source: 'services_section' });
     
-    // Show platform tiers and features
-    window.location.href = 'app.html';
+    // Show contact form for early access signup
+    showContactModal('early-access');
 }
 
 function accessPlatform() {
     trackUserAction('platform_access_requested', { source: 'navigation' });
     
-    // Navigate to the main application
-    window.location.href = 'app.html';
+    // Show contact form for platform access
+    showContactModal('platform-access');
 }
 
 function getDetailedROI() {
@@ -114,11 +114,20 @@ function startTrialSignup() {
 
 // Contact Modal for Lead Capture
 function showContactModal(type) {
+    const modalTitles = {
+        'discovery': 'Schedule Your Discovery Call',
+        'demo': 'Request Platform Demo',
+        'advisory': 'Schedule Your Consultation',
+        'early-access': 'Join OmniCore Waitlist',
+        'platform-access': 'Get Platform Access',
+        'trial': 'Start Your Free Trial'
+    };
+    
     const modalHTML = `
         <div class="contact-modal-overlay" id="contactModal">
             <div class="contact-modal">
                 <div class="modal-header">
-                    <h3>${type === 'advisory' ? 'Schedule Your Consultation' : 'Start Your Free Trial'}</h3>
+                    <h3>${modalTitles[type] || 'Contact Us'}</h3>
                     <button onclick="closeContactModal()" class="modal-close">&times;</button>
                 </div>
                 <div class="modal-body">
