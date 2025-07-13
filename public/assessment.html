@@ -10,8 +10,12 @@
         .assessment-hero {
             background: linear-gradient(135deg, #1a365d 0%, #2d5580 100%);
             color: white;
-            padding: 80px 0 60px;
+            padding: 40px 0 40px;
             text-align: center;
+            min-height: 60vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
         }
 
         .assessment-hero h1 {
@@ -27,10 +31,31 @@
             margin: 0 auto 30px;
         }
 
+        .assessment-section {
+            min-height: 100vh;
+            padding: 60px 0;
+        }
+
         .assessment-container {
             max-width: 800px;
             margin: 0 auto;
             padding: 40px 20px;
+        }
+
+        .progress-bar {
+            background: #e2e8f0;
+            height: 8px;
+            border-radius: 4px;
+            margin-bottom: 40px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            background: var(--primary-blue);
+            height: 100%;
+            border-radius: 4px;
+            transition: width 0.3s ease;
+            width: 20%;
         }
 
         .question-card {
@@ -42,19 +67,19 @@
             border-left: 4px solid var(--primary-blue);
         }
 
-        .question-title {
+        .question-card h3 {
             font-size: 1.3rem;
             font-weight: 600;
             color: var(--text-dark);
             margin-bottom: 20px;
         }
 
-        .question-options {
+        .options-container {
             display: grid;
             gap: 12px;
         }
 
-        .option-button {
+        .option {
             background: #f8fafc;
             border: 2px solid #e2e8f0;
             border-radius: 12px;
@@ -65,30 +90,19 @@
             font-size: 1rem;
         }
 
-        .option-button:hover {
+        .option:hover {
             border-color: var(--primary-blue);
-            background: #f1f5f9;
+            background: #f0f8ff;
         }
 
-        .option-button.selected {
+        .option.selected {
             border-color: var(--primary-blue);
-            background: var(--light-blue);
-            color: var(--primary-blue);
-            font-weight: 500;
+            background: var(--primary-blue);
+            color: white;
         }
 
-        .progress-bar {
-            background: #e2e8f0;
-            height: 8px;
-            border-radius: 4px;
-            margin-bottom: 30px;
-            overflow: hidden;
-        }
-
-        .progress-fill {
-            background: linear-gradient(135deg, var(--primary-blue) 0%, var(--accent-blue) 100%);
-            height: 100%;
-            transition: width 0.3s ease;
+        .option input[type="radio"] {
+            display: none;
         }
 
         .navigation-buttons {
@@ -98,22 +112,15 @@
         }
 
         .nav-button {
+            background: var(--primary-blue);
+            color: white;
+            border: none;
             padding: 12px 24px;
             border-radius: 8px;
-            border: none;
+            font-size: 1rem;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s ease;
-        }
-
-        .nav-button.previous {
-            background: #f1f5f9;
-            color: var(--text-medium);
-        }
-
-        .nav-button.next {
-            background: var(--primary-blue);
-            color: white;
         }
 
         .nav-button:hover {
@@ -189,439 +196,9 @@
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
         }
 
-        .hidden {
-            display: none;
-        }
-    </style>
-</head>
-<body>
-    <!-- Navigation -->
-    <nav class="omniflow-nav">
-        <div class="nav-container">
-            <div class="nav-brand">
-                <h1>OmniFlow</h1>
-                <span class="brand-tagline">AI Ops & Automation</span>
-            </div>
-            <div class="nav-links">
-                <a href="/" class="nav-link">Home</a>
-                <a href="/assessment" class="nav-link active">Assessment</a>
-                <a href="/#how-it-works" class="nav-link">How It Works</a>
-                <a href="/#contact" class="nav-link">Contact</a>
-            </div>
-        </div>
-    </nav>
-
-    <!-- Assessment Hero -->
-    <section class="assessment-hero">
-        <div class="container">
-            <h1>Discover Your Automation Opportunities</h1>
-            <p>Get personalized automation recommendations in 5 minutes, not after a 50-minute sales pitch</p>
-            <div class="hero-badges">
-                <span class="badge">✅ Instant Analysis</span>
-                <span class="badge">✅ Custom Roadmap</span>
-                <span class="badge">✅ ROI Estimates</span>
-            </div>
-        </div>
-    </section>
-
-    <!-- Assessment Container -->
-    <section class="assessment-section">
-        <div class="assessment-container">
-            <!-- Progress Bar -->
-            <div class="progress-bar">
-                <div class="progress-fill" id="progressFill"></div>
-            </div>
-
-            <!-- Question Cards -->
-            <div id="questionContainer">
-                <!-- Questions will be dynamically loaded here -->
-            </div>
-
-            <!-- Navigation -->
-            <div class="navigation-buttons">
-                <button class="nav-button previous" id="prevButton" onclick="previousQuestion()">Previous</button>
-                <button class="nav-button next" id="nextButton" onclick="nextQuestion()">Next</button>
-            </div>
-
-            <!-- Results Section -->
-            <div class="results-section" id="resultsSection">
-                <h2 class="results-title">Your Automation Assessment Results</h2>
-                <div class="score-display">
-                    <div class="score-number" id="scoreDisplay">85</div>
-                    <div>Automation Readiness Score</div>
-                </div>
-                <div class="recommendations" id="recommendationsContainer">
-                    <!-- Recommendations will be populated here -->
-                </div>
-                <div class="cta-section">
-                    <button class="cta-button" onclick="scheduleConsultation()">
-                        Get Your Custom Implementation Plan
-                    </button>
-                    <p style="margin-top: 15px; color: var(--text-medium);">
-                        30-minute strategy session • Usually $997, free with assessment
-                    </p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Footer -->
-    <footer class="omniflow-footer">
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-brand">
-                    <h3>OmniFlow</h3>
-                    <p>AI Ops & Automation</p>
-                    <p>Assessment-driven automation implementation starting at $997</p>
-                </div>
-                <div class="footer-links" style="grid-template-columns: 1fr; justify-content: center;">
-                    <div class="link-group">
-                        <h4>Quick Links</h4>
-                        <a href="/">Home</a>
-                        <a href="/assessment">Assessment</a>
-                        <a href="/#how-it-works">How It Works</a>
-                        <a href="/#contact">Contact</a>
-                    </div>
-                </div>
-            </div>
-            <div class="footer-bottom">
-                <p>&copy; 2025 OmniFlow. All rights reserved.</p>
-            </div>
-        </div>
-    </footer>
-
-    <script>
-        // Assessment Questions Data
-        const assessmentQuestions = [
-            {
-                id: 1,
-                title: "What's your biggest operational challenge?",
-                options: [
-                    { text: "Too much time spent on repetitive tasks", value: "repetitive_tasks", score: 4 },
-                    { text: "Inconsistent customer service quality", value: "customer_service", score: 3 },
-                    { text: "Manual data entry and processing", value: "data_entry", score: 4 },
-                    { text: "Difficulty tracking business metrics", value: "tracking_metrics", score: 2 }
-                ]
-            },
-            {
-                id: 2,
-                title: "How many hours per week do you spend on administrative tasks?",
-                options: [
-                    { text: "Less than 10 hours", value: "low_admin", score: 1 },
-                    { text: "10-20 hours", value: "medium_admin", score: 2 },
-                    { text: "20-30 hours", value: "high_admin", score: 3 },
-                    { text: "More than 30 hours", value: "very_high_admin", score: 4 }
-                ]
-            },
-            {
-                id: 3,
-                title: "What's your current business size?",
-                options: [
-                    { text: "Solo entrepreneur", value: "solo", score: 2 },
-                    { text: "2-10 employees", value: "small_team", score: 3 },
-                    { text: "11-50 employees", value: "medium_team", score: 4 },
-                    { text: "51+ employees", value: "large_team", score: 3 }
-                ]
-            },
-            {
-                id: 4,
-                title: "Which business processes consume most of your time?",
-                options: [
-                    { text: "Customer support and communication", value: "customer_support", score: 4 },
-                    { text: "Sales lead management and follow-up", value: "sales_management", score: 3 },
-                    { text: "Financial reporting and bookkeeping", value: "financial_reporting", score: 3 },
-                    { text: "Marketing and social media management", value: "marketing", score: 2 }
-                ]
-            },
-            {
-                id: 5,
-                title: "What's your experience with automation tools?",
-                options: [
-                    { text: "Complete beginner", value: "beginner", score: 1 },
-                    { text: "Used basic tools like Zapier", value: "basic", score: 2 },
-                    { text: "Comfortable with workflow automation", value: "intermediate", score: 3 },
-                    { text: "Advanced user of multiple platforms", value: "advanced", score: 2 }
-                ]
-            },
-            {
-                id: 6,
-                title: "What's your primary goal for automation?",
-                options: [
-                    { text: "Save time and reduce manual work", value: "save_time", score: 4 },
-                    { text: "Improve customer experience", value: "improve_experience", score: 3 },
-                    { text: "Reduce operational costs", value: "reduce_costs", score: 3 },
-                    { text: "Scale business without hiring", value: "scale_business", score: 4 }
-                ]
-            },
-            {
-                id: 7,
-                title: "What's your budget range for automation implementation?",
-                options: [
-                    { text: "Under $5,000", value: "budget_low", score: 2 },
-                    { text: "$5,000 - $15,000", value: "budget_medium", score: 4 },
-                    { text: "$15,000 - $50,000", value: "budget_high", score: 3 },
-                    { text: "Over $50,000", value: "budget_enterprise", score: 2 }
-                ]
-            },
-            {
-                id: 8,
-                title: "How quickly do you want to see results?",
-                options: [
-                    { text: "Within 2-4 weeks", value: "immediate", score: 3 },
-                    { text: "Within 2-3 months", value: "short_term", score: 4 },
-                    { text: "Within 6 months", value: "medium_term", score: 3 },
-                    { text: "Timeline doesn't matter", value: "flexible", score: 1 }
-                ]
-            }
-        ];
-
-        let currentQuestion = 0;
-        let answers = {};
-        let totalScore = 0;
-
-        // Initialize assessment
-        function initializeAssessment() {
-            showQuestion(currentQuestion);
-            updateProgress();
-            updateNavigationButtons();
-        }
-
-        function showQuestion(questionIndex) {
-            const question = assessmentQuestions[questionIndex];
-            const container = document.getElementById('questionContainer');
-            
-            container.innerHTML = `
-                <div class="question-card">
-                    <h3 class="question-title">${question.title}</h3>
-                    <div class="question-options">
-                        ${question.options.map((option, index) => `
-                            <button class="option-button" onclick="selectOption(${questionIndex}, ${index}, '${option.value}', ${option.score})">
-                                ${option.text}
-                            </button>
-                        `).join('')}
-                    </div>
-                </div>
-            `;
-        }
-
-        function selectOption(questionIndex, optionIndex, value, score) {
-            // Store answer
-            answers[questionIndex] = { value, score };
-            
-            // Update UI
-            const buttons = document.querySelectorAll('.option-button');
-            buttons.forEach(btn => btn.classList.remove('selected'));
-            buttons[optionIndex].classList.add('selected');
-            
-            // Enable next button
-            document.getElementById('nextButton').disabled = false;
-        }
-
-        function nextQuestion() {
-            if (currentQuestion < assessmentQuestions.length - 1) {
-                currentQuestion++;
-                showQuestion(currentQuestion);
-                updateProgress();
-                updateNavigationButtons();
-            } else {
-                // Show results
-                calculateResults();
-                showResults();
-            }
-        }
-
-        function previousQuestion() {
-            if (currentQuestion > 0) {
-                currentQuestion--;
-                showQuestion(currentQuestion);
-                updateProgress();
-                updateNavigationButtons();
-                
-                // Re-select previous answer if exists
-                if (answers[currentQuestion]) {
-                    setTimeout(() => {
-                        const buttons = document.querySelectorAll('.option-button');
-                        // Find and select the previously chosen option
-                        buttons.forEach(btn => {
-                            if (btn.onclick.toString().includes(answers[currentQuestion].value)) {
-                                btn.classList.add('selected');
-                            }
-                        });
-                        document.getElementById('nextButton').disabled = false;
-                    }, 100);
-                }
-            }
-        }
-
-        function updateProgress() {
-            const progress = ((currentQuestion + 1) / assessmentQuestions.length) * 100;
-            document.getElementById('progressFill').style.width = progress + '%';
-        }
-
-        function updateNavigationButtons() {
-            const prevButton = document.getElementById('prevButton');
-            const nextButton = document.getElementById('nextButton');
-            
-            prevButton.disabled = currentQuestion === 0;
-            nextButton.disabled = !answers[currentQuestion];
-            
-            if (currentQuestion === assessmentQuestions.length - 1) {
-                nextButton.textContent = 'See Results';
-            } else {
-                nextButton.textContent = 'Next';
-            }
-        }
-
-        function calculateResults() {
-            totalScore = 0;
-            Object.values(answers).forEach(answer => {
-                totalScore += answer.score;
-            });
-            
-            // Normalize score to percentage
-            const maxScore = assessmentQuestions.length * 4;
-            const normalizedScore = Math.round((totalScore / maxScore) * 100);
-            
-            return normalizedScore;
-        }
-
-        function showResults() {
-            document.getElementById('questionContainer').style.display = 'none';
-            document.querySelector('.navigation-buttons').style.display = 'none';
-            document.querySelector('.progress-bar').style.display = 'none';
-            
-            const resultsSection = document.getElementById('resultsSection');
-            resultsSection.style.display = 'block';
-            
-            const score = calculateResults();
-            document.getElementById('scoreDisplay').textContent = score;
-            
-            // Generate recommendations based on score and answers
-            generateRecommendations(score);
-            
-            // Track completion
-            trackAssessmentCompletion(score);
-        }
-
-        function generateRecommendations(score) {
-            const container = document.getElementById('recommendationsContainer');
-            let recommendations = [];
-            
-            if (score >= 80) {
-                recommendations = [
-                    {
-                        title: "Advanced Automation Suite",
-                        description: "You're ready for comprehensive automation across multiple business processes.",
-                        priority: "High"
-                    },
-                    {
-                        title: "Custom AI Workflows",
-                        description: "Implement AI-powered decision making and intelligent process optimization.",
-                        priority: "High"
-                    },
-                    {
-                        title: "Integration Platform",
-                        description: "Connect all your tools and systems for seamless data flow.",
-                        priority: "Medium"
-                    }
-                ];
-            } else if (score >= 60) {
-                recommendations = [
-                    {
-                        title: "Core Process Automation",
-                        description: "Start with automating your most time-consuming manual tasks.",
-                        priority: "High"
-                    },
-                    {
-                        title: "Customer Service Chatbot",
-                        description: "Automate common customer inquiries and support requests.",
-                        priority: "High"
-                    },
-                    {
-                        title: "Lead Management System",
-                        description: "Automated lead capture, scoring, and follow-up sequences.",
-                        priority: "Medium"
-                    }
-                ];
-            } else if (score >= 40) {
-                recommendations = [
-                    {
-                        title: "Email Automation",
-                        description: "Start with simple email workflows and customer communications.",
-                        priority: "High"
-                    },
-                    {
-                        title: "Basic Data Collection",
-                        description: "Automate form submissions and basic data processing.",
-                        priority: "Medium"
-                    },
-                    {
-                        title: "Scheduling Automation",
-                        description: "Automate appointment booking and calendar management.",
-                        priority: "Medium"
-                    }
-                ];
-            } else {
-                recommendations = [
-                    {
-                        title: "Foundation Setup",
-                        description: "Start with basic automation fundamentals and tool selection.",
-                        priority: "High"
-                    },
-                    {
-                        title: "Process Documentation",
-                        description: "Document current processes to identify automation opportunities.",
-                        priority: "High"
-                    },
-                    {
-                        title: "Training & Onboarding",
-                        description: "Learn automation basics with guided implementation support.",
-                        priority: "Medium"
-                    }
-                ];
-            }
-            
-            container.innerHTML = recommendations.map(rec => `
-                <div class="recommendation-item">
-                    <h4>${rec.title}</h4>
-                    <p>${rec.description}</p>
-                    <span class="priority-badge priority-${rec.priority.toLowerCase()}">${rec.priority} Priority</span>
-                </div>
-            `).join('');
-        }
-
-        function scheduleConsultation() {
-            // Store assessment results
-            localStorage.setItem('assessmentResults', JSON.stringify({
-                score: calculateResults(),
-                answers: answers,
-                timestamp: new Date().toISOString()
-            }));
-            
-            // Redirect to consultation booking
-            window.location.href = '/#contact';
-        }
-
-        function trackAssessmentCompletion(score) {
-            // Track assessment completion for analytics
-            if (typeof trackUserAction === 'function') {
-                trackUserAction('assessment_completed', {
-                    score: score,
-                    total_questions: assessmentQuestions.length,
-                    timestamp: new Date().toISOString()
-                });
-            }
-        }
-
-        // Initialize assessment on page load
-        document.addEventListener('DOMContentLoaded', function() {
-            initializeAssessment();
-        });
-    </script>
-
-    <style>
         .badge {
             background: rgba(255, 255, 255, 0.2);
+            color: white;
             padding: 8px 16px;
             border-radius: 20px;
             margin: 0 8px;
