@@ -1324,3 +1324,225 @@ body {
     line-height: 1.6;
     font-size: 0.95rem;
 }
+
+/* Trust Signals */
+.trust-signals {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.trust-item {
+    color: #10b981;
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+/* How It Works Section */
+.how-it-works-section {
+    padding: 80px 0;
+    background: #f8fafc;
+}
+
+.steps-grid {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr auto 1fr;
+    gap: 2rem;
+    margin: 4rem 0;
+    align-items: center;
+}
+
+.step-card {
+    background: white;
+    padding: 2rem;
+    border-radius: 16px;
+    text-align: center;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    position: relative;
+}
+
+.step-number {
+    position: absolute;
+    top: -15px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--primary-blue);
+    color: white;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 1rem;
+}
+
+.step-icon {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+}
+
+.step-card h3 {
+    color: var(--text-dark);
+    margin-bottom: 1rem;
+    font-size: 1.3rem;
+}
+
+.step-card p {
+    color: var(--text-medium);
+    line-height: 1.6;
+}
+
+.step-arrow {
+    font-size: 2rem;
+    color: var(--primary-blue);
+    font-weight: bold;
+}
+
+.value-proposition {
+    background: white;
+    padding: 3rem;
+    border-radius: 16px;
+    text-align: center;
+    margin-top: 3rem;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+}
+
+.value-proposition h3 {
+    color: var(--primary-blue);
+    font-size: 1.8rem;
+    margin-bottom: 1rem;
+}
+
+.differentiation-text {
+    font-style: italic;
+    color: var(--text-medium);
+    font-size: 1.1rem;
+    margin-bottom: 2rem;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.tech-stack {
+    padding-top: 1rem;
+    border-top: 1px solid #e2e8f0;
+}
+
+.tech-stack p {
+    color: var(--text-dark);
+    font-size: 1rem;
+}
+
+/* Get Started Section */
+.get-started-section {
+    padding: 80px 0;
+    background: linear-gradient(135deg, var(--primary-blue) 0%, var(--accent-blue) 100%);
+    color: white;
+    text-align: center;
+}
+
+.get-started-header h2 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+}
+
+.get-started-subtitle {
+    font-size: 1.2rem;
+    opacity: 0.9;
+    margin-bottom: 3rem;
+}
+
+.single-cta {
+    margin-bottom: 4rem;
+}
+
+.primary-cta-large {
+    background: white;
+    color: var(--primary-blue);
+    padding: 1.5rem 3rem;
+    border: none;
+    border-radius: 50px;
+    font-size: 1.3rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+.primary-cta-large:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.2);
+}
+
+.testimonials-simple {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+    margin-bottom: 4rem;
+}
+
+.testimonial-simple {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 2rem;
+    border-radius: 12px;
+    backdrop-filter: blur(10px);
+}
+
+.testimonial-simple p {
+    font-style: italic;
+    margin-bottom: 1rem;
+    font-size: 1.1rem;
+}
+
+.testimonial-simple span {
+    font-size: 0.9rem;
+    opacity: 0.8;
+}
+
+.contact-simple {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 2rem;
+    border-radius: 12px;
+    backdrop-filter: blur(10px);
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+.contact-simple h3 {
+    margin-bottom: 1rem;
+    font-size: 1.5rem;
+}
+
+.contact-simple p {
+    margin: 0.5rem 0;
+    font-size: 1rem;
+}
+
+/* Mobile Responsiveness for Streamlined Sections */
+@media (max-width: 768px) {
+    .steps-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+    
+    .step-arrow {
+        transform: rotate(90deg);
+        font-size: 1.5rem;
+    }
+    
+    .testimonials-simple {
+        grid-template-columns: 1fr;
+    }
+    
+    .get-started-header h2 {
+        font-size: 2rem;
+    }
+    
+    .primary-cta-large {
+        padding: 1.2rem 2rem;
+        font-size: 1.1rem;
+    }
+}
