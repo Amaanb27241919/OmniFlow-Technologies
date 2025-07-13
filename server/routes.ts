@@ -77,6 +77,11 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.get('/assessment', (req, res) => {
     res.sendFile(path.join(process.cwd(), 'public', 'assessment.html'));
   });
+
+  // Resources page route
+  app.get('/resources', (req, res) => {
+    res.sendFile(path.join(process.cwd(), 'public', 'resources.html'));
+  });
   
   // Test endpoint
   app.get('/api/test', (req, res) => {

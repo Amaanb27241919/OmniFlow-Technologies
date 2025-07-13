@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resources - OmniFlow</title>
+    <link rel="stylesheet" href="omniflow-styles.css">
+    <style>
+        .resources-hero {
+            background: linear-gradient(135deg, #1a365d 0%, #2d5580 100%);
+            color: white;
+            padding: 80px 0 60px;
+            text-align: center;
+        }
+
+        .resources-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin: 40px 0;
+        }
+
+        .resource-category {
+            background: white;
+            border-radius: 16px;
+            padding: 30px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            border-left: 4px solid var(--primary-blue);
+        }
+
+        .resource-category h3 {
+            color: var(--text-dark);
+            margin-bottom: 20px;
+            font-size: 1.4rem;
+        }
+
+        .resource-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .resource-list li {
+            padding: 10px 0;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .resource-list li:last-child {
+            border-bottom: none;
+        }
+
+        .resource-link {
+            color: var(--primary-blue);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .resource-link:hover {
+            text-decoration: underline;
+        }
+
+        .resource-description {
+            font-size: 0.9rem;
+            color: var(--text-medium);
+            margin-top: 5px;
+        }
+
+        .calculator-section {
+            background: #f8fafc;
+            padding: 60px 0;
+            margin: 40px 0;
+        }
+
+        .calculator-container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: white;
+            padding: 40px;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+
+        .form-group select,
+        .form-group input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 1rem;
+        }
+
+        .form-group select:focus,
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--primary-blue);
+        }
+
+        .results-display {
+            background: linear-gradient(135deg, var(--primary-blue) 0%, var(--accent-blue) 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 12px;
+            margin-top: 30px;
+            text-align: center;
+        }
+
+        .result-item {
+            margin: 15px 0;
+        }
+
+        .result-value {
+            font-size: 2rem;
+            font-weight: 700;
+            display: block;
+        }
+
+        .result-label {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="omniflow-nav">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <h1>OmniFlow</h1>
+                <span class="brand-tagline">AI Ops & Automation</span>
+            </div>
+            <div class="nav-links">
+                <a href="/" class="nav-link">Home</a>
+                <a href="/#services" class="nav-link">Services</a>
+                <a href="/assessment" class="nav-link">Assessment</a>
+                <a href="/resources" class="nav-link active">Resources</a>
+                <a href="/#platform" class="nav-link">Platform</a>
+                <a href="pitch-deck.html" class="nav-link">Pitch Deck</a>
+                <a href="/#contact" class="nav-link">Contact</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Resources Hero -->
+    <section class="resources-hero">
+        <div class="container">
+            <h1>Automation Resources & Tools</h1>
+            <p>Implementation guides, calculators, and strategic resources to accelerate your automation journey</p>
+        </div>
+    </section>
+
+    <!-- Resources Grid -->
+    <section class="resources-section">
+        <div class="container">
+            <div class="resources-grid">
+                <!-- Revenue Generation Plans -->
+                <div class="resource-category">
+                    <h3>📈 Revenue Generation Plans</h3>
+                    <ul class="resource-list">
+                        <li>
+                            <a href="#" class="resource-link">30-Day Implementation Roadmap</a>
+                            <div class="resource-description">Step-by-step guide to get your first automation live in 30 days</div>
+                        </li>
+                        <li>
+                            <a href="#" class="resource-link">Pricing Strategies Guide</a>
+                            <div class="resource-description">How to price automation services for maximum ROI</div>
+                        </li>
+                        <li>
+                            <a href="#" class="resource-link">Market Positioning Framework</a>
+                            <div class="resource-description">Position your business for automation success</div>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Competitive Analysis -->
+                <div class="resource-category">
+                    <h3>🎯 Competitive Analysis</h3>
+                    <ul class="resource-list">
+                        <li>
+                            <a href="#" class="resource-link">OmniFlow vs Competition</a>
+                            <div class="resource-description">Detailed comparison with other automation platforms</div>
+                        </li>
+                        <li>
+                            <a href="#" class="resource-link">Agent Stack Positioning Analysis</a>
+                            <div class="resource-description">Market analysis and differentiation strategies</div>
+                        </li>
+                        <li>
+                            <a href="#" class="resource-link">Market Differentiation Strategies</a>
+                            <div class="resource-description">How to stand out in the automation market</div>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Implementation Guides -->
+                <div class="resource-category">
+                    <h3>🛠️ Implementation Guides</h3>
+                    <ul class="resource-list">
+                        <li>
+                            <a href="#" class="resource-link">n8n Setup Tutorials</a>
+                            <div class="resource-description">Complete guide to setting up automation workflows</div>
+                        </li>
+                        <li>
+                            <a href="#" class="resource-link">Assessment Tool Documentation</a>
+                            <div class="resource-description">How to customize and deploy assessment tools</div>
+                        </li>
+                        <li>
+                            <a href="#" class="resource-link">Automation Best Practices</a>
+                            <div class="resource-description">Industry best practices for business automation</div>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Client Portal Features -->
+                <div class="resource-category">
+                    <h3>👥 Client Portal Features</h3>
+                    <ul class="resource-list">
+                        <li>
+                            <a href="#" class="resource-link">Results Dashboard Template</a>
+                            <div class="resource-description">Template for displaying assessment results</div>
+                        </li>
+                        <li>
+                            <a href="#" class="resource-link">Implementation Timeline Tracker</a>
+                            <div class="resource-description">Track automation project progress</div>
+                        </li>
+                        <li>
+                            <a href="#" class="resource-link">Tool Comparison Matrix</a>
+                            <div class="resource-description">Compare automation tools and platforms</div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ROI Calculator -->
+    <section class="calculator-section">
+        <div class="container">
+            <div class="calculator-container">
+                <h2 style="text-align: center; margin-bottom: 30px;">Automation ROI Calculator</h2>
+                <p style="text-align: center; color: var(--text-medium); margin-bottom: 30px;">
+                    Calculate potential savings from automating your business processes
+                </p>
+
+                <div class="form-group">
+                    <label for="business-size">Business Size</label>
+                    <select id="business-size" onchange="calculateROI()">
+                        <option value="startup">Startup (1-5 employees)</option>
+                        <option value="small" selected>Small Business (6-25 employees)</option>
+                        <option value="medium">Medium Business (26-100 employees)</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="manual-hours">Hours spent on manual tasks per week</label>
+                    <input type="number" id="manual-hours" value="20" min="1" max="80" onchange="calculateROI()">
+                </div>
+
+                <div class="form-group">
+                    <label for="hourly-rate">Average hourly rate ($)</label>
+                    <input type="number" id="hourly-rate" value="50" min="10" max="200" onchange="calculateROI()">
+                </div>
+
+                <div class="form-group">
+                    <label for="automation-percentage">Percentage of tasks that can be automated</label>
+                    <select id="automation-percentage" onchange="calculateROI()">
+                        <option value="30">30% - Conservative</option>
+                        <option value="50">50% - Moderate</option>
+                        <option value="70" selected>70% - Aggressive</option>
+                        <option value="90">90% - Maximum</option>
+                    </select>
+                </div>
+
+                <div class="results-display" id="results">
+                    <div class="result-item">
+                        <span class="result-value" id="weekly-savings">14</span>
+                        <span class="result-label">Hours Saved Per Week</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="result-value" id="annual-savings">$36,400</span>
+                        <span class="result-label">Annual Cost Savings</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="result-value" id="roi-percentage">364%</span>
+                        <span class="result-label">Return on Investment</span>
+                    </div>
+                </div>
+
+                <div style="text-align: center; margin-top: 30px;">
+                    <button onclick="window.location.href='/assessment'" class="cta-button">
+                        Get Your Personalized Assessment
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="omniflow-footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <h3>OmniFlow</h3>
+                    <p>AI Ops & Automation</p>
+                    <p>Transform your business with intelligent automation</p>
+                </div>
+                <div class="footer-links">
+                    <div class="link-group">
+                        <h4>Services</h4>
+                        <a href="/#services">Advisory</a>
+                        <a href="/#platform">Platform</a>
+                        <a href="/assessment">Assessment</a>
+                    </div>
+                    <div class="link-group">
+                        <h4>Resources</h4>
+                        <a href="/resources">Resource Library</a>
+                        <a href="pitch-deck.html">Pitch Deck</a>
+                        <a href="/#contact">Contact</a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 OmniFlow. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        function calculateROI() {
+            const businessSize = document.getElementById('business-size').value;
+            const manualHours = parseInt(document.getElementById('manual-hours').value) || 20;
+            const hourlyRate = parseInt(document.getElementById('hourly-rate').value) || 50;
+            const automationPercentage = parseInt(document.getElementById('automation-percentage').value) || 70;
+
+            // Calculate savings
+            const weeklySavings = manualHours * (automationPercentage / 100);
+            const annualSavings = weeklySavings * 52 * hourlyRate;
+            
+            // Estimate implementation cost based on business size
+            const implementationCosts = {
+                startup: 5000,
+                small: 10000,
+                medium: 20000
+            };
+            
+            const implementationCost = implementationCosts[businessSize] || 10000;
+            const roi = ((annualSavings - implementationCost) / implementationCost) * 100;
+
+            // Update display
+            document.getElementById('weekly-savings').textContent = Math.round(weeklySavings);
+            document.getElementById('annual-savings').textContent = '$' + Math.round(annualSavings).toLocaleString();
+            document.getElementById('roi-percentage').textContent = Math.round(roi) + '%';
+        }
+
+        // Initialize calculator on page load
+        document.addEventListener('DOMContentLoaded', calculateROI);
+    </script>
+</body>
+</html>
