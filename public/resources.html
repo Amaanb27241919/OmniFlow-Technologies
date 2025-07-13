@@ -151,10 +151,10 @@
     </nav>
 
     <!-- Resources Hero -->
-    <section class="resources-hero">
+    <section class="resources-hero page-transition">
         <div class="container">
-            <h1>Automation Resources & Tools</h1>
-            <p>Implementation guides, calculators, and strategic resources to accelerate your automation journey</p>
+            <h1 class="fade-in">Automation Resources & Tools</h1>
+            <p class="slide-in-up">Implementation guides, calculators, and strategic resources to accelerate your automation journey</p>
         </div>
     </section>
 
@@ -163,7 +163,7 @@
         <div class="container">
             <div class="resources-grid">
                 <!-- Revenue Generation Plans -->
-                <div class="resource-category">
+                <div class="resource-category slide-in-left">
                     <h3>📈 Revenue Generation Plans</h3>
                     <ul class="resource-list">
                         <li>
@@ -182,7 +182,7 @@
                 </div>
 
                 <!-- Competitive Analysis -->
-                <div class="resource-category">
+                <div class="resource-category slide-in-right">
                     <h3>🎯 Competitive Analysis</h3>
                     <ul class="resource-list">
                         <li>
@@ -244,9 +244,9 @@
     <!-- ROI Calculator -->
     <section class="calculator-section">
         <div class="container">
-            <div class="calculator-container">
-                <h2 style="text-align: center; margin-bottom: 30px;">Automation ROI Calculator</h2>
-                <p style="text-align: center; color: var(--text-medium); margin-bottom: 30px;">
+            <div class="calculator-container scale-in">
+                <h2 style="text-align: center; margin-bottom: 30px;" class="fade-in">Automation ROI Calculator</h2>
+                <p style="text-align: center; color: var(--text-medium); margin-bottom: 30px;" class="slide-in-up">
                     Calculate potential savings from automating your business processes
                 </p>
 
@@ -363,5 +363,6 @@
         // Initialize calculator on page load
         document.addEventListener('DOMContentLoaded', calculateROI);
     </script>
+    <script src="smooth-transitions.js"></script>
 </body>
 </html>

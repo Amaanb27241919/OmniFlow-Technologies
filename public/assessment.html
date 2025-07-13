@@ -268,14 +268,14 @@
     </nav>
 
     <!-- Assessment Hero -->
-    <section class="assessment-hero">
+    <section class="assessment-hero page-transition">
         <div class="container">
-            <h1>Discover Your Automation Opportunities</h1>
-            <p>Get personalized automation recommendations in 5 minutes, not after a 50-minute sales pitch</p>
+            <h1 class="fade-in">Discover Your Automation Opportunities</h1>
+            <p class="slide-in-up">Get personalized automation recommendations in 5 minutes, not after a 50-minute sales pitch</p>
             <div class="hero-badges">
-                <span class="badge">✅ Instant Analysis</span>
-                <span class="badge">✅ Custom Roadmap</span>
-                <span class="badge">✅ ROI Estimates</span>
+                <span class="badge slide-in-left">✅ Instant Analysis</span>
+                <span class="badge scale-in">✅ Custom Roadmap</span>
+                <span class="badge slide-in-right">✅ ROI Estimates</span>
             </div>
         </div>
     </section>
@@ -284,17 +284,17 @@
     <section class="assessment-section">
         <div class="assessment-container">
             <!-- Progress Bar -->
-            <div class="progress-bar">
+            <div class="progress-bar scale-in">
                 <div class="progress-fill" id="progressFill"></div>
             </div>
 
             <!-- Question Cards -->
-            <div id="questionContainer">
+            <div id="questionContainer" class="slide-in-up">
                 <!-- Questions will be dynamically loaded here -->
             </div>
 
             <!-- Navigation -->
-            <div class="navigation-buttons">
+            <div class="navigation-buttons fade-in">
                 <button id="prevButton" class="nav-button" onclick="previousQuestion()" disabled>Previous</button>
                 <button id="nextButton" class="nav-button" onclick="nextQuestion()">Next</button>
             </div>
@@ -581,5 +581,6 @@
         // Start the assessment when page loads
         document.addEventListener('DOMContentLoaded', initializeAssessment);
     </script>
+    <script src="smooth-transitions.js"></script>
 </body>
 </html>
