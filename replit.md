@@ -2,7 +2,19 @@
 
 ## Overview
 
-OmniFlow Tech is a comprehensive dual-vertical AI-powered platform that combines personalized consulting services (OmniFlow Advisory) with scalable SaaS automation solutions (OmniCore). The platform is designed to serve startups, SMBs, and solopreneurs with a complete service-to-SaaS transition pipeline. The platform features assessment-first automation positioning with realistic data throughout.
+OmniFlow Tech is a comprehensive dual-vertical AI-powered platform that combines personalized consulting services (OmniFlow Advisory) with scalable SaaS automation solutions (OmniCore). The platform is designed to serve startups, SMBs, and solopreneurs with a complete service-to-SaaS transition pipeline. The platform features assessment-first automation positioning with realistic, static data throughout.
+
+## Recent Changes (January 2025)
+
+### Pre-deployment Fixes Completed:
+- ✅ Disabled all dynamic JavaScript random number generation that was destroying credibility
+- ✅ Replaced all "$997" pricing with "FREE Assessment" emphasis throughout site
+- ✅ Set all stats to static, realistic values (15 hours saved weekly, $5K-15K annually, 90% success rate)
+- ✅ Added professional About section to homepage with company information and static metrics
+- ✅ Updated all branding consistently to "OmniFlow Tech" across all pages
+- ✅ Fixed navigation links and ensured cross-page consistency
+- ✅ Removed Math.random() functions and setTimeout calls that caused changing numbers
+- ✅ All pages tested and ready for production deployment to omni-flow.net
 
 ## User Preferences
 
