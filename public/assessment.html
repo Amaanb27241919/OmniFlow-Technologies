@@ -571,9 +571,38 @@
             return recommendations;
         }
 
-        function showResults() {
+        async function showResults() {
             const score = calculateScore();
             const recommendations = generateRecommendations(score);
+            
+            // Collect all assessment data
+            const assessmentData = {
+                score: score,
+                recommendations: recommendations,
+                answers: answers,
+                timestamp: new Date().toISOString(),
+                userAgent: navigator.userAgent,
+                source: 'omniflow-assessment'
+            };
+            
+            // Send to n8n webhook
+            try {
+                const response = await fetch('https://n8n.omni-flow.net/webhook/assessment', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(assessmentData)
+                });
+                
+                if (response.ok) {
+                    console.log('Assessment data sent successfully');
+                } else {
+                    console.error('Failed to send assessment data');
+                }
+            } catch (error) {
+                console.error('Error sending assessment data:', error);
+            }
             
             // Hide assessment container
             document.querySelector('.assessment-container').style.display = 'none';
