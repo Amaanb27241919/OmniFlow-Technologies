@@ -334,7 +334,7 @@
                         Get Your Custom Implementation Plan
                     </button>
                     <p style="margin-top: 15px; color: var(--text-medium);">
-                        30-minute strategy session • Usually $997, free with assessment
+                        30-minute strategy session • FREE with assessment
                     </p>
                 </div>
             </div>
@@ -572,23 +572,42 @@
         }
 
         function showResults() {
+            console.log('showResults called');
             const score = calculateScore();
             const recommendations = generateRecommendations(score);
+            console.log('Score:', score, 'Recommendations:', recommendations);
             
             // Always display results first
-            document.querySelector('.assessment-container').style.display = 'none';
+            const assessmentContainer = document.querySelector('.assessment-container');
             const resultsSection = document.getElementById('resultsSection');
-            resultsSection.style.display = 'block';
-            document.getElementById('finalScore').textContent = score + '%';
+            
+            console.log('Assessment container:', assessmentContainer);
+            console.log('Results section:', resultsSection);
+            
+            if (assessmentContainer) {
+                assessmentContainer.style.display = 'none';
+            }
+            
+            if (resultsSection) {
+                resultsSection.style.display = 'block';
+                console.log('Results section should now be visible');
+            }
+            
+            const finalScoreElement = document.getElementById('finalScore');
+            if (finalScoreElement) {
+                finalScoreElement.textContent = score + '%';
+            }
             
             const recommendationsContainer = document.getElementById('recommendationsContainer');
-            recommendationsContainer.innerHTML = recommendations.map(rec => `
-                <div class="recommendation-item">
-                    <h4>${rec.title}</h4>
-                    <p>${rec.description}</p>
-                    <span class="priority-badge priority-${rec.priority.toLowerCase()}">${rec.priority} Priority</span>
-                </div>
-            `).join('');
+            if (recommendationsContainer) {
+                recommendationsContainer.innerHTML = recommendations.map(rec => `
+                    <div class="recommendation-item">
+                        <h4>${rec.title}</h4>
+                        <p>${rec.description}</p>
+                        <span class="priority-badge priority-${rec.priority.toLowerCase()}">${rec.priority} Priority</span>
+                    </div>
+                `).join('');
+            }
             
             // Send to n8n webhook in background (non-blocking)
             const assessmentData = {
