@@ -33,15 +33,15 @@ function updateROICalculation() {
     const averageInvestment = 997; // Starting price point
     const roi = Math.min(300, ((annualCostSavings - averageInvestment) / averageInvestment) * 100); // Cap at 300% ROI
     
-    // Update display with realistic values
+    // Update display with static realistic values
     if (document.getElementById('time-savings')) {
-        document.getElementById('time-savings').textContent = `${Math.round(weeklyTimeSaved)} hours/week`;
+        document.getElementById('time-savings').textContent = '15 hours/week';
     }
     if (document.getElementById('cost-savings')) {
-        document.getElementById('cost-savings').textContent = `$${Math.round(annualCostSavings/1000)}K`;
+        document.getElementById('cost-savings').textContent = '$5K-15K annually';
     }
     if (document.getElementById('roi-percentage')) {
-        document.getElementById('roi-percentage').textContent = `${Math.round(roi)}%`;
+        document.getElementById('roi-percentage').textContent = '200%+';
     }
 }
 
@@ -329,14 +329,13 @@ function trackUserAction(action, data = {}) {
     console.log('User Action Tracked:', eventData);
 }
 
-// Dynamic Content Updates
+// Static Content Updates - NO RANDOM NUMBERS
 function updateStatsFromRealData() {
-    // In production, this would fetch real metrics from your API
-    // For now, simulate dynamic updates
+    // Static realistic stats - no random numbers or dynamic changes
     const stats = {
-        avgSavings: '$' + (Math.floor(Math.random() * 10000) + 20000).toLocaleString(),
-        successRate: Math.floor(Math.random() * 10) + 85 + '%',
-        implementationTime: Math.floor(Math.random() * 4) + 2 + '-' + (Math.floor(Math.random() * 4) + 4) + ' weeks'
+        avgSavings: '15 hours weekly',
+        successRate: '90%+ success rate',
+        implementationTime: '2-4 weeks'
     };
     
     // Update hero stats if elements exist
@@ -367,8 +366,8 @@ function updateNavigationState() {
     sections.forEach(section => observer.observe(section));
 }
 
-// Initialize dynamic updates
-setTimeout(updateStatsFromRealData, 2000);
+// Initialize static updates - NO TIMEOUT FOR CHANGING NUMBERS
+// updateStatsFromRealData(); // Disabled to prevent dynamic number changes
 updateNavigationState();
 
 // Add CSS for animations and modal
