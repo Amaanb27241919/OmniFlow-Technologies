@@ -142,6 +142,10 @@
             padding: 40px;
             text-align: center;
         }
+        
+        .results-section.show {
+            display: block !important;
+        }
 
         .results-title {
             font-size: 2rem;
@@ -589,7 +593,7 @@
             }
             
             if (resultsSection) {
-                resultsSection.style.display = 'block';
+                resultsSection.classList.add('show');
                 console.log('Results section should now be visible');
             }
             
