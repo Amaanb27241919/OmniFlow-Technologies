@@ -21,33 +21,28 @@ function initializeROICalculator() {
 
 function updateROICalculation() {
     const businessSize = document.getElementById('business-size')?.value || 'small';
-    const manualHours = parseInt(document.getElementById('manual-hours')?.value) || 20;
+    const manualHours = parseInt(document.getElementById('manual-hours')?.value) || 15;
     
-    // Base hourly rates by business size
-    const hourlyRates = {
-        startup: 25,
-        small: 50,
-        medium: 75
-    };
+    // Realistic weekly time savings (10-15 hours for SMBs)
+    const weeklyTimeSaved = Math.min(15, Math.max(10, manualHours * 0.6)); // Cap at 15 hours max
     
-    const hourlyRate = hourlyRates[businessSize] || 50;
-    const automationEfficiency = 0.8; // 80% automation efficiency
+    // Realistic annual savings ($5K-15K range)
+    const annualCostSavings = Math.min(15000, Math.max(5000, weeklyTimeSaved * 52 * 25)); // $25/hr rate
     
-    // Calculate savings
-    const weeklyTimeSaved = manualHours * automationEfficiency;
-    const annualHoursSaved = weeklyTimeSaved * 52;
-    const annualCostSavings = annualHoursSaved * hourlyRate;
+    // Conservative ROI calculation
+    const averageInvestment = 997; // Starting price point
+    const roi = Math.min(300, ((annualCostSavings - averageInvestment) / averageInvestment) * 100); // Cap at 300% ROI
     
-    // Investment (conservative estimate)
-    const averageInvestment = businessSize === 'startup' ? 2500 : 
-                             businessSize === 'small' ? 5000 : 10000;
-    
-    const roi = ((annualCostSavings - averageInvestment) / averageInvestment) * 100;
-    
-    // Update display
-    document.getElementById('time-savings').textContent = `${Math.round(annualHoursSaved).toLocaleString()} hours`;
-    document.getElementById('cost-savings').textContent = `$${Math.round(annualCostSavings).toLocaleString()}`;
-    document.getElementById('roi-percentage').textContent = `${Math.round(roi)}%`;
+    // Update display with realistic values
+    if (document.getElementById('time-savings')) {
+        document.getElementById('time-savings').textContent = `${Math.round(weeklyTimeSaved)} hours/week`;
+    }
+    if (document.getElementById('cost-savings')) {
+        document.getElementById('cost-savings').textContent = `$${Math.round(annualCostSavings/1000)}K`;
+    }
+    if (document.getElementById('roi-percentage')) {
+        document.getElementById('roi-percentage').textContent = `${Math.round(roi)}%`;
+    }
 }
 
 // Main CTA Actions
