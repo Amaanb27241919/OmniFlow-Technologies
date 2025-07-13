@@ -73,6 +73,11 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Serve static files from the public directory
   app.use(express.static('public'));
   
+  // Assessment page route
+  app.get('/assessment', (req, res) => {
+    res.sendFile(path.join(process.cwd(), 'public', 'assessment.html'));
+  });
+  
   // Test endpoint
   app.get('/api/test', (req, res) => {
     res.json({ message: 'Server is working!' });
