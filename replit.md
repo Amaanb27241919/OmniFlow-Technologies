@@ -2,7 +2,7 @@
 
 ## Overview
 
-OmniFlow is a comprehensive dual-vertical AI-powered platform that combines personalized consulting services (OmniFlow Advisory) with scalable SaaS automation solutions (OmniCore). The platform is designed to serve startups, SMBs, and solopreneurs with a complete service-to-SaaS transition pipeline.
+OmniFlow Tech is a comprehensive dual-vertical AI-powered platform that combines personalized consulting services (OmniFlow Advisory) with scalable SaaS automation solutions (OmniCore). The platform is designed to serve startups, SMBs, and solopreneurs with a complete service-to-SaaS transition pipeline. The platform features assessment-first automation positioning with realistic data throughout.
 
 ## User Preferences
 
@@ -11,9 +11,10 @@ Preferred communication style: Simple, everyday language.
 ## System Architecture
 
 ### Dual-Vertical Business Model
-- **OmniFlow Advisory**: Fixed-fee consulting services ($2,500 audits, $5,000/month retainers, $10,000 pilot projects)
+- **OmniFlow Tech Advisory**: Assessment-driven automation implementation starting at $997
 - **OmniCore SaaS Platform**: Subscription tiers (Starter $97, Professional $297, Enterprise $997)
 - **Service-to-SaaS Pipeline**: Intelligent routing system to transition consulting clients to self-serve platform
+- **Assessment-First Positioning**: 5-minute assessment provides instant value before sales conversations
 
 ### Tech Stack
 - **Frontend**: React with TypeScript, Vite build system, shadcn/ui components, Tailwind CSS

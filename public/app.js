@@ -1627,12 +1627,13 @@ function calculateROI() {
     const rate = parseFloat(document.getElementById('hourly-rate').value) || 0;
     
     if (revenue && hours && rate) {
-        const monthlySavings = hours * rate * 0.7; // 70% time savings assumption
+        // Realistic SMB calculations - cap at reasonable values
+        const monthlySavings = Math.min(1500, hours * rate * 0.6); // 60% time savings, max $1.5K/month
         const annualSavings = monthlySavings * 12;
-        const investmentCost = 3000; // Estimated automation setup cost
-        const roi = ((annualSavings - investmentCost) / investmentCost) * 100;
+        const investmentCost = 997; // Starting price point
+        const roi = Math.min(300, ((annualSavings - investmentCost) / investmentCost) * 100); // Cap at 300%
         
-        document.getElementById('potential-savings').textContent = `$${monthlySavings.toLocaleString()}`;
+        document.getElementById('potential-savings').textContent = `$${Math.round(monthlySavings)}`;
         document.getElementById('annual-roi').textContent = `${Math.round(roi)}%`;
         document.getElementById('roi-results').style.display = 'block';
     } else {
