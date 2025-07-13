@@ -677,5 +677,337 @@
             }
         }
     </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="omniflow-nav">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <h1>OmniFlow</h1>
+                <span class="brand-tagline">AI Ops & Automation</span>
+            </div>
+            <div class="nav-links">
+                <a href="/" class="nav-link">Home</a>
+                <a href="/assessment" class="nav-link active">Assessment</a>
+                <a href="/#how-it-works" class="nav-link">How It Works</a>
+                <a href="/#contact" class="nav-link">Contact</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Assessment Hero -->
+    <section class="assessment-hero">
+        <div class="container">
+            <h1>Discover Your Automation Opportunities</h1>
+            <p>Get personalized automation recommendations in 5 minutes, not after a 50-minute sales pitch</p>
+            <div class="hero-badges">
+                <span class="badge">✅ Instant Analysis</span>
+                <span class="badge">✅ Custom Roadmap</span>
+                <span class="badge">✅ ROI Estimates</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Assessment Container -->
+    <section class="assessment-section">
+        <div class="assessment-container">
+            <!-- Progress Bar -->
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+
+            <!-- Question Cards -->
+            <div id="questionContainer">
+                <!-- Questions will be dynamically loaded here -->
+            </div>
+
+            <!-- Navigation -->
+            <div class="navigation-buttons">
+                <button id="prevButton" class="nav-button" onclick="previousQuestion()" disabled>Previous</button>
+                <button id="nextButton" class="nav-button" onclick="nextQuestion()">Next</button>
+            </div>
+
+            <!-- Results Section (hidden by default) -->
+            <div id="resultsSection" class="results-section">
+                <h2 class="results-title">Your Automation Assessment Results</h2>
+                <div class="score-display">
+                    <div class="score-number" id="finalScore">0</div>
+                    <div>Automation Readiness Score</div>
+                </div>
+                <div class="recommendations" id="recommendationsContainer">
+                    <!-- Recommendations will be populated here -->
+                </div>
+                <div class="cta-section">
+                    <button class="cta-button" onclick="scheduleConsultation()">
+                        Get Your Custom Implementation Plan
+                    </button>
+                    <p style="margin-top: 15px; color: var(--text-medium);">
+                        30-minute strategy session • Usually $997, free with assessment
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="omniflow-footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <h3>OmniFlow</h3>
+                    <p>AI Ops & Automation</p>
+                    <p>Assessment-driven automation implementation starting at $997</p>
+                </div>
+                <div class="footer-links" style="grid-template-columns: 1fr; justify-content: center;">
+                    <div class="link-group">
+                        <h4>Quick Links</h4>
+                        <a href="/">Home</a>
+                        <a href="/assessment">Assessment</a>
+                        <a href="/#how-it-works">How It Works</a>
+                        <a href="/#contact">Contact</a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 OmniFlow. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Assessment Questions Data
+        const assessmentQuestions = [
+            {
+                id: 1,
+                title: "What's your biggest operational challenge?",
+                options: [
+                    { text: "Too much time spent on repetitive tasks", value: "repetitive_tasks", score: 4 },
+                    { text: "Inconsistent customer service quality", value: "customer_service", score: 3 },
+                    { text: "Manual data entry and processing", value: "data_entry", score: 4 },
+                    { text: "Difficulty tracking business metrics", value: "tracking_metrics", score: 2 }
+                ]
+            },
+            {
+                id: 2,
+                title: "How many hours per week do you spend on administrative tasks?",
+                options: [
+                    { text: "Less than 10 hours", value: "low_admin", score: 1 },
+                    { text: "10-20 hours", value: "medium_admin", score: 2 },
+                    { text: "20-30 hours", value: "high_admin", score: 3 },
+                    { text: "More than 30 hours", value: "very_high_admin", score: 4 }
+                ]
+            },
+            {
+                id: 3,
+                title: "What's your current business size?",
+                options: [
+                    { text: "Solo entrepreneur", value: "solo", score: 2 },
+                    { text: "2-10 employees", value: "small_team", score: 3 },
+                    { text: "11-50 employees", value: "medium_team", score: 4 },
+                    { text: "51+ employees", value: "large_team", score: 3 }
+                ]
+            },
+            {
+                id: 4,
+                title: "Which business processes consume most of your time?",
+                options: [
+                    { text: "Customer support and communication", value: "customer_support", score: 4 },
+                    { text: "Sales lead management and follow-up", value: "sales_management", score: 3 },
+                    { text: "Financial reporting and bookkeeping", value: "financial_reporting", score: 3 },
+                    { text: "Marketing and social media management", value: "marketing", score: 2 }
+                ]
+            },
+            {
+                id: 5,
+                title: "How comfortable are you with technology integration?",
+                options: [
+                    { text: "Very comfortable - I implement new tools regularly", value: "high_tech", score: 4 },
+                    { text: "Somewhat comfortable - I can learn new systems", value: "medium_tech", score: 3 },
+                    { text: "Basic comfort - I use simple tools", value: "low_tech", score: 2 },
+                    { text: "Not comfortable - I prefer manual processes", value: "no_tech", score: 1 }
+                ]
+            }
+        ];
+
+        let currentQuestion = 0;
+        let answers = [];
+        let totalScore = 0;
+
+        // Initialize the assessment
+        function initializeAssessment() {
+            showQuestion(currentQuestion);
+            updateProgressBar();
+        }
+
+        function showQuestion(questionIndex) {
+            const question = assessmentQuestions[questionIndex];
+            const container = document.getElementById('questionContainer');
+            
+            container.innerHTML = `
+                <div class="question-card">
+                    <h3>${question.title}</h3>
+                    <div class="options-container">
+                        ${question.options.map((option, index) => `
+                            <div class="option" onclick="selectOption(${index})">
+                                <input type="radio" name="question${question.id}" value="${option.value}" id="option${index}">
+                                <label for="option${index}">${option.text}</label>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+            
+            // Update navigation buttons
+            document.getElementById('prevButton').disabled = questionIndex === 0;
+            document.getElementById('nextButton').textContent = questionIndex === assessmentQuestions.length - 1 ? 'See Results' : 'Next';
+        }
+
+        function selectOption(optionIndex) {
+            const question = assessmentQuestions[currentQuestion];
+            const option = question.options[optionIndex];
+            
+            // Store answer
+            answers[currentQuestion] = {
+                questionId: question.id,
+                value: option.value,
+                score: option.score
+            };
+            
+            // Visual feedback
+            document.querySelectorAll('.option').forEach(opt => opt.classList.remove('selected'));
+            document.querySelectorAll('.option')[optionIndex].classList.add('selected');
+            
+            // Enable next button
+            document.getElementById('nextButton').disabled = false;
+        }
+
+        function nextQuestion() {
+            if (currentQuestion < assessmentQuestions.length - 1) {
+                currentQuestion++;
+                showQuestion(currentQuestion);
+                updateProgressBar();
+            } else {
+                showResults();
+            }
+        }
+
+        function previousQuestion() {
+            if (currentQuestion > 0) {
+                currentQuestion--;
+                showQuestion(currentQuestion);
+                updateProgressBar();
+            }
+        }
+
+        function updateProgressBar() {
+            const progress = ((currentQuestion + 1) / assessmentQuestions.length) * 100;
+            document.getElementById('progressFill').style.width = progress + '%';
+        }
+
+        function calculateScore() {
+            totalScore = answers.reduce((sum, answer) => sum + (answer ? answer.score : 0), 0);
+            return Math.round((totalScore / (assessmentQuestions.length * 4)) * 100);
+        }
+
+        function generateRecommendations(score) {
+            let recommendations = [];
+            
+            if (score >= 80) {
+                recommendations = [
+                    {
+                        title: "Advanced AI Integration",
+                        description: "Your business is ready for sophisticated AI-powered automation and machine learning implementations.",
+                        priority: "High"
+                    },
+                    {
+                        title: "Custom Workflow Optimization",
+                        description: "Implement end-to-end process automation with intelligent decision making.",
+                        priority: "High"
+                    },
+                    {
+                        title: "Integration Platform",
+                        description: "Connect all your tools and systems for seamless data flow and automation.",
+                        priority: "Medium"
+                    }
+                ];
+            } else if (score >= 60) {
+                recommendations = [
+                    {
+                        title: "Core Process Automation",
+                        description: "Start with automating your most time-consuming manual tasks to see immediate ROI.",
+                        priority: "High"
+                    },
+                    {
+                        title: "Customer Communication Hub",
+                        description: "Streamline customer interactions with automated responses and routing.",
+                        priority: "Medium"
+                    },
+                    {
+                        title: "Data Collection & Reporting",
+                        description: "Automate data gathering and generate real-time business insights.",
+                        priority: "Medium"
+                    }
+                ];
+            } else if (score >= 40) {
+                recommendations = [
+                    {
+                        title: "Essential Task Automation",
+                        description: "Begin with simple automation wins like email templates and appointment scheduling.",
+                        priority: "High"
+                    },
+                    {
+                        title: "Document Management System",
+                        description: "Organize and automate document workflows to reduce manual handling.",
+                        priority: "Medium"
+                    }
+                ];
+            } else {
+                recommendations = [
+                    {
+                        title: "Foundation Assessment",
+                        description: "Start with a comprehensive process audit to identify quick automation opportunities.",
+                        priority: "High"
+                    },
+                    {
+                        title: "Basic Digital Tools Setup",
+                        description: "Implement simple tools to digitize current manual processes.",
+                        priority: "Medium"
+                    }
+                ];
+            }
+            
+            return recommendations;
+        }
+
+        function showResults() {
+            const score = calculateScore();
+            const recommendations = generateRecommendations(score);
+            
+            // Hide assessment container
+            document.querySelector('.assessment-container').style.display = 'none';
+            
+            // Show results
+            const resultsSection = document.getElementById('resultsSection');
+            resultsSection.style.display = 'block';
+            document.getElementById('finalScore').textContent = score + '%';
+            
+            const recommendationsContainer = document.getElementById('recommendationsContainer');
+            recommendationsContainer.innerHTML = recommendations.map(rec => `
+                <div class="recommendation-item">
+                    <h4>${rec.title}</h4>
+                    <p>${rec.description}</p>
+                    <span class="priority-badge priority-${rec.priority.toLowerCase()}">${rec.priority} Priority</span>
+                </div>
+            `).join('');
+        }
+
+        function scheduleConsultation() {
+            // Track the assessment completion
+            window.location.href = '/#contact';
+        }
+
+        // Start the assessment when page loads
+        document.addEventListener('DOMContentLoaded', initializeAssessment);
+    </script>
 </body>
 </html>
