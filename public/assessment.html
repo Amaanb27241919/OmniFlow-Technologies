@@ -10,17 +10,19 @@
         .assessment-hero {
             background: linear-gradient(135deg, #1a365d 0%, #2d5580 100%);
             color: white;
-            padding: 60px 0 50px;
+            padding: 120px 0 60px;
             text-align: center;
             display: flex;
             flex-direction: column;
             justify-content: center;
+            margin-top: 0;
         }
 
         .assessment-hero h1 {
             font-size: 2.5rem;
             font-weight: 700;
             margin-bottom: 16px;
+            line-height: 1.2;
         }
 
         .assessment-hero p {
@@ -28,6 +30,7 @@
             opacity: 0.9;
             max-width: 600px;
             margin: 0 auto 30px;
+            line-height: 1.5;
         }
 
         .assessment-section {
@@ -200,11 +203,18 @@
             color: white;
             padding: 8px 16px;
             border-radius: 20px;
-            margin: 0 8px;
             font-size: 0.9rem;
+            font-weight: 500;
+            display: inline-block;
+            margin: 5px;
         }
 
         .hero-badges {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
             margin-top: 20px;
         }
 
@@ -229,8 +239,18 @@
         }
 
         @media (max-width: 768px) {
+            .assessment-hero {
+                padding: 100px 0 50px;
+            }
+            
             .assessment-hero h1 {
                 font-size: 2rem;
+                margin-bottom: 20px;
+            }
+            
+            .assessment-hero p {
+                font-size: 1.1rem;
+                margin-bottom: 25px;
             }
             
             .assessment-container {
