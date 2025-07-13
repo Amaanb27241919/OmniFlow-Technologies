@@ -279,8 +279,8 @@
     <nav class="omniflow-nav">
         <div class="nav-container">
             <div class="nav-brand">
-                <h1>OmniFlow Tech</h1>
-                <span class="brand-tagline">Assessment-First Automation</span>
+                <h1>OmniFlow Technologies</h1>
+                <span class="brand-tagline">AI Workflow Automation + Consulting</span>
             </div>
             <div class="nav-links">
                 <a href="/" class="nav-link">Home</a>
@@ -350,9 +350,9 @@
         <div class="container">
             <div class="footer-content">
                 <div class="footer-brand">
-                    <h3>OmniFlow Tech</h3>
-                    <p>Assessment-First Automation</p>
-                    <p>FREE Assessment • Assessment-driven automation implementation</p>
+                    <h3>OmniFlow Technologies</h3>
+                    <p>AI Workflow Automation + Consulting</p>
+                    <p>FREE Assessment • AI-driven automation implementation</p>
                 </div>
                 <div class="footer-links" style="grid-template-columns: 1fr; justify-content: center;">
                     <div class="link-group">
@@ -365,7 +365,7 @@
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>&copy; 2025 OmniFlow Tech. All rights reserved.</p>
+                <p>&copy; 2025 OmniFlow Technologies. All rights reserved.</p>
             </div>
         </div>
     </footer>
@@ -581,19 +581,28 @@
             const recommendations = generateRecommendations(score);
             console.log('Score:', score, 'Recommendations:', recommendations);
             
-            // Always display results first
-            const assessmentContainer = document.querySelector('.assessment-container');
+            // Hide questions and navigation, show results
+            const questionContainer = document.getElementById('questionContainer');
+            const navigationButtons = document.querySelector('.navigation-buttons');
+            const progressBar = document.querySelector('.progress-bar');
             const resultsSection = document.getElementById('resultsSection');
             
-            console.log('Assessment container:', assessmentContainer);
+            console.log('Question container:', questionContainer);
             console.log('Results section:', resultsSection);
             
-            if (assessmentContainer) {
-                assessmentContainer.style.display = 'none';
+            if (questionContainer) {
+                questionContainer.style.display = 'none';
+            }
+            if (navigationButtons) {
+                navigationButtons.style.display = 'none';
+            }
+            if (progressBar) {
+                progressBar.style.display = 'none';
             }
             
             if (resultsSection) {
                 resultsSection.classList.add('show');
+                resultsSection.style.display = 'block';
                 console.log('Results section should now be visible');
             }
             
