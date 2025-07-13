@@ -27,7 +27,8 @@ OmniFlow Tech is a comprehensive dual-vertical AI-powered platform that combines
 - ✅ Resolved CSS display issue preventing assessment results from showing
 - ✅ Updated all branding from "OmniFlow Tech - Assessment-First Automation" to "OmniFlow Technologies - AI Workflow Automation + Consulting"
 - ✅ Fixed assessment results JavaScript to properly show/hide sections and display results
-- ✅ Site ready for production deployment to omni-flow.net
+- ✅ Updated webhook URL from n8n.omni-flow.net to correct omnflow-advisory.app.n8n.cloud/webhook/assessment-lead
+- ✅ Site ready for production deployment to omni-flow.net with proper lead generation
 
 ### Smooth Transition Implementation Completed:
 - ✅ Added comprehensive CSS animations and transitions for page elements
