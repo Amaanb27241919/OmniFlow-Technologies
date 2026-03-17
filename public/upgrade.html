@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ARIA Intelligence Platform — Upgrade Your Access</title>
+  <meta name="description" content="Upgrade your ARIA Intelligence Runtime access. Choose the plan that matches your advisory workflow.">
+  <link rel="stylesheet" href="omniflow-styles.css">
+  <style>
+    /* ── PAGE OVERRIDES ─────────────────────────────────────────── */
+    .upgrade-hero {
+      background: var(--gradient-primary);
+      color: #fff;
+      padding: 80px 24px 60px;
+      text-align: center;
+    }
+    .upgrade-hero .aria-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(255,255,255,0.15);
+      border: 1px solid rgba(255,255,255,0.25);
+      border-radius: 24px;
+      padding: 6px 16px;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 24px;
+    }
+    .upgrade-hero h1 {
+      font-size: clamp(2rem, 5vw, 3.2rem);
+      font-weight: 800;
+      line-height: 1.15;
+      margin-bottom: 16px;
+    }
+    .upgrade-hero h1 span {
+      color: #63b3ed;
+    }
+    .upgrade-hero p {
+      font-size: 1.15rem;
+      opacity: 0.88;
+      max-width: 560px;
+      margin: 0 auto;
+    }
+
+    /* ── PRICING SECTION ─────────────────────────────────────────── */
+    .pricing-section {
+      background: #f7fafc;
+      padding: 72px 24px;
+    }
+    .pricing-section h2 {
+      text-align: center;
+      font-size: 1.9rem;
+      font-weight: 700;
+      color: var(--primary-blue);
+      margin-bottom: 8px;
+    }
+    .pricing-section .subtitle {
+      text-align: center;
+      color: var(--text-medium);
+      font-size: 1rem;
+      margin-bottom: 48px;
+    }
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 28px;
+      max-width: 1040px;
+      margin: 0 auto;
+    }
+    .pricing-card {
+      background: #fff;
+      border: 1.5px solid #e2e8f0;
+      border-radius: 16px;
+      padding: 36px 32px;
+      position: relative;
+      transition: box-shadow 0.2s, transform 0.2s;
+    }
+    .pricing-card:hover {
+      box-shadow: 0 12px 40px rgba(26,54,93,0.12);
+      transform: translateY(-3px);
+    }
+    .pricing-card.featured {
+      border-color: var(--primary-blue);
+      box-shadow: 0 8px 32px rgba(26,54,93,0.18);
+    }
+    .featured-badge {
+      position: absolute;
+      top: -14px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--primary-blue);
+      color: #fff;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 4px 16px;
+      border-radius: 12px;
+      white-space: nowrap;
+    }
+    .tier-name {
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent-blue);
+      margin-bottom: 8px;
+    }
+    .tier-price {
+      font-size: 2.6rem;
+      font-weight: 800;
+      color: var(--primary-blue);
+      line-height: 1;
+      margin-bottom: 4px;
+    }
+    .tier-price span {
+      font-size: 1rem;
+      font-weight: 500;
+      color: var(--text-medium);
+    }
+    .tier-desc {
+      font-size: 0.9rem;
+      color: var(--text-medium);
+      margin-bottom: 24px;
+      min-height: 40px;
+    }
+    .tier-features {
+      list-style: none;
+      margin-bottom: 32px;
+    }
+    .tier-features li {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: 0.92rem;
+      color: var(--text-dark);
+      padding: 6px 0;
+      border-bottom: 1px solid #f0f4f8;
+    }
+    .tier-features li:last-child { border-bottom: none; }
+    .tier-features li .check {
+      color: var(--success);
+      font-size: 1rem;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+    .tier-features li .limit {
+      color: var(--text-light);
+      font-size: 0.8rem;
+      margin-left: auto;
+      white-space: nowrap;
+    }
+    .tier-cta {
+      display: block;
+      width: 100%;
+      padding: 14px 24px;
+      border-radius: 10px;
+      font-size: 0.95rem;
+      font-weight: 700;
+      text-align: center;
+      text-decoration: none;
+      cursor: pointer;
+      transition: opacity 0.2s, transform 0.15s;
+      border: none;
+    }
+    .tier-cta:hover { opacity: 0.88; transform: translateY(-1px); }
+    .tier-cta.primary {
+      background: var(--gradient-primary);
+      color: #fff;
+    }
+    .tier-cta.secondary {
+      background: #edf2f7;
+      color: var(--primary-blue);
+    }
+    .tier-cta.outline {
+      background: transparent;
+      color: var(--primary-blue);
+      border: 2px solid var(--primary-blue);
+    }
+
+    /* ── COMPARISON TABLE ────────────────────────────────────────── */
+    .compare-section {
+      padding: 64px 24px;
+      background: #fff;
+    }
+    .compare-section h2 {
+      text-align: center;
+      font-size: 1.7rem;
+      font-weight: 700;
+      color: var(--primary-blue);
+      margin-bottom: 40px;
+    }
+    .compare-table {
+      max-width: 860px;
+      margin: 0 auto;
+      border-collapse: collapse;
+      width: 100%;
+      font-size: 0.92rem;
+    }
+    .compare-table th {
+      background: var(--primary-blue);
+      color: #fff;
+      padding: 14px 18px;
+      text-align: left;
+      font-weight: 600;
+    }
+    .compare-table th:first-child { border-radius: 8px 0 0 0; }
+    .compare-table th:last-child  { border-radius: 0 8px 0 0; }
+    .compare-table td {
+      padding: 12px 18px;
+      border-bottom: 1px solid #e2e8f0;
+      color: var(--text-dark);
+    }
+    .compare-table tr:nth-child(even) td { background: #f7fafc; }
+    .compare-table tr:last-child td { border-bottom: none; }
+    .compare-table td:not(:first-child) { text-align: center; }
+    .yes  { color: var(--success); font-weight: 700; }
+    .no   { color: #cbd5e0; }
+    .val  { color: var(--primary-blue); font-weight: 600; }
+
+    /* ── CONTACT CTA ─────────────────────────────────────────────── */
+    .contact-section {
+      background: var(--gradient-primary);
+      color: #fff;
+      padding: 72px 24px;
+      text-align: center;
+    }
+    .contact-section h2 {
+      font-size: 2rem;
+      font-weight: 800;
+      margin-bottom: 12px;
+    }
+    .contact-section p {
+      font-size: 1.05rem;
+      opacity: 0.88;
+      max-width: 520px;
+      margin: 0 auto 36px;
+    }
+    .contact-actions {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .contact-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 15px 32px;
+      border-radius: 10px;
+      font-size: 1rem;
+      font-weight: 700;
+      text-decoration: none;
+      transition: opacity 0.2s, transform 0.15s;
+    }
+    .contact-btn:hover { opacity: 0.88; transform: translateY(-2px); }
+    .contact-btn.white {
+      background: #fff;
+      color: var(--primary-blue);
+    }
+    .contact-btn.ghost {
+      background: transparent;
+      color: #fff;
+      border: 2px solid rgba(255,255,255,0.6);
+    }
+
+    /* ── FAQ ─────────────────────────────────────────────────────── */
+    .faq-section {
+      padding: 64px 24px;
+      background: #f7fafc;
+    }
+    .faq-section h2 {
+      text-align: center;
+      font-size: 1.7rem;
+      font-weight: 700;
+      color: var(--primary-blue);
+      margin-bottom: 40px;
+    }
+    .faq-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 24px;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    .faq-item {
+      background: #fff;
+      border-radius: 12px;
+      padding: 24px;
+      border: 1px solid #e2e8f0;
+    }
+    .faq-item h3 {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--primary-blue);
+      margin-bottom: 8px;
+    }
+    .faq-item p {
+      font-size: 0.9rem;
+      color: var(--text-medium);
+      line-height: 1.6;
+    }
+
+    /* ── FOOTER ──────────────────────────────────────────────────── */
+    .upgrade-footer {
+      background: var(--primary-blue);
+      color: rgba(255,255,255,0.7);
+      text-align: center;
+      padding: 24px;
+      font-size: 0.85rem;
+    }
+    .upgrade-footer a { color: #63b3ed; text-decoration: none; }
+
+    /* ── RESPONSIVE ──────────────────────────────────────────────── */
+    @media (max-width: 640px) {
+      .pricing-grid { grid-template-columns: 1fr; }
+      .compare-table { font-size: 0.8rem; }
+      .compare-table th, .compare-table td { padding: 10px 10px; }
+      .contact-actions { flex-direction: column; align-items: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav class="omniflow-nav">
+    <div class="nav-container">
+      <div class="nav-brand">
+        <h1>OmniFlow Technologies</h1>
+        <span class="brand-tagline">AI Workflow Automation + Consulting</span>
+      </div>
+      <div class="nav-links">
+        <a href="/" class="nav-link">Home</a>
+        <a href="assessment.html" class="nav-link">Assessment</a>
+        <a href="https://aria-omniflow.netlify.app" class="nav-link" target="_blank">ARIA Platform</a>
+        <a href="#contact" class="nav-link">Contact</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="upgrade-hero">
+    <div class="aria-badge">⚡ ARIA Intelligence Runtime</div>
+    <h1>Upgrade Your <span>ARIA</span> Access</h1>
+    <p>Unlock more missions, deeper research, and enterprise-grade advisory intelligence for your firm.</p>
+  </section>
+
+  <!-- PRICING CARDS -->
+  <section class="pricing-section">
+    <h2>Choose Your Plan</h2>
+    <p class="subtitle">All plans include Perplexity-powered research, PDF export, and the full ARIA agent suite.</p>
+
+    <div class="pricing-grid">
+
+      <!-- STARTER -->
+      <div class="pricing-card">
+        <div class="tier-name">Starter</div>
+        <div class="tier-price">Free <span>/ forever</span></div>
+        <p class="tier-desc">For individuals exploring AI-assisted advisory workflows.</p>
+        <ul class="tier-features">
+          <li><span class="check">✓</span> 5 missions / month <span class="limit">5 / mo</span></li>
+          <li><span class="check">✓</span> Standard Perplexity search</li>
+          <li><span class="check">✓</span> PDF export</li>
+          <li><span class="check">✓</span> 3 WatchDog targets</li>
+          <li><span class="check">✓</span> Mission history (30 days)</li>
+          <li><span class="check">✓</span> Email digest (weekly)</li>
+        </ul>
+        <a href="https://aria-omniflow.netlify.app" class="tier-cta secondary" target="_blank">Get Started Free</a>
+      </div>
+
+      <!-- PRO — FEATURED -->
+      <div class="pricing-card featured">
+        <div class="featured-badge">Most Popular</div>
+        <div class="tier-name">Pro</div>
+        <div class="tier-price">$149 <span>/ month</span></div>
+        <p class="tier-desc">For boutique advisory firms and independent consultants.</p>
+        <ul class="tier-features">
+          <li><span class="check">✓</span> 50 missions / month <span class="limit">50 / mo</span></li>
+          <li><span class="check">✓</span> Perplexity Sonar Pro + Agent API</li>
+          <li><span class="check">✓</span> Semantic memory search</li>
+          <li><span class="check">✓</span> 15 WatchDog targets</li>
+          <li><span class="check">✓</span> Unlimited mission history</li>
+          <li><span class="check">✓</span> Slack ActionBridge integration</li>
+          <li><span class="check">✓</span> Priority email support</li>
+          <li><span class="check">✓</span> Custom blueprint templates</li>
+        </ul>
+        <a href="mailto:akhan.industries@gmail.com?subject=ARIA Pro Access Request&body=Hi, I'd like to upgrade to ARIA Pro. My account email is: " class="tier-cta primary">Request Pro Access</a>
+      </div>
+
+      <!-- ENTERPRISE -->
+      <div class="pricing-card">
+        <div class="tier-name">Enterprise</div>
+        <div class="tier-price">Custom <span>/ month</span></div>
+        <p class="tier-desc">For multi-analyst teams and institutional advisory operations.</p>
+        <ul class="tier-features">
+          <li><span class="check">✓</span> Unlimited missions</li>
+          <li><span class="check">✓</span> Multi-user team access</li>
+          <li><span class="check">✓</span> Dedicated WatchDog targets</li>
+          <li><span class="check">✓</span> Custom organ integrations</li>
+          <li><span class="check">✓</span> White-label PDF reports</li>
+          <li><span class="check">✓</span> SLA + dedicated support</li>
+          <li><span class="check">✓</span> On-premise deployment option</li>
+          <li><span class="check">✓</span> Custom blueprint library</li>
+        </ul>
+        <a href="mailto:akhan.industries@gmail.com?subject=ARIA Enterprise Inquiry" class="tier-cta outline">Contact for Pricing</a>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- COMPARISON TABLE -->
+  <section class="compare-section">
+    <h2>Full Feature Comparison</h2>
+    <table class="compare-table">
+      <thead>
+        <tr>
+          <th>Feature</th>
+          <th>Starter</th>
+          <th>Pro</th>
+          <th>Enterprise</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Missions per month</td>
+          <td class="val">5</td>
+          <td class="val">50</td>
+          <td class="val">Unlimited</td>
+        </tr>
+        <tr>
+          <td>Perplexity Sonar Pro search</td>
+          <td class="no">—</td>
+          <td class="yes">✓</td>
+          <td class="yes">✓</td>
+        </tr>
+        <tr>
+          <td>Perplexity Agent API (fast-search)</td>
+          <td class="no">—</td>
+          <td class="yes">✓</td>
+          <td class="yes">✓</td>
+        </tr>
+        <tr>
+          <td>Semantic memory (embeddings)</td>
+          <td class="no">—</td>
+          <td class="yes">✓</td>
+          <td class="yes">✓</td>
+        </tr>
+        <tr>
+          <td>WatchDog targets</td>
+          <td class="val">3</td>
+          <td class="val">15</td>
+          <td class="val">Unlimited</td>
+        </tr>
+        <tr>
+          <td>Mission history retention</td>
+          <td class="val">30 days</td>
+          <td class="val">Unlimited</td>
+          <td class="val">Unlimited</td>
+        </tr>
+        <tr>
+          <td>PDF export with citations</td>
+          <td class="yes">✓</td>
+          <td class="yes">✓</td>
+          <td class="yes">✓</td>
+        </tr>
+        <tr>
+          <td>Slack ActionBridge</td>
+          <td class="no">—</td>
+          <td class="yes">✓</td>
+          <td class="yes">✓</td>
+        </tr>
+        <tr>
+          <td>Blueprint templates</td>
+          <td class="val">Standard (88)</td>
+          <td class="val">Standard + Custom</td>
+          <td class="val">Full custom library</td>
+        </tr>
+        <tr>
+          <td>Multi-user access</td>
+          <td class="no">—</td>
+          <td class="no">—</td>
+          <td class="yes">✓</td>
+        </tr>
+        <tr>
+          <td>White-label PDF reports</td>
+          <td class="no">—</td>
+          <td class="no">—</td>
+          <td class="yes">✓</td>
+        </tr>
+        <tr>
+          <td>Support</td>
+          <td class="val">Community</td>
+          <td class="val">Priority email</td>
+          <td class="val">Dedicated SLA</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- CONTACT CTA -->
+  <section class="contact-section" id="contact">
+    <h2>Ready to Upgrade?</h2>
+    <p>ARIA is currently in private beta. Send us your account email and desired tier — we'll activate your access within 24 hours.</p>
+    <div class="contact-actions">
+      <a href="mailto:akhan.industries@gmail.com?subject=ARIA Upgrade Request&body=Hi, I'd like to upgrade my ARIA account.%0A%0AAccount email: %0ADesired tier: Pro / Enterprise%0A%0AAdditional context: " class="contact-btn white">
+        ✉ Request Access via Email
+      </a>
+      <a href="https://aria-omniflow.netlify.app" class="contact-btn ghost" target="_blank">
+        ↗ Open ARIA Platform
+      </a>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="faq-section">
+    <h2>Frequently Asked Questions</h2>
+    <div class="faq-grid">
+      <div class="faq-item">
+        <h3>How do I upgrade my existing account?</h3>
+        <p>Email us at <a href="mailto:akhan.industries@gmail.com" style="color:var(--accent-blue)">akhan.industries@gmail.com</a> with your ARIA account email and desired tier. We'll upgrade your access within 24 hours during the beta period.</p>
+      </div>
+      <div class="faq-item">
+        <h3>Is there a free trial for Pro?</h3>
+        <p>Yes — beta users receive 14 days of Pro access at no charge. Contact us to activate your trial before the public launch.</p>
+      </div>
+      <div class="faq-item">
+        <h3>What is a "mission"?</h3>
+        <p>A mission is a single ARIA research and advisory task — for example, "Analyze Tesla's supply chain resilience" or "Source mid-market buyout targets in industrials." Each mission runs the full agent pipeline and produces a structured PDF report.</p>
+      </div>
+      <div class="faq-item">
+        <h3>What is WatchDog?</h3>
+        <p>WatchDog monitors companies, competitors, or topics 24/7 using live search. It surfaces critical signals — earnings, leadership changes, regulatory actions — and sends you an email alert or Slack notification automatically.</p>
+      </div>
+      <div class="faq-item">
+        <h3>Can I cancel at any time?</h3>
+        <p>Yes. During the beta period there are no long-term contracts. Email us to cancel or change your plan at any time.</p>
+      </div>
+      <div class="faq-item">
+        <h3>Is my data private?</h3>
+        <p>Yes. Each account's mission history, client data, and memory store are fully isolated. We do not use your mission data to train models or share it with third parties.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="upgrade-footer">
+    <p>© 2026 OmniFlow Technologies · <a href="/">Home</a> · <a href="https://aria-omniflow.netlify.app" target="_blank">ARIA Platform</a> · <a href="mailto:akhan.industries@gmail.com">Contact</a></p>
+  </footer>
+
+</body>
+</html>
